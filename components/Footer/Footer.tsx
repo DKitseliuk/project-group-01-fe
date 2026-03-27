@@ -56,7 +56,7 @@ export const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link href="/places" className={styles.navLink}>
+              <Link href="/locations" className={styles.navLink}>
                 Місця відпочинку
               </Link>
             </li>

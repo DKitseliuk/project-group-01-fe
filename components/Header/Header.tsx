@@ -30,7 +30,7 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href="/places" className={styles.desktopLink}>
+              <Link href="/locations" className={styles.desktopLink}>
                 Місця відпочинку
               </Link>
             </li>
@@ -42,7 +42,7 @@ export const Header = () => {
           <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`}>
             Вхід
           </Link>
-          <Link href="/register" className={`${styles.authBtn} ${styles.registerBtn}`}>
+          <Link href="/signup" className={`${styles.authBtn} ${styles.registerBtn}`}>
             Реєстрація
           </Link>
         </div>
@@ -94,7 +94,7 @@ export const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/places" className={styles.menuLink} onClick={close}>
+                <Link href="/locations" className={styles.menuLink} onClick={close}>
                   Місця відпочинку
                 </Link>
               </li>
@@ -106,7 +106,7 @@ export const Header = () => {
             <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`} onClick={close}>
               Вхід
             </Link>
-            <Link href="/register" className={`${styles.authBtn} ${styles.registerBtn}`} onClick={close}>
+            <Link href="/signup" className={`${styles.authBtn} ${styles.registerBtn}`} onClick={close}>
               Реєстрація
             </Link>
           </div>
