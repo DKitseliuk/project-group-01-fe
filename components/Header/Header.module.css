@@ -1,0 +1,240 @@
+/*Header*/
+.header {
+    background-color: var(--coral-lightest);
+}
+
+.inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logoIcon {
+    fill: var(--color-scheme-2-text);  
+}
+
+/* Auth buttons — hidden on mobile */
+.authButtons {
+    display: none;
+}
+
+/* base for loginBtn and registerBtn */
+.authBtn {
+    display: block;
+    padding: 4px 10px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: inherit;
+    text-align: center;
+    border-radius: 6px;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.loginBtn {
+    color: var(--coral-darkest);
+    background-color: var(--neutral-darkest-5);
+    border: 1px solid var(--neutral-lighter);
+}
+
+.loginBtn:hover {
+    background-color: var(--coral-dark);
+        color: var(--white);
+        border-color: var(--coral-dark);
+}
+
+.registerBtn {
+    color: var(--white);
+    background-color: var(--coral);
+    border: 1px solid transparent;
+}
+
+.registerBtn:hover {
+    background-color: var(--coral-lighter);
+        color: var(--coral-darkest);
+}
+
+/* Shared base for burger and closeBtn */
+.iconBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    background: var(--neutral-darkest-5);
+    border: 1px solid var(--neutral-lighter);
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: opacity 0.15s ease;
+}
+
+.iconBtn:hover {
+    background-color: var(--coral-dark);
+        color: var(--white);
+        border-color: var(--coral-dark);
+}
+
+.iconBtn:hover svg {
+    fill: var(--white);
+}
+/* Mobile menu */
+.mobileMenu {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background-color: var(--coral-lightest);
+    display: flex;
+    flex-direction: column;
+}
+
+.menuTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    flex-shrink: 0;
+}
+
+/* Nav */
+.menuNav {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 24px;
+}
+
+.menuList {
+    width: 100%;
+    text-align: center;
+}
+
+.menuLink {
+    display: inline-block;
+    margin-bottom: 32px;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-primary);
+    padding: 0px 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: border-color 0.15s ease;
+}
+
+.menuLink:hover {
+    border-color: 1px solid var(--neutral-darkest);
+}
+
+/* Bottom */
+.menuBottom {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 24px;
+    padding-bottom: 92px;
+}
+
+/* Desktop nav — hidden on mobile/tablet */
+.desktopNav {
+    display: none;
+}
+
+/* Tablet (768px+) */
+@media screen and (min-width: 768px) {
+
+    .header {
+        position: relative;
+        z-index: 201;
+    }
+
+    .mobileMenu {
+        top: 72px;
+    }
+
+    .menuTop {
+        display: none;
+    }
+
+    .menuBottom {
+        display: none;
+    }
+
+    .authButtons {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-left: auto;
+        margin-right: 16px;
+    }
+
+    .loginBtn {
+        width: 56px;
+        height: 32px;
+    }
+
+    .registerBtn {
+        width: 114px;
+        height: 32px;
+    }
+}
+
+/* Desktop (1440px+) */
+@media screen and (min-width: 1440px) {
+    .mobileMenu {
+            display: none;
+        }
+
+    .burger {
+        display: none;
+    }
+
+    .authButtons {
+        margin-left: 32px;
+        font-size: 20px;
+    }
+
+    .loginBtn {
+        width: 65px;
+        height: 38px;
+    }
+
+    .registerBtn {
+        width: 137px;
+        height: 38px;
+    }
+
+    .desktopNav {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .desktopList {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+
+    .desktopLink {
+        font-family: inherit;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 0px 8px;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        transition: border-color 0.15s ease;
+    }
+
+    .desktopLink:hover {
+    border-color: 1px solid var(--neutral-darkest);
+    }
+}
+
+
