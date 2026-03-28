@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import './globals.css';
 import 'modern-normalize';
-
+import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   display: 'swap',
@@ -23,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <body className={montserrat.variable}>
-        <div className="container">{children}</div>
+        <TanStackProvider>
+          <div className="container">{children}</div>
+        </TanStackProvider>
       </body>
     </html>
   );
