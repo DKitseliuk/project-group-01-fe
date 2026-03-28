@@ -1,9 +1,15 @@
-import type { Location } from "@/types/location";
+import { nextServer } from "@/lib/api/api"; 
+import type { Location, FetchLocationsParams } from "@/types/location";
 
-export const fetchPopularLocations = async (): Promise<Location[]> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/locations`);
+export const fetchLocations = async ({
+  page,
+  perPage,
+  search,
+  region,
+}: FetchLocationsParams = {}): Promise<Location[]> => {
+  const res = await nextServer.get<{ data: Location[] }>("/locations", {
+    params: { page, perPage, search, region },
+  });
 
-  if (!res.ok) throw new Error("Error");
-
-  return res.json();
+  return res.data.data;
 };

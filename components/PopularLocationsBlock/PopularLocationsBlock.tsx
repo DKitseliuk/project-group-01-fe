@@ -3,19 +3,20 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
 import "swiper/css";
 import "swiper/css/navigation";
 
-import css from "./PopularLocations.module.css";
-import { fetchPopularLocations } from "@/lib/api/clientApi";
+import css from "./PopularLocationsBlock.css";
+import { fetchLocations } from "@/lib/api/clientApi";
 import type { Location } from "@/types/location";
 import LocationCard from "@/components/LocationCard/LocationCard";
 
 export default function PopularLocationsBlock() {
   const { data: locations = [], isLoading, isError } = useQuery<Location[]>({
     queryKey: ["popularLocations"],
-    queryFn: fetchPopularLocations,
+    queryFn: () => fetchLocations(), 
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -28,6 +29,9 @@ export default function PopularLocationsBlock() {
   return (
     <section className={css.section}>
       <h2 className={css.title}>Популярні локації</h2>
+      <Link href="/locations" className={css.viewAllButton}>
+          Всі локації
+        </Link>
 
       <Swiper
         modules={[Navigation]}

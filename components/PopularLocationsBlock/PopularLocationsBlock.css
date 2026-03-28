@@ -1,0 +1,21 @@
+.section {
+    background: #f3e7df;
+    padding: 40px;
+    border-radius: 16px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.viewAllButton {
+    background: #d97745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
