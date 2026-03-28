@@ -1,8 +1,15 @@
 export interface Location {
   _id: string;
-  name: string;
   image: string;
-  description: string;
-  rate: number;
+  name: string;
   locationType: string;
+  region: string;
+  rate: number;
+  description: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  ownerId: string;
+  feedbacksId: string[];
 }
