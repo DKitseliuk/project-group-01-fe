@@ -1,0 +1,217 @@
+/* Mobile-first: базові стилі для 320px+ (гумова верстка) */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: clamp(26rem, 68vh, 36rem);
+  padding-block: clamp(2rem, 8vw, 3rem);
+  background-color: var(--neutral-darker);
+  background-image: linear-gradient(
+      var(--neutral-darkest-40),
+      var(--neutral-darkest-60)
+    ),
+    url("/images/hero_img.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(0.75rem, 4vw, 1.25rem);
+  text-align: left;
+}
+
+.title {
+  margin: 0 0 clamp(0.75rem, 3vw, 1rem);
+  font-weight: 700;
+  font-size: clamp(1.375rem, 5.5vw, 1.5rem);
+  line-height: 1.25;
+  color: var(--white);
+  text-wrap: balance;
+}
+
+.subtitle {
+  margin: 0 0 clamp(1.25rem, 5vw, 1.75rem);
+  max-width: 38rem;
+  font-weight: 400;
+  font-size: clamp(0.875rem, 3.2vw, 1rem);
+  line-height: 1.5;
+  color: var(--white);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 3vw, 1rem);
+  width: 100%;
+  max-width: 100%;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--white-20);
+  border-radius: 0.75rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+  background-color: var(--background-secondary);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--coral-darkest);
+}
+
+.input:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 2px var(--coral-lighter);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--white);
+  background-color: var(--coral);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: var(--coral-darker);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* 375px — збіг із глобальним .container */
+@media screen and (min-width: 375px) {
+  .hero {
+    min-height: clamp(28rem, 62vh, 38rem);
+  }
+
+  .inner {
+    max-width: 375px;
+    padding-inline: 1.25rem;
+  }
+
+  .title {
+    font-size: clamp(1.5rem, 4.2vw, 1.75rem);
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Планшет */
+@media screen and (min-width: 768px) {
+  .hero {
+    min-height: clamp(32rem, 58vh, 42rem);
+    padding-block: 3.5rem;
+  }
+
+  .inner {
+    max-width: 768px;
+    padding-inline: 2rem;
+  }
+
+  .title {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+  }
+
+  .form {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .input {
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+
+  .button {
+    flex: 0 0 auto;
+    min-width: 10.5rem;
+  }
+}
+
+/* Десктоп */
+@media screen and (min-width: 1440px) {
+  .hero {
+    min-height: clamp(36rem, 80vh, 50rem);
+    padding-block: 4.5rem;
+  }
+
+  .inner {
+    max-width: 1440px;
+    padding-inline: 4rem;
+  }
+
+  .title {
+    margin-bottom: 1.25rem;
+    max-width: 52rem;
+    font-size: 2.75rem;
+    line-height: 1.15;
+  }
+
+  .subtitle {
+    margin-bottom: 2.5rem;
+    max-width: 44rem;
+    font-size: 1.25rem;
+  }
+
+  .form {
+    max-width: 48rem;
+    gap: 1rem;
+  }
+
+  .input {
+    min-height: 3.25rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .button {
+    min-height: 3.25rem;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+  }
+}
