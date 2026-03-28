@@ -141,14 +141,101 @@
     padding-bottom: 92px;
 }
 
+/* Auth actions — hidden on mobile */
+.authActions {
+    display: none;
+}
+
+/* Publish button */
+.publishBtn {
+    display: block;
+    width: 100%;
+    padding: 4px 10px;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    color: var(--white);
+    background-color: var(--coral);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+}
+
+.publishBtn:hover {
+    background-color: var(--coral-lighter);
+    color: var(--coral-darkest);
+}
+
+/* Auth bottom */
+.menuBottomAuth {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 24px;
+    padding-bottom: 92px;
+    align-items: center;
+}
+
+/* User row */
+.userRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.userName {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-primary);
+}
+
+.userDivider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--neutral-lighter);
+}
+
+.logoutBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    padding: 0;
+    transition: opacity 0.15s ease;
+}
+
+.logoutBtn:hover {
+    opacity: 0.7;
+}
+
+.logoutBtn svg {
+    fill: var(--text-primary);
+}
+
 /* Desktop nav — hidden on mobile/tablet */
 .desktopNav {
     display: none;
 }
 
+.publishBtnDesktop {
+    display: none;
+}
+
 /* Tablet (768px+) */
 @media screen and (min-width: 768px) {
-
     .header {
         position: relative;
         z-index: 201;
@@ -183,13 +270,29 @@
         width: 114px;
         height: 32px;
     }
+
+    .authActions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-left: auto;
+        margin-right: 16px;
+    }
+
+    .publishBtnMobile {
+        display: none;
+    }
+
+    .userRowDesktop {
+        display: none;
+    }
 }
 
 /* Desktop (1440px+) */
 @media screen and (min-width: 1440px) {
     .mobileMenu {
-            display: none;
-        }
+        display: none;
+    }
 
     .burger {
         display: none;
@@ -197,7 +300,6 @@
 
     .authButtons {
         margin-left: 32px;
-        font-size: 20px;
     }
 
     .loginBtn {
@@ -213,6 +315,7 @@
     .desktopNav {
         display: flex;
         margin-left: auto;
+        align-items: center;
     }
 
     .desktopList {
@@ -233,8 +336,31 @@
     }
 
     .desktopLink:hover {
-    border-color: 1px solid var(--neutral-darkest);
+        border-color: 1px solid var(--neutral-darkest);
+    }
+
+    .authActions {
+        margin-left: 32px;
+        margin-right: 0;
+    }
+
+    .publishBtnTablet {
+        display: none;
+    }
+
+    .publishBtnDesktop {
+        display: block;
+        font-size: 20px;
+    }
+
+    .userRowDesktop {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .userName {
+        font-size: 16px;
     }
 }
-
 
