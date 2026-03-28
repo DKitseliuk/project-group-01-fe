@@ -1,11 +1,8 @@
-import styles from './HomePage.module.css';
+// import styles from './HomePage.module.css';
+import AdvantagesBlock from '@/components/AdvantagesBlock/AdvantagesBlock';
 
-const Home = () => {
-  return (
-    <main className={styles.main}>
-      <h1>Home page</h1>
-    </main>
-  );
-};
 
-export default Home;
+
+export default function HomePage() {
+  return <AdvantagesBlock />;
+}
