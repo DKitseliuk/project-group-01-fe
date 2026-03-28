@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import './globals.css';
 import 'modern-normalize';
+import QueryProvider from "@/components/Providers/QueryProvider";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <body className={montserrat.variable}>
-        <div className="container">{children}</div>
+        <QueryProvider>
+          <div className="container">{children}</div>
+        </QueryProvider>
       </body>
     </html>
   );

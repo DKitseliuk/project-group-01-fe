@@ -1,7 +1,11 @@
 "use client";
+
 import styles from "./LocationsGrid.module.css";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 import LocationCard from "../LocationCard/LocationCard";
+import FilterPanel from "../FilterPanel/FilterPanel";
+import { getLocationsClient } from "@/lib/api/clientApi";
 
 type Location = {
   _id: string;
@@ -9,67 +13,157 @@ type Location = {
   region: string;
   image: string;
   rate: number;
+  locationType?: string;
 };
 
-export default function LocationsGrid() {
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
+type Filters = {
+  search: string;
+  region: string;
+  type: string;
+  sortBy: string;
+  sortOrder: string;
+};
 
-  const fetchLocations = async (pageNumber: number) => {
-    try {
-      setLoading(true);
+type LocationsGridProps = {
+  initialPage: number;
+  initialFilters: Filters;
+};
 
-      const response = await fetch(
-        `http://localhost:3001/api/locations?page=${pageNumber}&perPage=6`,
-      );
+export default function LocationsGrid({
+  initialPage,
+  initialFilters,
+}: LocationsGridProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-      const data = await response.json();
+  const page = Number(searchParams.get("page")) || initialPage;
 
-      setLocations((prev) => {
-        const merged =
-          pageNumber === 1 ? data.locations : [...prev, ...data.locations];
-
-        return merged.filter(
-          (location: Location, index: number, array: Location[]) =>
-            index ===
-            array.findIndex((item: Location) => item._id === location._id),
-        );
-      });
-
-      setTotalPages(data.totalPages);
-    } catch (error) {
-      console.error("Failed to fetch locations:", error);
-    } finally {
-      setLoading(false);
-    }
+  const filters: Filters = {
+    search: searchParams.get("search") || initialFilters.search,
+    region: searchParams.get("region") || initialFilters.region,
+    type: searchParams.get("type") || initialFilters.type,
+    sortBy: searchParams.get("sortBy") || initialFilters.sortBy,
+    sortOrder: searchParams.get("sortOrder") || initialFilters.sortOrder,
   };
 
-  useEffect(() => {
-    fetchLocations(page);
-  }, [page]);
+  const updateQueryParams = (newParams: Record<string, string>) => {
+    const params = new URLSearchParams(searchParams.toString());
 
-  if (!locations.length && !loading) {
-  return <p className={styles.empty}>Нічого не знайдено</p>;
-}
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+    });
+
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleFilterChange = (name: string, value: string) => {
+    updateQueryParams({
+      [name]: value,
+      page: "1",
+    });
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["locations", { page, ...filters }],
+    queryFn: () =>
+      getLocationsClient({
+        page,
+        perPage: 6,
+        search: filters.search,
+        region: filters.region,
+        type: filters.type,
+        sortBy: filters.sortBy,
+        sortOrder: filters.sortOrder,
+      }),
+  });
+
+  const locations: Location[] = data?.locations || [];
+  const totalPages = data?.totalPages || 1;
+
+  const getVisiblePages = (): Array<number | string> => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    if (page <= 3) {
+      return [1, 2, 3, "...", totalPages];
+    }
+
+    if (page >= totalPages - 2) {
+      return [1, "...", totalPages - 2, totalPages - 1, totalPages];
+    }
+
+    return [1, "...", page, "...", totalPages];
+  };
 
   return (
     <>
-      <div className={styles.grid}>
-        {locations.map((location) => (
-          <LocationCard key={location._id} location={location} />
-        ))}
-      </div>
+      <FilterPanel filters={filters} onChange={handleFilterChange} />
 
-      {page < totalPages && (
-        <button
-          className={styles.button}
-          onClick={() => setPage((prev) => prev + 1)}
-          disabled={loading}
-        >
-          {loading ? "Loading..." : "Load more"}
-        </button>
+      {!locations.length && !isLoading ? (
+        <p className={styles.empty}>Нічого не знайдено</p>
+      ) : (
+        <ul className={styles.grid}>
+          {locations.map((location) => (
+            <LocationCard key={location._id} location={location} />
+          ))}
+        </ul>
+      )}
+
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            type="button"
+            className={styles.pageButton}
+            onClick={() =>
+              updateQueryParams({
+                page: String(page - 1),
+              })
+            }
+            disabled={page === 1 || isLoading}
+          >
+            ←
+          </button>
+
+          {getVisiblePages().map((item, index) =>
+            item === "..." ? (
+              <span key={`dots-${index}`} className={styles.dots}>
+                ...
+              </span>
+            ) : (
+              <button
+                key={item}
+                type="button"
+                className={page === item ? styles.activePage : styles.pageButton}
+                onClick={() =>
+                  updateQueryParams({
+                    page: String(item),
+                  })
+                }
+                disabled={isLoading}
+              >
+                {item}
+              </button>
+            )
+          )}
+
+          <button
+            type="button"
+            className={styles.pageButton}
+            onClick={() =>
+              updateQueryParams({
+                page: String(page + 1),
+              })
+            }
+            disabled={page === totalPages || isLoading}
+          >
+            →
+          </button>
+        </div>
       )}
     </>
   );
