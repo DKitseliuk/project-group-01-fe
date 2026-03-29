@@ -1,4 +1,4 @@
-import styles from './RegisterPage.module.css';
+import styles from './LoginPage.module.css';
 
 const LoginPage = () => {
   return (
