@@ -50,12 +50,14 @@ export default function LocationCard({ location, isOwner }: Props) {
 
           {isOwner && (
             <Link
-              href={`/locations/${location._id}/edit`}
-              className={css.editBtn}
-              title="Редагувати"
-            >
-              ✏️
-            </Link>
+  href={`/locations/${location._id}/edit`}
+  className={css.editBtn}
+  title="Редагувати"
+>
+  <svg width="24" height="24">
+    <use href="/img/icons.svg#icon-edit" />
+  </svg>
+</Link>
           )}
         </div>
       </div>
