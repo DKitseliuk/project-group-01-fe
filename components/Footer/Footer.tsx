@@ -2,8 +2,6 @@ import Link from 'next/link';
 import styles from './Footer.module.css';
 
 export const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
@@ -68,7 +66,7 @@ export const Footer = () => {
 
         {/* Copyright */}
         <p className={styles.copy}>
-          © {currentYear} Природні Мандри. Усі права захищені.
+          © {new Date().getFullYear()} Природні Мандри. Усі права захищені.
         </p>
 
       </div>
