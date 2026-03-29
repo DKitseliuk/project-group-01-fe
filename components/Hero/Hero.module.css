@@ -1,36 +1,53 @@
 /* Mobile-first: базові стилі для 320px+ */
 
 .hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
   width: 100vw;
   max-width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+  background-color: #fff5ee;
+}
+
+.wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
   min-height: 480px;
   padding-block: 32px;
-  background-color: var(--neutral-darker);
-  background-image: linear-gradient(
-      var(--neutral-darkest-40),
-      var(--neutral-darkest-60)
-    ),
-    url("/images/hero_img.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.bgPicture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--neutral-darkest-40),
+    var(--neutral-darkest-60)
+  );
 }
 
 .inner {
   position: relative;
   z-index: 1;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  margin-inline: auto;
-  padding-inline: 16px;
-  text-align: left;
 }
 
 .title {
@@ -132,50 +149,53 @@
   box-shadow: 0 0 0 2px var(--coral);
 }
 
+.error {
+  order: 3;
+  width: 100%;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--coral-lighter);
+}
+
 /* 375px — збіг із глобальним .container */
 @media screen and (min-width: 375px) {
-  .hero {
-    min-height: 520px;
-  }
-
-  .inner {
-    max-width: 375px;
-    padding-inline: 20px;
+  .wrap {
+    min-height: 708px;
   }
 
   .title {
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 32px;
+    line-height: 35px;
+    font-weight: 700;
   }
 
   .subtitle {
     font-size: 16px;
     line-height: 24px;
+    font-weight: 500;
   }
 }
 
 /* Планшет */
 @media screen and (min-width: 768px) {
-  .hero {
-    min-height: 600px;
+  .wrap {
+    min-height: 708px;
     padding-block: 56px;
-  }
-
-  .inner {
-    max-width: 768px;
-    padding-inline: 32px;
   }
 
   .title {
     margin-bottom: 16px;
-    font-size: 32px;
-    line-height: 38px;
+    font-size: 48px;
+    line-height: 56px;
+    font-weight: 700;
+
   }
 
   .subtitle {
     margin-bottom: 32px;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 27px;
+    font-weight: 500;
   }
 
   .form {
@@ -186,39 +206,32 @@
   }
 
   .input {
-    flex: 1 1 192px;
-    min-width: 0;
+    flex: 0 0 331px;
+    width: 331px;
+    min-height: 44px;
+    padding: 10px 16px;
   }
 
   .button {
     flex: 0 0 auto;
-    min-width: 160px;
-    padding: 12px 24px;
+    min-width: 132px;
+    padding: 12px 16px;
     min-height: 44px;
   }
 
-  .input {
-    min-height: 44px;
-    padding: 10px 16px;
-  }
 }
 
 /* Десктоп */
 @media screen and (min-width: 1440px) {
-  .hero {
-    min-height: 720px;
+  .wrap {
+    min-height: 724px;
     padding-block: 72px;
-  }
-
-  .inner {
-    max-width: 1440px;
-    padding-inline: 64px;
   }
 
   .title {
     margin-bottom: 20px;
-    font-size: 44px;
-    line-height: 51px;
+    font-size: 56px;
+    line-height: 64px;
   }
 
   .subtitle {
@@ -233,9 +246,12 @@
   }
 
   .input {
+    flex: 0 0 400px;
+    width: 400px;
     min-height: 48px;
     padding: 12px 20px;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 400;
     line-height: 22px;
     border-radius: 8px;
   }
@@ -243,8 +259,9 @@
   .button {
     min-height: 48px;
     padding: 12px 24px;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 22px;
+    font-weight: 500;
     border-radius: 8px;
   }
 }

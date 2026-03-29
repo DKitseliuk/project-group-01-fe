@@ -7,20 +7,19 @@
   --reviews-text: #5c4638;
   --reviews-meta: #7a6558;
 
-  box-sizing: border-box;
   width: 100vw;
   max-width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding-block: 40px 28px;
-  padding-inline: 16px;
   background-color: var(--reviews-bg);
 }
 
+/* Дзеркалює глобальний .container: fluid від 320px, фіксується з 375px */
 .inner {
   box-sizing: border-box;
   width: 100%;
-  max-width: 100%;
+  padding-inline: 16px;
   margin-inline: auto;
 }
 
@@ -74,21 +73,9 @@
 }
 
 .stars {
-  display: flex;
-  gap: 4px;
-  line-height: 1;
-  font-size: 18px;
-  letter-spacing: 0.02em;
-  color: var(--neutral-darkest);
-}
-
-.starFilled,
-.starEmpty {
-  user-select: none;
-}
-
-.starEmpty {
-  opacity: 0.28;
+  max-width: 120px;
+  --smastrom-color-active: #4c3829;
+  --smastrom-color-base: rgba(76, 56, 41, 0.25);
 }
 
 .reviewText {
@@ -120,6 +107,8 @@
   font-size: 13px;
   line-height: 1.3;
   color: var(--reviews-meta);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .navRow {
@@ -146,8 +135,6 @@
   border: 1px solid #ddc4b5;
   border-radius: 12px;
   line-height: 0;
-  color: var(--coral-darkest);
-
   background-color: var(--reviews-card-bg);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -161,13 +148,14 @@
   border-color: #c9a896;
 }
 
-
 .navIcon {
   display: block;
-  width: 15.96px;
-  height: 15.62px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
-  color: var(--coral-darkest);
+  stroke: var(--reviews-title);
+  stroke-width: 2;
+  fill: none;
 }
 
 .navBtn:focus-visible {
@@ -175,9 +163,10 @@
   outline-offset: 2px;
 }
 
-/* 375px+ — уточнення адаптивної сітки */
+/* 375px+ */
 @media screen and (min-width: 375px) {
-  .section {
+  .inner {
+    width: 375px;
     padding-inline: 20px;
   }
 
@@ -199,6 +188,10 @@
 @media screen and (min-width: 768px) {
   .section {
     padding-block: 48px 36px;
+  }
+
+  .inner {
+    width: 768px;
     padding-inline: 32px;
   }
 
@@ -216,11 +209,11 @@
 @media screen and (min-width: 1440px) {
   .section {
     padding-block: 56px 40px;
-    padding-inline: 64px;
   }
 
   .inner {
-    max-width: 1312px;
+    width: 1440px;
+    padding-inline: 64px;
   }
 
   .title {

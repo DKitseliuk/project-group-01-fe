@@ -1,64 +1,59 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-
+import { Rating, Star } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
 import type { Review } from "@/types/review";
-
 import "swiper/css";
-
 import styles from "./ReviewsSection.module.css";
 
-type Props = {
-  reviews: Review[];
-};
+type Props = { reviews: Review[] };
 
-/** Стрілки з «ніжкою» з `public/img/icons.svg` — `icon-arrow-back` / `icon-arrow-forward` */
-function NavArrowFromSprite({
-  className,
-  direction,
-}: {
-  className?: string;
-  direction: "prev" | "next";
-}) {
-  const id =
+function NavArrow({ direction }: { direction: "prev" | "next" }) {
+  const iconId =
     direction === "prev" ? "icon-arrow-back" : "icon-arrow-forward";
-
   return (
-    <svg className={className} viewBox="0 0 32 32" aria-hidden>
-      <use href={`/img/icons.svg#${id}`} fill="currentColor" />
+    <svg className={styles.navIcon} viewBox="0 0 32 32" aria-hidden>
+      <use href={`/img/icons.svg#${iconId}`} />
     </svg>
   );
 }
 
-function StarRow({ rating }: { rating: number }) {
-  const clamped = Math.min(5, Math.max(0, Math.round(rating)));
+const starStyles = {
+  itemShapes: Star,
+  activeFillColor: "var(--neutral-darkest)",
+  inactiveFillColor: "transparent",
+  activeStrokeColor: "var(--neutral-darkest)",
+  inactiveStrokeColor: "var(--neutral-darkest)",
+  itemStrokeWidth: 0.8,
+};
+
+function ReviewCard({ review }: { review: Review }) {
   return (
-    <div className={styles.stars} aria-label={`Оцінка ${clamped} з 5`}>
-      {Array.from({ length: 5 }, (_, i) => (
-        <span
-          key={i}
-          className={i < clamped ? styles.starFilled : styles.starEmpty}
-          aria-hidden
-        >
-          ★
-        </span>
-      ))}
-    </div>
+    <article className={styles.card}>
+      <Rating
+        value={review.rating}
+        readOnly
+        halfFillMode="svg"
+        itemStyles={starStyles}
+        className={styles.stars}
+      />
+      <p className={styles.reviewText}>{review.text}</p>
+      <div className={styles.authorBlock}>
+        <span className={styles.authorName}>{review.authorName}</span>
+        <span className={styles.locationName}>{review.locationName}</span>
+      </div>
+    </article>
   );
 }
 
 export default function ReviewsSlider({ reviews }: Props) {
   const swiperRef = useRef<SwiperType | null>(null);
 
-  const goPrev = useCallback(() => {
-    swiperRef.current?.slidePrev();
-  }, []);
-
-  const goNext = useCallback(() => {
-    swiperRef.current?.slideNext();
-  }, []);
+  const goPrev = () => swiperRef.current?.slidePrev();
+  const goNext = () => swiperRef.current?.slideNext();
 
   return (
     <>
@@ -66,42 +61,19 @@ export default function ReviewsSlider({ reviews }: Props) {
         <Swiper
           className={styles.swiper}
           rewind
+          spaceBetween={16}
           slidesPerView={1}
           slidesPerGroup={1}
-          spaceBetween={16}
-          onSwiper={(swiper) => {
-            swiperRef.current = swiper;
-          }}
+          onSwiper={(s) => { swiperRef.current = s; }}
           breakpoints={{
-            375: {
-              slidesPerView: 1,
-              slidesPerGroup: 1,
-              spaceBetween: 18,
-            },
-            768: {
-              slidesPerView: 2,
-              slidesPerGroup: 1,
-              spaceBetween: 20,
-            },
-            1440: {
-              slidesPerView: 3,
-              slidesPerGroup: 1,
-              spaceBetween: 24,
-            },
+            375: { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 18 },
+            768: { slidesPerView: 2, slidesPerGroup: 1, spaceBetween: 20 },
+            1440: { slidesPerView: 3, slidesPerGroup: 1, spaceBetween: 24 },
           }}
         >
           {reviews.map((review) => (
             <SwiperSlide key={review.id} className={styles.slide}>
-              <article className={styles.card}>
-                <StarRow rating={review.rating} />
-                <p className={styles.reviewText}>{review.text}</p>
-                <div className={styles.authorBlock}>
-                  <h3 className={styles.authorName}>{review.authorName}</h3>
-                  <span className={styles.locationName}>
-                    {review.locationName}
-                  </span>
-                </div>
-              </article>
+              <ReviewCard review={review} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -115,7 +87,7 @@ export default function ReviewsSlider({ reviews }: Props) {
             aria-label="Попередній відгук"
             onClick={goPrev}
           >
-            <NavArrowFromSprite className={styles.navIcon} direction="prev" />
+            <NavArrow direction="prev" />
           </button>
           <button
             type="button"
@@ -123,7 +95,7 @@ export default function ReviewsSlider({ reviews }: Props) {
             aria-label="Наступний відгук"
             onClick={goNext}
           >
-            <NavArrowFromSprite className={styles.navIcon} direction="next" />
+            <NavArrow direction="next" />
           </button>
         </div>
       </div>
