@@ -1,0 +1,165 @@
+.locationInfoBlock {
+  background: var(--background-secondary);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 32px 0;
+}
+
+.inner {
+  width: 100%;
+  max-width: 375px;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas:
+    'image'
+    'content';
+  gap: 24px;
+}
+
+.content {
+  padding: 9px 0  ;
+  grid-area: content;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--neutral-darkest);
+  font-size: 14px;
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.starIcon {
+  flex: 0 0 auto;
+  fill: currentColor;
+}
+
+.ratingValue {
+  font-weight: 500;
+}
+
+.ratingValue::before {
+  content: '•';
+  margin-right: 10px;
+}
+
+.title {
+font-weight: 700;
+font-size: 32px;
+line-height: 110%;
+letter-spacing: -0.01em;
+  color: rgba(27, 57, 27, 1);
+}
+
+.metaList { 
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.metaItem {
+  display: flex;
+  gap: 8px;
+}
+
+.metaLabel {
+  line-height: 150%;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(27, 57, 27, 1);
+}
+
+.metaText {
+font-weight: 400;
+font-size: 16px;
+line-height: 150%;
+  color: var(--neutral-dark);
+}
+
+.metaTextLink {
+text-decoration: underline;
+text-decoration-skip-ink: none;
+}
+
+.imageWrapper {
+  grid-area: image;
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: var(--neutral-lightest);
+}
+
+.image {
+  object-fit: cover;
+}
+
+@media screen and (min-width: 768px) {
+  .inner {
+    max-width: 768px;
+    padding: 0 32px;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'image'
+      'content';
+    gap: 24px;
+  }
+.content{
+  padding: 0;
+}
+  .metaList {
+    font-size: 16px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .imageWrapper {
+   height: 468px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .locationInfoBlock {
+    padding: 48px 0;
+  }
+
+  .inner {
+    max-width: 1440px;
+    padding: 0 64px;
+    grid-template-areas: 'content image';
+    gap: 24px;
+    align-items: center;
+  }
+.ratingValue{
+  font-size: 18px;
+}
+  .title {
+    font-size: 56px;
+  }
+.metaLabel{
+ font-size: 18px;
+}
+.metaText{
+  font-size: 18px;
+}
+  .imageWrapper {
+    justify-self: end;
+    width: 705px;
+    height: 502px;
+    aspect-ratio: 16 / 9;
+  }
+}

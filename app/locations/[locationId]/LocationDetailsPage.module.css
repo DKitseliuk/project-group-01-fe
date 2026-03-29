@@ -1,0 +1,19 @@
+.main {
+  background: transparent;
+  width: auto;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .main {
+    padding: 0;
+  }
+}
