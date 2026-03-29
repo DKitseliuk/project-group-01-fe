@@ -27,12 +27,15 @@
 
 /* base for loginBtn and registerBtn */
 .authBtn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 4px 10px;
     font-size: 16px;
     font-weight: 500;
     font-family: inherit;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
     border-radius: 6px;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }

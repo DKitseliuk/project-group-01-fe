@@ -47,7 +47,7 @@ export const HeaderClient = () => {
         {!isAuthenticated && (
           <div className={styles.authButtons}>
             <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`}>Вхід</Link>
-            <Link href="/signup" className={`${styles.authBtn} ${styles.registerBtn}`}>Реєстрація</Link>
+            <Link href="/register" className={`${styles.authBtn} ${styles.registerBtn}`}>Реєстрація</Link>
           </div>
         )}
 
@@ -55,11 +55,11 @@ export const HeaderClient = () => {
         {isAuthenticated && user && (
           <div className={styles.authActions}>
              {/* Планшет */}
-            <Link href="/locations/add" className={`${styles.publishBtn} ${styles.publishBtnTablet}`}>
+            <Link href="/locations/action/add" className={`${styles.publishBtn} ${styles.publishBtnTablet}`}>
               Опублікувати статтю
             </Link>
             {/* Десктоп */}
-            <Link href="/locations/add" className={`${styles.publishBtn} ${styles.publishBtnDesktop}`}>
+            <Link href="/locations/action/add" className={`${styles.publishBtn} ${styles.publishBtnDesktop}`}>
               Поділитись локацією
             </Link>
             <div className={styles.userRowDesktop}>
@@ -138,14 +138,14 @@ export const HeaderClient = () => {
           {!isAuthenticated && (
             <div className={`container ${styles.menuBottom}`}>
               <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`} onClick={close}>Вхід</Link>
-              <Link href="/signup" className={`${styles.authBtn} ${styles.registerBtn}`} onClick={close}>Реєстрація</Link>
+              <Link href="/register" className={`${styles.authBtn} ${styles.registerBtn}`} onClick={close}>Реєстрація</Link>
             </div>
           )}
 
           {/* Auth bottom */}
           {isAuthenticated && user && (
             <div className={`container ${styles.menuBottomAuth}`}>
-              <Link href="/locations/add" className={`${styles.publishBtn} ${styles.publishBtnMobile}`} onClick={close}>
+              <Link href="/locations/action/add" className={`${styles.publishBtn} ${styles.publishBtnMobile}`} onClick={close}>
                 Опублікувати статтю
               </Link>
               <div className={styles.userRow}>
