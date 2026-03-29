@@ -1,6 +1,5 @@
 import css from './AdvantagesBlock.module.css';
 
-
 type AdvantageItem = {
   id: number;
   title: string;
@@ -35,26 +34,24 @@ const advantages: AdvantageItem[] = [
 const AdvantagesBlock = () => {
   return (
     <section className={css.section} aria-labelledby="advantages-title">
-          <div className="container">
-        {/* <div className={css.wrapper}> */}
-          <h2 id="advantages-title" className={css.title}>
-            Ключові переваги
-          </h2>
+      <div className="container">
+        <h2 id="advantages-title" className={css.title}>
+          Ключові переваги
+        </h2>
 
-          <ul className={css.list}>
-            {advantages.map(({ id, title, description, iconId }) => (
-              <li key={id} className={css.card}>
-                <svg className={css.icon} aria-hidden="true">
-                    <use href={`/img/icons.svg#${iconId}`} />
-                </svg>
+        <ul className={css.list}>
+          {advantages.map(({ id, title, description, iconId }) => (
+            <li key={id} className={css.card}>
+              <svg className={css.icon} aria-hidden="true">
+                <use href={`/img/icons.svg#${iconId}`} />
+              </svg>
 
-                <h3 className={css.cardTitle}>{title}</h3>
-                <p className={css.cardText}>{description}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      {/* </div> */}
+              <h3 className={css.cardTitle}>{title}</h3>
+              <p className={css.cardText}>{description}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 };

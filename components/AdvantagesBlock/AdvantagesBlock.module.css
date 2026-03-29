@@ -1,7 +1,7 @@
 .section {
-  background-color: var(--coral-lightest);
+  background-color: var(--background-secondary);
+  padding-block: 64px;
 }
-
 
 .title {
   font-size: 28px;
@@ -9,12 +9,14 @@
   color: var(--text-secondary);
   font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 24px;
+  padding-block: 8px;
 }
 
 .card {
@@ -22,8 +24,10 @@
   padding: 16px;
   border-radius: 16px;
   background-color: var(--foreground-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-
 
 .icon {
   width: 64px;
@@ -36,7 +40,7 @@
   letter-spacing: -0.01em;
   color: var(--text-secondary);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.4;
 }
 
 .cardText {
@@ -45,74 +49,38 @@
   font-size: 16px;
   line-height: 1.5;
 }
-
-
-/* mobile adaptive from 375px */
-@media screen and (min-width: 375px) {
-  .section {
-    padding: 64px 20px;
-  }
-
-}
-
-
-
+/* tablet */
 @media screen and (min-width: 768px) {
-  .section {
-  padding: 64px 32px;
-  }
-
   .title {
-    margin-bottom: 40px;
-    font-size: 56px;
-  }
-
-  .list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding-block: 8px;
+    font-size: 44px;
   }
 
   .card {
-    width: calc((100% - 16px) / 2);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap:16px;
+    width: calc((100% - 24px) / 2);
   }
 
-
-.card:last-child {
-  width: 100%;
-}
+  .card:last-child {
+    width: 100%;
+  }
 
   .cardTitle {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
-
 
 /* desktop */
 @media screen and (min-width: 1440px) {
-    .section {
+  .section {
     padding-block: 112px;
   }
 
   .title {
-    font-size: 64px;
+    font-size: 52px;
   }
 
-  .list {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 24px;
-  }
-
-  .card {
+  .card,
+  .card:last-child {
     width: calc((100% - 48px) / 3);
-    min-height: 245px;
-    padding: 20px 16px;
   }
 
   .cardTitle {
@@ -121,9 +89,5 @@
 
   .cardText {
     font-size: 18px;
-  }
-
-  .card:last-child {
-    width: calc((100% - 48px) / 3);
   }
 }
