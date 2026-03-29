@@ -21,22 +21,24 @@ export default function LocationCard({ location, isOwner }: Props) {
           className={css.image}
         />
 
-        <div className={css.rating}>
-          ⭐ {location.rate?.toFixed(1) || "0.0"}
-        </div>
       </div>
 
       <div className={css.info}>
         <span className={css.tag}>
           {location.locationType}
         </span>
-
+ <div className={css.rating}>
+    {Array.from({ length: 5 }, (_, i) => {
+      const full = i < Math.floor(location.rate);
+      const half = !full && i < location.rate;
+      return (
+        <span key={i}>{full ? "★" : half ? "⭐" : "☆"}</span>
+      );
+    })}
+  </div>
         <h3 className={css.title}>{location.name}</h3>
 
-        <p className={css.description}>
-          {location.description}
-        </p>
-
+        
         <div className={css.actions}>
           
           <Link

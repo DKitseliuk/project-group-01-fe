@@ -40,7 +40,7 @@ export default function PopularLocationsBlock() {
         slidesPerView={1}
         breakpoints={{
           768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
+          1440: { slidesPerView: 3 },
         }}
       >
         {topLocations.map((location) => (
