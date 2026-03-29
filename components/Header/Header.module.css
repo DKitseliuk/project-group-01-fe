@@ -105,6 +105,9 @@
 }
 
 /* Nav */
+.menuNavInner {
+    width: 100%;
+}
 .menuNav {
     flex: 1;
     display: flex;

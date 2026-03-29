@@ -1,9 +1,17 @@
 import Link from 'next/link';
+
 import Image from 'next/image';
-import { HeaderLogo } from './HeaderLogo';
+import { Logo } from '@/components/Logo/Logo';
+import { Nav } from '@/components/Nav/Nav';
 import styles from './Header.module.css';
 import { User } from '@/types/user'
 
+const baseLinks = [
+  { href: '/', label: 'Головна' },
+  { href: '/locations', label: 'Місця відпочинку' },
+];
+
+const profileLink = { href: '/profile', label: 'Мій профіль' };
 
 type HeaderMobileMenuProps = {
   isAuthenticated: boolean;
@@ -13,12 +21,13 @@ type HeaderMobileMenuProps = {
 };
 
 export const HeaderMobileMenu = ({ isAuthenticated, user, onClose, onLogout }: HeaderMobileMenuProps) => {
+  const links = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
   return (
     <div className={styles.mobileMenu}>
 
       {/* Top bar */}
       <div className={`container ${styles.menuTop}`}>
-        <HeaderLogo onClick={onClose} />
+        <Logo onClick={onClose} />
         <button className={styles.iconBtn} type="button" aria-label="Закрити меню" onClick={onClose}>
           <svg width="24" height="24" aria-hidden="true">
             <use href="/img/icons.svg#icon-close" />
@@ -27,21 +36,13 @@ export const HeaderMobileMenu = ({ isAuthenticated, user, onClose, onLogout }: H
       </div>
 
       {/* Nav */}
-      <nav className={styles.menuNav}>
-        <ul className={styles.menuList}>
-          <li>
-            <Link href="/" className={styles.menuLink} onClick={onClose}>Головна</Link>
-          </li>
-          <li>
-            <Link href="/locations" className={styles.menuLink} onClick={onClose}>Місця відпочинку</Link>
-          </li>
-          {isAuthenticated && user && (
-            <li>
-              <Link href="/profile" className={styles.menuLink} onClick={onClose}>Мій профіль</Link>
-            </li>
-          )}
-        </ul>
-      </nav>
+         <div className={styles.menuNav}>
+        <Nav links={links}
+          onClick={onClose}
+          navClassName={styles.menuNavInner}
+          listClassName={styles.menuList}
+          linkClassName={styles.menuLink} />
+      </div>
 
       {/* Guest bottom */}
       {!isAuthenticated && (

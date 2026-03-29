@@ -1,5 +1,14 @@
-import Link from 'next/link';
+
 import styles from './Footer.module.css';
+import { Logo } from '@/components/Logo/Logo';
+import { Nav } from '@/components/Nav/Nav';
+
+
+
+const footerLinks = [
+  { href: '/', label: 'Головна' },
+  { href: '/locations', label: 'Місця відпочинку' },
+];
 
 export const Footer = () => {
   return (
@@ -7,11 +16,10 @@ export const Footer = () => {
       <div className={`container ${styles.inner}`}>
 
         {/* Logo */}
-        <Link href="/" className={styles.logo} aria-label="Relax Map — на головну">
-          <svg width="129" height="40" className={styles.logoIcon} aria-hidden="true">
-            <use href="/img/icons.svg#icon-logo" />
-          </svg>
-        </Link>
+        <div className={styles.logo}>
+           <Logo />
+        </div>
+            
 
         {/* Social links */}
         <ul className={styles.socials}>
@@ -46,20 +54,13 @@ export const Footer = () => {
         </ul>
 
         {/* Nav */}
-        <nav className={styles.nav}>
-          <ul className={styles.navList}>
-            <li>
-              <Link href="/" className={styles.navLink}>
-                Головна
-              </Link>
-            </li>
-            <li>
-              <Link href="/locations" className={styles.navLink}>
-                Місця відпочинку
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        <div className={styles.nav}>
+              <Nav links={footerLinks}
+            linkClassName={styles.navLink}
+            listClassName={styles.navList} />
+        </div>
+         
+    
 
         {/* Divider */}
         <div className={styles.divider} />
