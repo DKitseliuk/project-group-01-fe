@@ -37,7 +37,7 @@ export const HeaderMobileMenu = ({ isAuthenticated, user, onClose, onLogout }: H
           </li>
           {isAuthenticated && user && (
             <li>
-              <Link href="/pro" className={styles.menuLink} onClick={onClose}>Мій профіль</Link>
+              <Link href="/profile" className={styles.menuLink} onClick={onClose}>Мій профіль</Link>
             </li>
           )}
         </ul>

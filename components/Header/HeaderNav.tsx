@@ -17,7 +17,7 @@ export const HeaderNav = ({ isAuthenticated }: HeaderNavProps) => {
         </li>
         {isAuthenticated && (
           <li>
-            <Link href="/pro" className={styles.desktopLink}>Мій профіль</Link>
+            <Link href="/profile" className={styles.desktopLink}>Мій профіль</Link>
           </li>
         )}
       </ul>
