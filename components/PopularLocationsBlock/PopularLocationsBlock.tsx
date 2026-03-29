@@ -8,7 +8,7 @@ import Link from "next/link";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import css from "./PopularLocationsBlock.css";
+import css from "./PopularLocationsBlock.module.css";
 import { fetchLocations } from "@/lib/api/clientApi";
 import type { Location } from "@/types/location";
 import LocationCard from "@/components/LocationCard/LocationCard";
