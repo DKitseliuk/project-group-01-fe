@@ -1,0 +1,239 @@
+/* Mobile-first: базові стилі 320px+ */
+
+.section {
+  --reviews-bg: #fff5ee;
+  --reviews-card-bg: #ffe8dc;
+  --reviews-title: #4c3829;
+  --reviews-text: #5c4638;
+  --reviews-meta: #7a6558;
+
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-block: 40px 28px;
+  padding-inline: 16px;
+  background-color: var(--reviews-bg);
+}
+
+.inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--reviews-title);
+}
+
+.sliderWrap {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* Однакова висота карток у ряду: рівень wrapper + слайд як flex-колонка */
+.sliderWrap :global(.swiper-wrapper) {
+  align-items: stretch;
+}
+
+.sliderWrap :global(.swiper-slide) {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  align-self: stretch;
+}
+
+.swiper {
+  width: 100%;
+  overflow: visible;
+}
+
+.slide {
+  box-sizing: border-box;
+  min-height: 0;
+  width: 100%;
+}
+
+.card {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 200px;
+  padding: 24px;
+  border-radius: 18px;
+  background-color: var(--reviews-card-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  line-height: 1;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: var(--neutral-darkest);
+}
+
+.starFilled,
+.starEmpty {
+  user-select: none;
+}
+
+.starEmpty {
+  opacity: 0.28;
+}
+
+.reviewText {
+  margin: 0;
+  flex: 1;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--reviews-text);
+}
+
+.authorBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.authorName {
+  margin: 0;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--reviews-title);
+}
+
+.locationName {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--reviews-meta);
+}
+
+.navRow {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.navBtn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid #ddc4b5;
+  border-radius: 12px;
+  line-height: 0;
+  color: var(--coral-darkest);
+
+  background-color: var(--reviews-card-bg);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.navBtn:hover {
+  background-color: #ffd8c4;
+  border-color: #c9a896;
+}
+
+
+.navIcon {
+  display: block;
+  width: 15.96px;
+  height: 15.62px;
+  flex-shrink: 0;
+  color: var(--coral-darkest);
+}
+
+.navBtn:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+/* 375px+ — уточнення адаптивної сітки */
+@media screen and (min-width: 375px) {
+  .section {
+    padding-inline: 20px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 28px;
+  }
+
+  .card {
+    padding: 28px;
+  }
+
+  .reviewText {
+    font-size: 15px;
+  }
+}
+
+/* Tablet 768px+ */
+@media screen and (min-width: 768px) {
+  .section {
+    padding-block: 48px 36px;
+    padding-inline: 32px;
+  }
+
+  .title {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+
+  .navRow {
+    margin-top: 12px;
+  }
+}
+
+/* Desktop 1440px+ */
+@media screen and (min-width: 1440px) {
+  .section {
+    padding-block: 56px 40px;
+    padding-inline: 64px;
+  }
+
+  .inner {
+    max-width: 1312px;
+  }
+
+  .title {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .card {
+    padding: 32px;
+    min-height: 220px;
+  }
+
+  .reviewText {
+    font-size: 16px;
+  }
+}

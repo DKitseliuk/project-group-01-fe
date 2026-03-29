@@ -1,11 +1,11 @@
 import Hero from "@/components/Hero/Hero";
+import ReviewsSection from "@/components/ReviewsSection/ReviewsSection";
 
-const Home = () => {
+export default async function Home() {
   return (
     <main>
       <Hero />
+      <ReviewsSection />
     </main>
   );
-};
-
-export default Home;
+}
