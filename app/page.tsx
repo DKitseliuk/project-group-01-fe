@@ -1,5 +1,5 @@
-// import styles from './HomePage.module.css';
-import styles from './page.module.css';
+import styles from './HomePage.module.css';
+
 const Home = () => {
   return (
     <main className={styles.main}>

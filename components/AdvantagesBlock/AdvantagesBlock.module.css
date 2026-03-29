@@ -3,11 +3,11 @@
   /* padding: 64px 16px; */
 }
 
-.wrapper {
+/* .wrapper {
   max-width: 335px;
   margin: 0 auto;
   /* padding: 0 16px; */
-}
+ */
 
 .title {
   font-size: 28px;
@@ -40,7 +40,7 @@
 
 .cardTitle {
   /* padding: 16px; */
-  margin-bottom: 18px;
+  /* margin-bottom: 18px; */
   font-size: 18px;
   letter-spacing: -0.01em;
   color: var(--text-secondary);
@@ -63,11 +63,11 @@
     padding: 64px 20px;
   }
 
-  .wrapper {
-    /* margin: 0 20; */
+  /* .wrapper {
+    margin: 0 20;
   max-width: 335px;
-    /* padding: 0 20px; */
-}
+    padding: 0 20px;
+} */
 
 }
 
@@ -78,12 +78,12 @@
   padding: 64px 32px;
   }
 
-  .wrapper {
+  /* .wrapper {
   /* margin: 0 32px; */
-  margin:0 auto;
-  max-width: 704px;
+  /* margin:0 auto;
+  max-width: 704px; */
   /* padding: 0; */
-  }
+  } */
 
   .title {
     margin-bottom: 40px;
@@ -94,25 +94,27 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 16px;
+    padding-block: 8px;
   }
 
   .card {
     width: calc((100% - 16px) / 2);
-    min-height: 225px;
-    padding: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap:16px;
   }
 
 
 
 .card:last-child {
   width: 100%;
-  padding: 16px;
 }
 
   .cardTitle {
     font-size: 20px;
   }
-}
+
 
 
 /* desktop */
@@ -120,10 +122,11 @@
     .section {
     padding: 112px 64px;
   }
- .wrapper {
+
+ /* .wrapper {
     margin: 0 64px;
     max-width: 1312px;
-  }
+  } */
 
   .title {
     font-size: 64px;
@@ -137,8 +140,14 @@
 
   .card {
     width: calc((100% - 48px) / 3);
-    min-height: 245px;
-    padding:20px 16px;
+  }
+
+  .cardTitle {
+    font-size: 26px;
+  }
+
+  .cardText {
+    font-size: 18px;
   }
 
   .card:last-child {

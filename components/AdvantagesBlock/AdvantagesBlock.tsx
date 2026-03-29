@@ -35,8 +35,8 @@ const advantages: AdvantageItem[] = [
 const AdvantagesBlock = () => {
   return (
     <section className={css.section} aria-labelledby="advantages-title">
-          {/* <div className="container"> */}
-        <div className={css.wrapper}>
+          <div className="container">
+        {/* <div className={css.wrapper}> */}
           <h2 id="advantages-title" className={css.title}>
             Ключові переваги
           </h2>
