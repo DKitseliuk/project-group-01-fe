@@ -23,7 +23,7 @@ export const ProfilePageClient = ({ userId }: ProfilePageClientProps) => {
   if (!user) return null;
 
   return (
-    <div>
+    <div className="container">
       <ProfileInfo
         name={user.name}
         avatarUrl={user.avatarUrl}

@@ -14,8 +14,8 @@ export const ProfileInfo = ({ name, avatarUrl, articlesAmount }: ProfileInfoProp
         <Image
             src={avatarUrl || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'}
             alt={name || 'Аватар користувача'}
-          width={100}
-          height={100}
+          width={145}
+          height={145}
         />
       </div>
       <div className={styles.info}>

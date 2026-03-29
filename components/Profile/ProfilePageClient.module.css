@@ -1,9 +1,10 @@
 .title {
-    font-size: 24px;
+    font-family: inherit;
+    font-size: 28px;
     font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 16px;
-    margin-top: 24px;
+    color: var(--neutral-darkest);
+    margin-bottom: 40px;
+    margin-top: 32px;
 }
 
 @media screen and (min-width: 768px) {

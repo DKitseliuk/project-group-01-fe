@@ -1,6 +1,7 @@
 .main {
-    padding-top: 24px;
-    padding-bottom: 48px;
+    padding-top: 32px;
+        padding-bottom: 64px;
+    background-color: var(--coral-lightest);
 }
 
 .title {
