@@ -1,0 +1,33 @@
+.main {
+    padding-top: 24px;
+    padding-bottom: 48px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+@media screen and (min-width: 768px) {
+    .main {
+        padding-top: 32px;
+        padding-bottom: 64px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .main {
+        padding-top: 40px;
+        padding-bottom: 80px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+}
