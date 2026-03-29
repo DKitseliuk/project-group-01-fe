@@ -21,14 +21,14 @@ const advantages: AdvantageItem[] = [
     title: 'Зручні фільтри',
     description:
       'Шукайте за типом локації, регіоном, наявністю зручностей та іншими критеріями.',
-    iconId: 'icon-filter',
+    iconId: 'icon-filter-alt',
   },
   {
     id: 3,
     title: 'Спільнота мандрівників',
     description:
       'Додавайте власні улюблені місця та діліться своїми неймовірними знахідками.',
-    iconId: 'icon-community',
+    iconId: 'icon-communication',
   },
 ];
 
