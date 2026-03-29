@@ -52,6 +52,10 @@
     }
 
     .name {
-        font-size: 18px;
+        font-size: 32px;
     }
+
+        .articles {
+            font-size: 20px;
+        }
 }

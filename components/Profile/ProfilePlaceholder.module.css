@@ -34,13 +34,33 @@
 }
 
 .btn:hover {
-background-color: var(--coral-lighter);
+    background-color: var(--coral-lighter);
     color: var(--coral-darkest);
 }
 
 /* Tablet (768px+) */
 @media screen and (min-width: 768px) {
     .wrapper {
-        max-width: 400px;
+        width: 100%;
+        max-width: 533px;
+        padding: 40px 32px;
     }
+
+    .btn {
+         width: 171px;
+         white-space: nowrap;
+    }
+}
+
+/*Desktop (1440px+)*/
+@media screen and (min-width: 1440px) {
+    .text {
+            font-size: 26px;
+        }
+
+    .btn {
+            width: 208px;
+            font-size: 20px;
+            }
+
 }
