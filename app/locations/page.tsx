@@ -7,7 +7,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import {
-  getLocationsServer,
+  fetchLocations,
   getRegionsServer,
   getLocationTypesServer,
 } from "@/lib/api/serverApi";
@@ -60,7 +60,7 @@ const LocationsPage = async ({ searchParams }: LocationsPageProps) => {
   await queryClient.prefetchQuery({
     queryKey: ["locations", { page, perPage: LOCATIONS_PER_PAGE, ...filters }],
     queryFn: () =>
-      getLocationsServer({
+      fetchLocations({
         page,
         perPage: LOCATIONS_PER_PAGE,
         ...filters,

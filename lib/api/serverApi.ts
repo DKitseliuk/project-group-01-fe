@@ -1,6 +1,8 @@
-import axios from "axios";
+import { cookies } from "next/headers";
+import { nextServer } from "@/lib/api/api";
+import type { Location } from "@/types/location";
 
-export type GetLocationsParams = {
+export type FetchLocationsParams = {
   page?: number;
   perPage?: number;
   search?: string;
@@ -10,7 +12,30 @@ export type GetLocationsParams = {
   sortOrder?: string;
 };
 
-export const getLocationsServer = async ({
+type FetchLocationsResponse = {
+  locations: Location[];
+  totalPages: number;
+  totalItems: number;
+  page: number;
+  perPage: number;
+};
+
+type Region = {
+  _id: string;
+  slug: string;
+  region: string;
+  level: string;
+  note: string;
+};
+
+type LocationType = {
+  _id: string;
+  slug: string;
+  type: string;
+  shortDescription: string;
+};
+
+export const fetchLocations = async ({
   page = 1,
   perPage = 6,
   search = "",
@@ -18,8 +43,13 @@ export const getLocationsServer = async ({
   type = "",
   sortBy = "createdAt",
   sortOrder = "desc",
-}: GetLocationsParams) => {
-  const { data } = await axios.get("http://localhost:3001/api/locations", {
+}: FetchLocationsParams = {}): Promise<FetchLocationsResponse> => {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<FetchLocationsResponse>("/locations", {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
     params: {
       page,
       perPage,
@@ -33,16 +63,35 @@ export const getLocationsServer = async ({
 
   return data;
 };
-export const getRegionsServer = async () => {
-  const { data } = await axios.get(
-    "http://localhost:3001/api/categories/regions",
+
+export const getRegionsServer = async (): Promise<{ regions: Region[] }> => {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<{ regions: Region[] }>(
+    "/categories/regions",
+    {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    }
   );
+
   return data;
 };
 
-export const getLocationTypesServer = async () => {
-  const { data } = await axios.get(
-    "http://localhost:3001/api/categories/location-types",
+export const getLocationTypesServer = async (): Promise<{
+  locationTypes: LocationType[];
+}> => {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<{ locationTypes: LocationType[] }>(
+    "/categories/location-types",
+    {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    }
   );
+
   return data;
 };

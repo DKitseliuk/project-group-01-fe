@@ -1,4 +1,8 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import StarRating from "@/components/StarRating/StarRating";
 import styles from "./LocationCard.module.css";
 import type { LocationType } from "@/types/locationType";
 
@@ -11,53 +15,64 @@ type Location = {
   locationType?: string;
 };
 
-
-type LocationCardProps = {
+type Props = {
   location: Location;
   locationTypes?: LocationType[];
+  isOwner?: boolean;
 };
 
 const getLocationTypeLabel = (
-  typeSlug?: string,
+  slug?: string,
   locationTypes?: LocationType[]
 ) => {
-  return locationTypes?.find((item) => item.slug === typeSlug)?.type || "";
-};
-
-const renderStars = (rate?: number) => {
-  const safeRate = Math.max(0, Math.min(5, rate || 0));
-  const fullStars = Math.floor(safeRate);
-  const emptyStars = 5 - fullStars;
-
-  return "★".repeat(fullStars) + "☆".repeat(emptyStars);
+  return locationTypes?.find((item) => item.slug === slug)?.type || "";
 };
 
 export default function LocationCard({
   location,
   locationTypes,
-}: LocationCardProps) {
+  isOwner,
+}: Props) {
   return (
     <li className={styles.card}>
-      <Image
-        src={location.image}
-        alt={location.name}
-        width={400}
-        height={250}
-        className={styles.image}
-      />
+      <div className={styles.imageWrapper}>
+        <Image
+          src={location.image || "/placeholder.jpg"}
+          alt={location.name}
+          fill
+          className={styles.image}
+        />
+      </div>
 
-      <div className={styles.content}>
-        <p className={styles.type}>
+      <div className={styles.info}>
+        <span className={styles.tag}>
           {getLocationTypeLabel(location.locationType, locationTypes)}
-        </p>
+        </span>
 
-        <p className={styles.rate}>{renderStars(location.rate)}</p>
+        <StarRating value={location.rate} />
 
         <h3 className={styles.title}>{location.name}</h3>
 
-        <button type="button" className={styles.button}>
-          Переглянути локацію
-        </button>
+        <div className={styles.actions}>
+          <Link
+            href={`/locations/${location._id}`}
+            className={styles.viewBtn}
+          >
+            Переглянути локацію
+          </Link>
+
+          {isOwner && (
+            <Link
+              href={`/locations/${location._id}/edit`}
+              className={styles.editBtn}
+              title="Редагувати"
+            >
+              <svg width="24" height="24">
+                <use href="/img/icons.svg#icon-edit" />
+              </svg>
+            </Link>
+          )}
+        </div>
       </div>
     </li>
   );

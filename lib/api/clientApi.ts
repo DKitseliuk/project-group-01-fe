@@ -1,6 +1,7 @@
-import { api } from "@/app/api/api";
+import { nextServer } from "@/lib/api/api";
+import type { Location } from "@/types/location";
 
-export type GetLocationsParams = {
+export type FetchLocationsParams = {
   page?: number;
   perPage?: number;
   search?: string;
@@ -10,7 +11,30 @@ export type GetLocationsParams = {
   sortOrder?: string;
 };
 
-export const getLocationsClient = async ({
+type FetchLocationsResponse = {
+  locations: Location[];
+  totalPages: number;
+  totalItems: number;
+  page: number;
+  perPage: number;
+};
+
+type Region = {
+  _id: string;
+  slug: string;
+  region: string;
+  level: string;
+  note: string;
+};
+
+type LocationType = {
+  _id: string;
+  slug: string;
+  type: string;
+  shortDescription: string;
+};
+
+export const fetchLocations = async ({
   page = 1,
   perPage = 6,
   search = "",
@@ -18,8 +42,8 @@ export const getLocationsClient = async ({
   type = "",
   sortBy = "createdAt",
   sortOrder = "desc",
-}: GetLocationsParams) => {
-  const { data } = await api.get("/locations", {
+}: FetchLocationsParams = {}): Promise<FetchLocationsResponse> => {
+  const { data } = await nextServer.get<FetchLocationsResponse>("/locations", {
     params: {
       page,
       perPage,
@@ -34,12 +58,18 @@ export const getLocationsClient = async ({
   return data;
 };
 
-export const getRegionsClient = async () => {
-  const { data } = await api.get("/categories/regions");
+export const getRegionsClient = async (): Promise<{ regions: Region[] }> => {
+  const { data } = await nextServer.get<{ regions: Region[] }>(
+    "/categories/regions"
+  );
   return data;
 };
 
-export const getLocationTypesClient = async () => {
-  const { data } = await api.get("/categories/location-types");
+export const getLocationTypesClient = async (): Promise<{
+  locationTypes: LocationType[];
+}> => {
+  const { data } = await nextServer.get<{ locationTypes: LocationType[] }>(
+    "/categories/location-types"
+  );
   return data;
 };

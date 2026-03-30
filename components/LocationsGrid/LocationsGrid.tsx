@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import LocationCard from "../LocationCard/LocationCard";
 import Pagination from "../Pagination/Pagination";
-import { getLocationsClient } from "@/lib/api/clientApi";
+import { fetchLocations } from "@/lib/api/clientApi";
 import { LOCATIONS_PER_PAGE } from "@/constants/pagination";
 import type { LocationType } from "@/types/locationType";
 
@@ -68,15 +68,15 @@ export default function LocationsGrid({
   const { data, isLoading } = useQuery({
     queryKey: ["locations", { page, ...filters }],
     queryFn: () =>
-      getLocationsClient({
-        page,
-        perPage: LOCATIONS_PER_PAGE,
-        search: filters.search,
-        region: filters.region,
-        type: filters.type,
-        sortBy: filters.sortBy,
-        sortOrder: filters.sortOrder,
-      }),
+  fetchLocations({
+    page,
+    perPage: LOCATIONS_PER_PAGE,
+    search: filters.search,
+    region: filters.region,
+    type: filters.type,
+    sortBy: filters.sortBy,
+    sortOrder: filters.sortOrder,
+  }),
   });
 
   const locations: Location[] = data?.locations || [];
