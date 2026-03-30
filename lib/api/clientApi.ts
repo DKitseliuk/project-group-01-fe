@@ -1,6 +1,6 @@
-import { nextServer } from "@/lib/api/api"; 
+import { nextServer } from "@/lib/api/api";
 import type { Location, FetchLocationsParams } from "@/types/location";
-
+import { LoginValues, RegisterValues } from "@/types/auth";
 
 export const fetchLocations = async ({
   page,
@@ -12,5 +12,16 @@ export const fetchLocations = async ({
     params: { page, perPage, search, region },
   });
 
-  return res.data.locations; 
+  return res.data.locations;
 };
+async function register(payload: RegisterValues) {
+  const { data } = await nextServer.post("/register", payload);
+  return data;
+}
+
+async function login(payload: LoginValues) {
+  const { data } = await nextServer.post("/login", payload);
+  return data;
+}
+
+export { register, login };
