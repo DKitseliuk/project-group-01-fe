@@ -1,9 +1,26 @@
+import AdvantagesBlock from '@/components/AdvantagesBlock/AdvantagesBlock';
 import styles from './HomePage.module.css';
+import PopularLocationsBlock from '@/components/PopularLocationsBlock/PopularLocationsBlock';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import { fetchLocations } from '@/lib/api/serverApi';
+const Home = async () => {
+  const queryClient = new QueryClient();
 
-const Home = () => {
+  await queryClient.prefetchQuery({
+    queryKey: ['popularLocations'],
+    queryFn: fetchLocations,
+  });
+
   return (
     <main className={styles.main}>
-      <h1>Home page</h1>
+      <AdvantagesBlock />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PopularLocationsBlock />
+      </HydrationBoundary>
     </main>
   );
 };

@@ -54,11 +54,15 @@
 .navList {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 16px;
 }
 
 .navLink {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
     font-family: inherit;
     font-weight: 400;
     font-size: 16px;
@@ -89,6 +93,22 @@
     line-height: 1.5;
     color: var(--neutral-darkest);
     text-align: center;
+}
+
+/* ====== Auth style ====== */
+.footerAuth {
+    background-color: var(--coral-lightest);
+    padding: 16px 0;
+    text-align: center;
+}
+
+.footerAuthCopy {
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--neutral-darkest);
 }
 
 /* ====== Tablet (768px+) ====== */
