@@ -23,10 +23,10 @@ function NavArrow({ direction }: { direction: "prev" | "next" }) {
 
 const starStyles = {
   itemShapes: Star,
-  activeFillColor: "var(--neutral-darkest)",
+  activeFillColor: "rgb(0, 0, 0)",
   inactiveFillColor: "transparent",
-  activeStrokeColor: "var(--neutral-darkest)",
-  inactiveStrokeColor: "var(--neutral-darkest)",
+  activeStrokeColor: "rgb(0, 0, 0)",
+  inactiveStrokeColor: "rgb(0, 0, 0)",
   itemStrokeWidth: 0.8,
 };
 
@@ -43,7 +43,7 @@ function ReviewCard({ review }: { review: Review }) {
       <p className={styles.reviewText}>{review.text}</p>
       <div className={styles.authorBlock}>
         <span className={styles.authorName}>{review.authorName}</span>
-        <span className={styles.locationName}>{review.locationName}</span>
+        <p className={styles.locationName}>{review.locationName}</p>
       </div>
     </article>
   );

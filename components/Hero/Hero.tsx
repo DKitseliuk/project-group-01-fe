@@ -4,7 +4,7 @@ import HeroSearchForm from "./HeroSearchForm";
 const Hero = () => {
   return (
     <section className={styles.hero} aria-labelledby="hero-heading">
-      <div className={styles.wrap}>
+      <div className={`container ${styles.wrap}`}>
         <picture className={styles.bgPicture}>
           {/* Desktop: 1440px+ — WebP */}
           <source
@@ -40,10 +40,11 @@ const Hero = () => {
             srcSet="/img/Hero/hero-mob@1x.jpg 1x, /img/Hero/hero-mob@2x.jpg 2x"
             alt=""
             aria-hidden="true"
+            fetchPriority="high"
           />
         </picture>
         <div className={styles.overlay} aria-hidden="true" />
-        <div className={`container ${styles.inner}`}>
+        <div className={styles.inner}>
           <h1 id="hero-heading" className={styles.title}>
             Відкрий для себе Україну. Знайди ідеальне місце для відпочинку
           </h1>

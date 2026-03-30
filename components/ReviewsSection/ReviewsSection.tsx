@@ -15,7 +15,7 @@ export default async function ReviewsSection() {
       className={styles.section}
       aria-labelledby="reviews-heading"
     >
-      <div className={styles.inner}>
+      <div className="container">
         <h2 id="reviews-heading" className={styles.title}>
           Останні відгуки
         </h2>
