@@ -1,4 +1,4 @@
-// lib/store/catalogStore.ts
+
 import { create } from 'zustand';
 import { LocationType, Region } from '@/types/categories';
 
