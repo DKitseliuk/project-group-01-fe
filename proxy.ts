@@ -1,4 +1,4 @@
-// middleware.ts
+// proxy.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { parse } from 'cookie';
 import { api } from './lib/api/api';
@@ -10,7 +10,7 @@ const privateRoutes = [
 ];
 const publicAuthRoutes = ['/register', '/login'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const accessToken = request.cookies.get('accessToken')?.value;
