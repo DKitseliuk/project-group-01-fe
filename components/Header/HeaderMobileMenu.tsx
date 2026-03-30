@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import Link from 'next/link';
-
 import Image from 'next/image';
 import { Logo } from '@/components/Logo/Logo';
 import { Nav } from '@/components/Nav/Nav';
 import styles from './Header.module.css';
-import { User } from '@/types/user'
+import { User } from '@/types/user';
 
 const baseLinks = [
   { href: '/', label: 'Головна' },
@@ -22,12 +22,35 @@ type HeaderMobileMenuProps = {
 
 export const HeaderMobileMenu = ({ isAuthenticated, user, onClose, onLogout }: HeaderMobileMenuProps) => {
   const links = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
     <div className={styles.mobileMenu}>
 
       {/* Top bar */}
       <div className={`container ${styles.menuTop}`}>
         <Logo onClick={onClose} />
+
+        {/* Планшет — кнопки вгорі */}
+        {!isAuthenticated && (
+          <div className={styles.menuTopAuth}>
+            <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`} onClick={onClose}>Вхід</Link>
+            <Link href="/register" className={`${styles.authBtn} ${styles.registerBtn}`} onClick={onClose}>Реєстрація</Link>
+          </div>
+        )}
+
+        {isAuthenticated && (
+          <Link href="/locations/action/add" className={styles.publishBtnTop} onClick={onClose}>
+            Опублікувати статтю
+          </Link>
+        )}
+
         <button className={styles.iconBtn} type="button" aria-label="Закрити меню" onClick={onClose}>
           <svg width="24" height="24" aria-hidden="true">
             <use href="/img/icons.svg#icon-close" />
@@ -36,15 +59,17 @@ export const HeaderMobileMenu = ({ isAuthenticated, user, onClose, onLogout }: H
       </div>
 
       {/* Nav */}
-         <div className={styles.menuNav}>
-        <Nav links={links}
+      <div className={styles.menuNav}>
+        <Nav
+          links={links}
           onClick={onClose}
           navClassName={styles.menuNavInner}
           listClassName={styles.menuList}
-          linkClassName={styles.menuLink} />
+          linkClassName={styles.menuLink}
+        />
       </div>
 
-      {/* Guest bottom */}
+      {/* Мобілка — кнопки внизу */}
       {!isAuthenticated && (
         <div className={`container ${styles.menuBottom}`}>
           <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`} onClick={onClose}>Вхід</Link>
@@ -52,12 +77,12 @@ export const HeaderMobileMenu = ({ isAuthenticated, user, onClose, onLogout }: H
         </div>
       )}
 
-      {/* Auth bottom */}
+      {/* User row — залогінений */}
       {isAuthenticated && user && (
         <div className={`container ${styles.menuBottomAuth}`}>
-          <Link href="/locations/action/add" className={`${styles.publishBtn} ${styles.publishBtnMobile}`} onClick={onClose}>
-            Опублікувати статтю
-          </Link>
+            <Link href="/locations/action/add" className={`${styles.publishBtnBottom}`} onClick={onClose}>
+      Опублікувати статтю
+    </Link>
           <div className={styles.userRow}>
             <div className={styles.avatar}>
               <Image src={user.avatarUrl} alt={user.name} width={36} height={36} />

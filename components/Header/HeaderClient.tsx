@@ -18,7 +18,7 @@ const profileLink = { href: '/profile', label: 'Мій профіль' };
 export const HeaderClient = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, clearIsAuthenticated } = useAuthStore();
-
+ 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
 
