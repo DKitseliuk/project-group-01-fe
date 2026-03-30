@@ -1,10 +1,14 @@
 import styles from './CreateLocationPage.module.css';
+import  LocationForm  from '../../../../components/LocationForm/LocationForm';
 
 const CreateLocationPage = () => {
   return (
-    <main className={styles.main}>
-      <h1>Create Location page</h1>
-    </main>
+    <section className={styles.section} aria-labelledby="location-form-title">
+      <div className="container">
+        <h1 className={styles.title}>Додавання нового місця</h1>
+        <LocationForm />
+      </div>
+    </section>
   );
 };
 
