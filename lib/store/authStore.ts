@@ -1,29 +1,22 @@
 // lib/store/authStore.ts
 import { create } from 'zustand';
+import { User } from '@/types/user';
 
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  avatarUrl: string;
-  articlesAmount: number;
-}
 
-interface AuthStore {
+type AuthStore = {
+  isAuthenticated: boolean;
   user: User | null;
-  login: (user: User) => void;
-  logout: () => void;
-}
+  setUser: (user: User) => void;
+  clearIsAuthenticated: () => void;
+};
 
 export const useAuthStore = create<AuthStore>((set) => ({
+  isAuthenticated: false,
   user: null,
-   // user: {
-   // _id: '1',
-   // name: 'Ім\'я',
-   // email: 'test@test.com',
-   // avatarUrl: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
-   // articlesAmount: 0,
-// },
-  login: (user) => set({ user }),
-  logout: () => set({ user: null }),
+  setUser: (user: User) => {
+    set(() => ({ user, isAuthenticated: true }));
+  },
+  clearIsAuthenticated: () => {
+    set(() => ({ user: null, isAuthenticated: false }));
+  },
 }));
