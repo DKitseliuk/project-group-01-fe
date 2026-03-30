@@ -1,7 +1,7 @@
 // proxy.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { parse } from 'cookie';
-import { api } from './lib/api/api';
+import { backendServer } from './lib/api/api';
 
 const privateRoutes = [
   '/profile/edit',
@@ -27,7 +27,7 @@ export async function proxy(request: NextRequest) {
   if (!accessToken) {
     if (refreshToken) {
       try {
-        const apiRes = await api.post('auth/refresh', null, {
+        const apiRes = await backendServer.post('auth/refresh', null, {
           headers: {
             Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`,
           },

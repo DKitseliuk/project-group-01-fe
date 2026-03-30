@@ -1,4 +1,4 @@
-// app/locations/route.ts
+// app/api/locations/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../api';
 import { getCookieHeader, logErrorResponse } from '../_utils/utils';
