@@ -1,6 +1,5 @@
 import AuthNav from "@/components/AuthNav/AuthNav";
 import css from "./AuthLayout.module.css";
-import Link from "next/link";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const year = new Date().getFullYear();

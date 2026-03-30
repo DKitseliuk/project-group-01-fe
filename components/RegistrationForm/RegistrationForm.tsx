@@ -5,11 +5,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { register, RegisterRequest } from "@/lib/api/auth";
+import { RegisterValues } from "@/types/auth";
 import { useAuthStore } from "@/lib/store/authStore";
 import axios from "axios";
+import { register } from "@/lib/api/auth";
 
-const initialValues: RegisterRequest = {
+const initialValues: RegisterValues = {
   name: "",
   email: "",
   password: "",
@@ -33,7 +34,7 @@ const RegistrationForm = () => {
   const { setUser } = useAuthStore();
   const [error, setError] = useState("");
 
-  const handleSubmit = async (values: RegisterRequest) => {
+  const handleSubmit = async (values: RegisterValues) => {
     try {
       const data = await register(values);
       setUser(data);
@@ -62,6 +63,7 @@ const RegistrationForm = () => {
             name="name"
             placeholder="Ваше імʼя"
           />
+          <ErrorMessage name="name" component="span" className={css.error} />
         </label>
         <label className={css.label}>
           Пошта*
@@ -71,6 +73,7 @@ const RegistrationForm = () => {
             name="email"
             placeholder="hello@relaxmap.ua"
           />
+          <ErrorMessage name="email" component="span" className={css.error} />
         </label>
         <label className={css.label}>
           Пароль*
@@ -79,6 +82,11 @@ const RegistrationForm = () => {
             type="password"
             name="password"
             placeholder="********"
+          />
+          <ErrorMessage
+            name="password"
+            component="span"
+            className={css.error}
           />
         </label>
         {error && <p className={css.error}>{error}</p>}

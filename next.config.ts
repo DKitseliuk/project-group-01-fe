@@ -1,24 +1,31 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-    images: {
+  reactCompiler: true,
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://relax-map-api.onrender.com/api/:path*",
+      },
+    ];
+  },
+  images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'ac.goit.global',
-        },
+        protocol: "https",
+        hostname: "ftp.goit.study",
+      },
       {
-        protocol: 'https',
-        hostname: 'ftp.goit.study',
-        },
+        protocol: "https",
+        hostname: "relax-map-api.onrender.com",
+      },
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        },
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
-  reactCompiler: true,
 };
 
 export default nextConfig;

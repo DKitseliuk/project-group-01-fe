@@ -5,11 +5,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { login, LoginRequest } from "@/lib/api/auth";
+import { login } from "@/lib/api/auth";
+
 import { useAuthStore } from "@/lib/store/authStore";
 import axios from "axios";
+import { LoginValues } from "@/types/auth";
 
-const initialValues: LoginRequest = {
+const initialValues: LoginValues = {
   email: "",
   password: "",
 };
@@ -27,7 +29,7 @@ const LoginForm = () => {
   const { setUser } = useAuthStore();
   const [error, setError] = useState("");
 
-  const handleSubmit = async (values: LoginRequest) => {
+  const handleSubmit = async (values: LoginValues) => {
     try {
       const data = await login(values);
       setUser(data);
@@ -55,6 +57,7 @@ const LoginForm = () => {
             name="email"
             placeholder="hello@relaxmap.ua"
           />
+          <ErrorMessage name="email" component="span" className={css.error} />
         </label>
         <label className={css.label}>
           Пароль*
@@ -63,6 +66,11 @@ const LoginForm = () => {
             type="password"
             name="password"
             placeholder="********"
+          />
+          <ErrorMessage
+            name="password"
+            component="span"
+            className={css.error}
           />
         </label>
         {error && <p className={css.error}>{error}</p>}
