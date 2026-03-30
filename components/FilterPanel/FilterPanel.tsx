@@ -2,9 +2,12 @@
 
 import { ChangeEvent } from "react";
 import dynamic from "next/dynamic";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { REGIONS, LOCATION_TYPES, SORT_OPTIONS } from "@/constants/filters";
+import { SORT_OPTIONS } from "@/constants/filters";
+import { SEARCH_DEBOUNCE_DELAY } from "@/constants/pagination";
 import styles from "./FilterPanel.module.css";
+import type { LocationType } from "@/types/locationType";
 
 const Select = dynamic(() => import("react-select"), {
   ssr: false,
@@ -18,9 +21,19 @@ type Filters = {
   sortOrder: string;
 };
 
+type Region = {
+  _id: string;
+  slug: string;
+  region: string;
+  level: string;
+  note: string;
+};
+
+
 type FilterPanelProps = {
   filters: Filters;
-  onChange: (name: string, value: string) => void;
+  regions: Region[];
+  locationTypes: LocationType[];
 };
 
 type SelectOption = {
@@ -28,16 +41,48 @@ type SelectOption = {
   label: string;
 };
 
-export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
+export default function FilterPanel({
+  filters,
+  regions,
+  locationTypes,
+}: FilterPanelProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const updateQueryParams = (newParams: Record<string, string>) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+    });
+
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
+  };
+
   const debouncedSearchChange = useDebouncedCallback((value: string) => {
-    onChange("search", value);
-  }, 500);
+    updateQueryParams({ search: value });
+  }, SEARCH_DEBOUNCE_DELAY);
+
+  const regionOptions: SelectOption[] = regions.map((item) => ({
+    value: item.slug,
+    label: item.region,
+  }));
+
+  const locationTypeOptions: SelectOption[] = locationTypes.map((item) => ({
+    value: item.slug,
+    label: item.type,
+  }));
 
   const selectedRegion =
-    REGIONS.find((item) => item.value === filters.region) || null;
+    regionOptions.find((item) => item.value === filters.region) || null;
 
   const selectedType =
-    LOCATION_TYPES.find((item) => item.value === filters.type) || null;
+    locationTypeOptions.find((item) => item.value === filters.type) || null;
 
   const selectedSort =
     SORT_OPTIONS.find(
@@ -63,10 +108,12 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
       <Select
         className={styles.select}
         classNamePrefix="react-select"
-        options={REGIONS}
+        options={regionOptions}
         value={selectedRegion}
         onChange={(option) =>
-          onChange("region", (option as SelectOption | null)?.value || "")
+          updateQueryParams({
+            region: (option as SelectOption | null)?.value || "",
+          })
         }
         placeholder="Регіон"
         isClearable
@@ -75,10 +122,12 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
       <Select
         className={styles.select}
         classNamePrefix="react-select"
-        options={LOCATION_TYPES}
+        options={locationTypeOptions}
         value={selectedType}
         onChange={(option) =>
-          onChange("type", (option as SelectOption | null)?.value || "")
+          updateQueryParams({
+            type: (option as SelectOption | null)?.value || "",
+          })
         }
         placeholder="Тип локації"
         isClearable
@@ -94,8 +143,11 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
           if (!selectedOption) return;
 
           const [sortBy, sortOrder] = selectedOption.value.split("-");
-          onChange("sortBy", sortBy);
-          onChange("sortOrder", sortOrder);
+
+          updateQueryParams({
+            sortBy,
+            sortOrder,
+          });
         }}
         placeholder="Сортування"
       />

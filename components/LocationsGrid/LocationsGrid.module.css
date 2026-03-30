@@ -4,42 +4,9 @@
   gap: 24px;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin-top: 32px;
-}
-
-.pageButton {
-  min-width: 44px;
-  height: 44px;
-  border: 1px solid #d8cfc8;
-  border-radius: 12px;
-  background-color: #f7f3ef;
-  cursor: pointer;
-}
-
-.activePage {
-  min-width: 44px;
-  height: 44px;
-  border: 1px solid #d8cfc8;
-  border-radius: 12px;
-  background-color: #ead8cc;
-  cursor: pointer;
-}
-
 .empty {
   text-align: center;
   padding: 60px 0;
   color: #666;
   font-size: 16px;
 } 
-.dots {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  height: 44px;
-}

@@ -4,8 +4,10 @@ import styles from "./LocationsGrid.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import LocationCard from "../LocationCard/LocationCard";
-import FilterPanel from "../FilterPanel/FilterPanel";
+import Pagination from "../Pagination/Pagination";
 import { getLocationsClient } from "@/lib/api/clientApi";
+import { LOCATIONS_PER_PAGE } from "@/constants/pagination";
+import type { LocationType } from "@/types/locationType";
 
 type Location = {
   _id: string;
@@ -27,11 +29,14 @@ type Filters = {
 type LocationsGridProps = {
   initialPage: number;
   initialFilters: Filters;
+  locationTypes: LocationType[];
 };
+
 
 export default function LocationsGrid({
   initialPage,
   initialFilters,
+  locationTypes,
 }: LocationsGridProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -60,19 +65,12 @@ export default function LocationsGrid({
     router.push(`?${params.toString()}`);
   };
 
-  const handleFilterChange = (name: string, value: string) => {
-    updateQueryParams({
-      [name]: value,
-      page: "1",
-    });
-  };
-
   const { data, isLoading } = useQuery({
     queryKey: ["locations", { page, ...filters }],
     queryFn: () =>
       getLocationsClient({
         page,
-        perPage: 6,
+        perPage: LOCATIONS_PER_PAGE,
         search: filters.search,
         region: filters.region,
         type: filters.type,
@@ -84,87 +82,31 @@ export default function LocationsGrid({
   const locations: Location[] = data?.locations || [];
   const totalPages = data?.totalPages || 1;
 
-  const getVisiblePages = (): Array<number | string> => {
-    if (totalPages <= 5) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-
-    if (page <= 3) {
-      return [1, 2, 3, "...", totalPages];
-    }
-
-    if (page >= totalPages - 2) {
-      return [1, "...", totalPages - 2, totalPages - 1, totalPages];
-    }
-
-    return [1, "...", page, "...", totalPages];
-  };
-
   return (
     <>
-      <FilterPanel filters={filters} onChange={handleFilterChange} />
-
       {!locations.length && !isLoading ? (
         <p className={styles.empty}>Нічого не знайдено</p>
       ) : (
         <ul className={styles.grid}>
           {locations.map((location) => (
-            <LocationCard key={location._id} location={location} />
+            <LocationCard
+              key={location._id}
+              location={location}
+              locationTypes={locationTypes}
+            />
           ))}
         </ul>
       )}
 
-      {totalPages > 1 && (
-        <div className={styles.pagination}>
-          <button
-            type="button"
-            className={styles.pageButton}
-            onClick={() =>
-              updateQueryParams({
-                page: String(page - 1),
-              })
-            }
-            disabled={page === 1 || isLoading}
-          >
-            ←
-          </button>
-
-          {getVisiblePages().map((item, index) =>
-            item === "..." ? (
-              <span key={`dots-${index}`} className={styles.dots}>
-                ...
-              </span>
-            ) : (
-              <button
-                key={item}
-                type="button"
-                className={page === item ? styles.activePage : styles.pageButton}
-                onClick={() =>
-                  updateQueryParams({
-                    page: String(item),
-                  })
-                }
-                disabled={isLoading}
-              >
-                {item}
-              </button>
-            )
-          )}
-
-          <button
-            type="button"
-            className={styles.pageButton}
-            onClick={() =>
-              updateQueryParams({
-                page: String(page + 1),
-              })
-            }
-            disabled={page === totalPages || isLoading}
-          >
-            →
-          </button>
-        </div>
-      )}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={(newPage) =>
+          updateQueryParams({
+            page: String(newPage),
+          })
+        }
+      />
     </>
   );
 }

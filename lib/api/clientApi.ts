@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3001/api";
+import { api } from "@/app/api/api";
 
 export type GetLocationsParams = {
   page?: number;
@@ -19,30 +19,27 @@ export const getLocationsClient = async ({
   sortBy = "createdAt",
   sortOrder = "desc",
 }: GetLocationsParams) => {
-  const params = new URLSearchParams({
-    page: String(page),
-    perPage: String(perPage),
-    sortBy,
-    sortOrder,
+  const { data } = await api.get("/locations", {
+    params: {
+      page,
+      perPage,
+      search: search || undefined,
+      region: region || undefined,
+      type: type || undefined,
+      sortBy,
+      sortOrder,
+    },
   });
 
-  if (search) {
-    params.set("search", search);
-  }
+  return data;
+};
 
-  if (region) {
-    params.set("region", region);
-  }
+export const getRegionsClient = async () => {
+  const { data } = await api.get("/categories/regions");
+  return data;
+};
 
-  if (type) {
-    params.set("type", type);
-  }
-
-  const response = await fetch(`${BASE_URL}/locations?${params.toString()}`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch locations");
-  }
-
-  return response.json();
+export const getLocationTypesClient = async () => {
+  const { data } = await api.get("/categories/location-types");
+  return data;
 };

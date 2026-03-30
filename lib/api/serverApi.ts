@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3001/api";
+import axios from "axios";
 
 export type GetLocationsParams = {
   page?: number;
@@ -19,32 +19,30 @@ export const getLocationsServer = async ({
   sortBy = "createdAt",
   sortOrder = "desc",
 }: GetLocationsParams) => {
-  const params = new URLSearchParams({
-    page: String(page),
-    perPage: String(perPage),
-    sortBy,
-    sortOrder,
+  const { data } = await axios.get("http://localhost:3001/api/locations", {
+    params: {
+      page,
+      perPage,
+      search: search || undefined,
+      region: region || undefined,
+      type: type || undefined,
+      sortBy,
+      sortOrder,
+    },
   });
 
-  if (search) {
-    params.set("search", search);
-  }
+  return data;
+};
+export const getRegionsServer = async () => {
+  const { data } = await axios.get(
+    "http://localhost:3001/api/categories/regions",
+  );
+  return data;
+};
 
-  if (region) {
-    params.set("region", region);
-  }
-
-  if (type) {
-    params.set("type", type);
-  }
-
-  const response = await fetch(`${BASE_URL}/locations?${params.toString()}`, {
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch locations");
-  }
-
-  return response.json();
+export const getLocationTypesServer = async () => {
+  const { data } = await axios.get(
+    "http://localhost:3001/api/categories/location-types",
+  );
+  return data;
 };

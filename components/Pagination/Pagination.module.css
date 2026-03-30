@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+  list-style: none;
+  padding: 0;
+}
+
+.pageItem {
+  display: flex;
+}
+
+.pageLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  border: 1px solid #d8cfc8;
+  border-radius: 12px;
+  background-color: #f7f3ef;
+  cursor: pointer;
+  text-decoration: none;
+  color: #4b2e1f;
+}
+
+.active .pageLink {
+  background-color: #ead8cc;
+}
+
+.disabled .pageLink {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

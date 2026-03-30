@@ -1,5 +1,6 @@
+import Image from "next/image";
 import styles from "./LocationCard.module.css";
-import { LOCATION_TYPES } from "@/constants/filters";
+import type { LocationType } from "@/types/locationType";
 
 type Location = {
   _id: string;
@@ -10,12 +11,17 @@ type Location = {
   locationType?: string;
 };
 
+
 type LocationCardProps = {
   location: Location;
+  locationTypes?: LocationType[];
 };
 
-const getLocationTypeLabel = (type?: string) => {
-  return LOCATION_TYPES.find((item) => item.value === type)?.label || "";
+const getLocationTypeLabel = (
+  typeSlug?: string,
+  locationTypes?: LocationType[]
+) => {
+  return locationTypes?.find((item) => item.slug === typeSlug)?.type || "";
 };
 
 const renderStars = (rate?: number) => {
@@ -26,18 +32,23 @@ const renderStars = (rate?: number) => {
   return "★".repeat(fullStars) + "☆".repeat(emptyStars);
 };
 
-export default function LocationCard({ location }: LocationCardProps) {
+export default function LocationCard({
+  location,
+  locationTypes,
+}: LocationCardProps) {
   return (
     <li className={styles.card}>
-      <img
+      <Image
         src={location.image}
         alt={location.name}
+        width={400}
+        height={250}
         className={styles.image}
       />
 
       <div className={styles.content}>
         <p className={styles.type}>
-          {getLocationTypeLabel(location.locationType)}
+          {getLocationTypeLabel(location.locationType, locationTypes)}
         </p>
 
         <p className={styles.rate}>{renderStars(location.rate)}</p>
