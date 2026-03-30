@@ -27,12 +27,13 @@
 
 /* base for loginBtn and registerBtn */
 .authBtn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 4px 10px;
     font-size: 16px;
     font-weight: 500;
     font-family: inherit;
-    text-align: center;
     border-radius: 6px;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
@@ -99,8 +100,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 56px;
     flex-shrink: 0;
+    height: 72px;
 }
 
 /* Nav */
@@ -114,11 +115,18 @@
 .menuList {
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .menuLink {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 32px;
+    height: 32px;
     font-size: 16px;
     font-weight: 400;
     color: var(--text-primary);
@@ -129,7 +137,7 @@
 }
 
 .menuLink:hover {
-    border-color: 1px solid var(--neutral-darkest);
+    border-color: var(--neutral-darkest);
 }
 
 /* Bottom */
@@ -325,8 +333,11 @@
     }
 
     .desktopLink {
+        display: flex;
+        align-items: center;
         font-family: inherit;
         font-weight: 400;
+        height: 32px;
         font-size: 16px;
         line-height: 1.5;
         padding: 0px 8px;
@@ -336,7 +347,7 @@
     }
 
     .desktopLink:hover {
-        border-color: 1px solid var(--neutral-darkest);
+        border-color: var(--neutral-darkest);
     }
 
     .authActions {
