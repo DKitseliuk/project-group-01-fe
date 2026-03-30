@@ -84,7 +84,7 @@ export async function getReviews(): Promise<Review[]> {
       fetchJson<FeedbacksPayload>(
         apiUrl(
           base,
-          `/api/feedbacks?locationId=${encodeURIComponent(locationId)}&perPage=${FEEDBACKS_PER_LOCATION}`
+          `/api/locations/${encodeURIComponent(locationId)}/feedbacks?page=1&perPage=${FEEDBACKS_PER_LOCATION}`
         )
       )
     )
