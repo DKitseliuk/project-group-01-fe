@@ -1,0 +1,52 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--neutral-darkest-40);
+
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  padding: 48px 20px 24px;
+  border-radius: 24px;
+  background-color: var(--background-primary);
+  box-shadow: 0 10px 30px var(--neutral-darkest-20);
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.closeIcon {
+  display: block;
+  fill: var(--text-primary);
+  transition: fill 0.2s ease;
+}
+
+.closeButton:hover .closeIcon,
+.closeButton:focus .closeIcon {
+  fill: var(--coral);
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    max-width: 540px;
+    padding: 56px 32px 32px;
+  }
+}
