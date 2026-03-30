@@ -5,13 +5,17 @@ import Link from "next/link";
 import StarRating from "@/components/StarRating/StarRating";
 import css from "./LocationCard.module.css";
 import type { Location } from "@/types/location";
+import { useAuthStore } from "@/lib/store/authStore"; 
 
 interface Props {
   location: Location;
-  isOwner?: boolean;
+  isOwner?: string; 
+  canEdit?: boolean; 
 }
 
-export default function LocationCard({ location, isOwner }: Props) {
+export default function LocationCard({ location, isOwner, canEdit = false }: Props) {
+  const user = useAuthStore(state => state.user); 
+
   return (
     <div className={css.card}>
       <div className={css.imageWrapper}>
@@ -40,7 +44,7 @@ export default function LocationCard({ location, isOwner }: Props) {
             Переглянути локацію
           </Link>
 
-          {isOwner && (
+          {(isOwner === user?._id) && canEdit && ( 
             <Link
               href={`/locations/${location._id}/edit`}
               className={css.editBtn}

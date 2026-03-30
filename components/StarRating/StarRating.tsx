@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import css from "./StarRating.module.css";
 
 const Rating = dynamic(
   () => import("react-simple-star-rating").then((m) => m.Rating),
@@ -31,6 +32,7 @@ export default function StarRating({
       emptyColor="transparent"
       SVGstrokeColor="black"
       SVGstorkeWidth={2}
+      className={css.rating}
     />
   );
 }

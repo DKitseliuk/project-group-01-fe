@@ -1,0 +1,9 @@
+.rating {
+    display: flex !important;
+    gap: 6px;
+}
+
+.rating :global(span) {
+    display: flex !important;
+    gap: 6px;
+}

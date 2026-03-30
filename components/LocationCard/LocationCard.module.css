@@ -17,14 +17,6 @@
 .image {
     object-fit: cover;
 }
-
-.rating {
-    display: flex;
-    gap: 2px;
-    font-size: 1.1rem;
-    color: #f0a500;
-}
-
 .info {
     display: flex;
     flex-direction: column;
