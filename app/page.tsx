@@ -1,13 +1,13 @@
-import Hero from "@/components/Hero/Hero";
-import ReviewsSection from "@/components/ReviewsSection/ReviewsSection";
-import AdvantagesBlock from "@/components/AdvantagesBlock/AdvantagesBlock";
-
-export default async function Home() {
+import AdvantagesBlock from '@/components/AdvantagesBlock/AdvantagesBlock';
+import styles from './HomePage.module.css';
+import PopularLocationsBlock from '@/components/PopularLocationsBlock/PopularLocationsBlock';
+const Home = () => {
   return (
-    <main>
-      <Hero />
+    <main className={styles.main}>
       <AdvantagesBlock />
-      <ReviewsSection />
+      <PopularLocationsBlock />
     </main>
   );
-}
+};
+
+export default Home;
