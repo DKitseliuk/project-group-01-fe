@@ -8,7 +8,11 @@ import * as Yup from "yup";
 import { RegisterValues } from "@/types/auth";
 import { useAuthStore } from "@/lib/store/authStore";
 import axios from "axios";
+<<<<<<< HEAD
 import { register } from "@/lib/api/clientApi";
+=======
+import { register } from "@/lib/api/auth";
+>>>>>>> 3b01dd20c338803679cec7c0177fc8ecc096bf2e
 
 const initialValues: RegisterValues = {
   name: "",

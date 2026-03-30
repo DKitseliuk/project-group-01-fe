@@ -5,7 +5,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+<<<<<<< HEAD
 import { login } from "@/lib/api/clientApi";
+=======
+import { login } from "@/lib/api/auth";
+
+>>>>>>> 3b01dd20c338803679cec7c0177fc8ecc096bf2e
 import { useAuthStore } from "@/lib/store/authStore";
 import axios from "axios";
 import { LoginValues } from "@/types/auth";

@@ -16,7 +16,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "ftp.goit.study",
       },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b01dd20c338803679cec7c0177fc8ecc096bf2e
       {
         protocol: "https",
         hostname: "relax-map-api.onrender.com",
