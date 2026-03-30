@@ -3,6 +3,9 @@ import { Montserrat } from 'next/font/google';
 import './globals.css';
 import 'modern-normalize';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import { Header } from '@/components/Header/Header';
+import { Footer } from '@/components/Footer/Footer';
+
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   display: 'swap',
@@ -24,7 +27,9 @@ export default function RootLayout({
     <html lang="uk">
       <body className={montserrat.variable}>
         <TanStackProvider>
-          <div className="container">{children}</div>
+          <Header />
+          {children}
+          <Footer />
         </TanStackProvider>
       </body>
     </html>
