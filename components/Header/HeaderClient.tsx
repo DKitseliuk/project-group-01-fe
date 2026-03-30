@@ -18,7 +18,6 @@ export const HeaderClient = () => {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-
         {/* Logo */}
         <HeaderLogo />
 
@@ -41,10 +40,15 @@ export const HeaderClient = () => {
           onClick={isOpen ? close : open}
         >
           <svg width="32" height="32" aria-hidden="true">
-            <use href={isOpen ? '/img/icons.svg#icon-close' : '/img/icons.svg#icon-menu'} />
+            <use
+              href={
+                isOpen
+                  ? '/img/icons.svg#icon-close'
+                  : '/img/icons.svg#icon-menu'
+              }
+            />
           </svg>
         </button>
-
       </div>
 
       {/* Mobile menu */}
