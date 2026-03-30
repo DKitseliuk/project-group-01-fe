@@ -5,16 +5,21 @@ import Link from "next/link";
 import StarRating from "@/components/StarRating/StarRating";
 import css from "./LocationCard.module.css";
 import type { Location } from "@/types/location";
-import { useAuthStore } from "@/lib/store/authStore"; 
+import { useAuthStore } from "@/lib/store/authStore";
+import { useCategoriesStore } from "@/lib/store/categoriesStore";
 
 interface Props {
   location: Location;
-  isOwner?: string; 
-  canEdit?: boolean; 
+  isOwner?: string;
+  canEdit?: boolean;
 }
 
 export default function LocationCard({ location, isOwner, canEdit = false }: Props) {
-  const user = useAuthStore(state => state.user); 
+  const user = useAuthStore(state => state.user);
+  const { locationTypes } = useCategoriesStore(state => state.categories);
+
+  const locationTypeLabel = locationTypes.find(t => t._id === location.locationType)?.type ?? location.locationType;
+
 
   return (
     <div className={css.card}>
@@ -29,7 +34,7 @@ export default function LocationCard({ location, isOwner, canEdit = false }: Pro
 
       <div className={css.info}>
         <span className={css.tag}>
-          {location.locationType}
+          {locationTypeLabel}
         </span>
 
         <StarRating value={location.rate} />
@@ -44,7 +49,7 @@ export default function LocationCard({ location, isOwner, canEdit = false }: Pro
             Переглянути локацію
           </Link>
 
-          {(isOwner === user?._id) && canEdit && ( 
+          {(isOwner === user?._id) && canEdit && (
             <Link
               href={`/locations/${location._id}/edit`}
               className={css.editBtn}
