@@ -1,43 +1,44 @@
-"use client";
+'use client';
 
-import css from "./LoginForm.module.css";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { login } from "@/lib/api/clientApi";
-import { useAuthStore } from "@/lib/store/authStore";
-import axios from "axios";
-import { LoginValues } from "@/types/auth";
+import css from './LoginForm.module.css';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { login } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
+import axios from 'axios';
+import { LoginValues } from '@/types/auth';
 
 const initialValues: LoginValues = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 const validationSchema = Yup.object({
   email: Yup.string()
-    .email("Введіть коректну електронну адресу")
-    .required("Пошта є обовʼязковою"),
+    .email('Введіть коректну електронну адресу')
+    .required('Пошта є обовʼязковою'),
   password: Yup.string()
-    .min(8, "Пароль має містити щонайменше 8 символів")
-    .required("Пароль є обовʼязковим"),
+    .min(8, 'Пароль має містити щонайменше 8 символів')
+    .required('Пароль є обовʼязковим'),
 });
 
 const LoginForm = () => {
   const router = useRouter();
-  const { setUser } = useAuthStore();
-  const [error, setError] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (values: LoginValues) => {
     try {
       const data = await login(values);
       setUser(data);
-      router.push("/profile");
+      router.push('/profile');
+      router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
-        setError("Невірна пошта або пароль");
+        setError('Невірна пошта або пароль');
       } else {
-        setError("Щось пішло не так");
+        setError('Щось пішло не так');
       }
     }
   };

@@ -1,49 +1,50 @@
-"use client";
+'use client';
 
-import css from "./RegistrationForm.module.css";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { RegisterValues } from "@/types/auth";
-import { useAuthStore } from "@/lib/store/authStore";
-import axios from "axios";
-import { register } from "@/lib/api/clientApi";
+import css from './RegistrationForm.module.css';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { RegisterValues } from '@/types/auth';
+import { useAuthStore } from '@/lib/store/authStore';
+import axios from 'axios';
+import { register } from '@/lib/api/clientApi';
 
 const initialValues: RegisterValues = {
-  name: "",
-  email: "",
-  password: "",
+  name: '',
+  email: '',
+  password: '',
 };
 
 const validationSchema = Yup.object({
   name: Yup.string()
-    .min(2, "Імʼя має містити щонайменше 2 символи")
-    .max(50, "Імʼя занадто довге")
-    .required("Імʼя є обовʼязковим"),
+    .min(2, 'Імʼя має містити щонайменше 2 символи')
+    .max(50, 'Імʼя занадто довге')
+    .required('Імʼя є обовʼязковим'),
   email: Yup.string()
-    .email("Введіть коректну електронну адресу")
-    .required("Пошта є обовʼязковою"),
+    .email('Введіть коректну електронну адресу')
+    .required('Пошта є обовʼязковою'),
   password: Yup.string()
-    .min(8, "Пароль має містити щонайменше 8 символів")
-    .required("Пароль є обовʼязковим"),
+    .min(8, 'Пароль має містити щонайменше 8 символів')
+    .required('Пароль є обовʼязковим'),
 });
 
 const RegistrationForm = () => {
   const router = useRouter();
-  const { setUser } = useAuthStore();
-  const [error, setError] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (values: RegisterValues) => {
     try {
       const data = await register(values);
       setUser(data);
-      router.push("/profile");
+      router.push('/profile');
+      router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
-        setError("Ця пошта вже використовується");
+        setError('Ця пошта вже використовується');
       } else {
-        setError("Щось пішло не так");
+        setError('Щось пішло не так');
       }
     }
   };
