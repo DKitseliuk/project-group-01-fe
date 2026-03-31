@@ -4,6 +4,7 @@ import "./globals.css";
 import "modern-normalize";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
+import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -25,9 +26,11 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <body className={montserrat.variable}>
-        <Header />
-        {children}
-        <Footer />
+        <TanStackProvider>
+          <Header />
+          {children}
+          <Footer />
+        </TanStackProvider>
       </body>
     </html>
   );
