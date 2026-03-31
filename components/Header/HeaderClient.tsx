@@ -60,13 +60,13 @@ export const HeaderClient = () => {
           <div className={styles.authButtons}>
             <Link
               href="/login"
-              className={`${styles.authBtn} ${styles.loginBtn}`}
+              className={`btn btn--secondary btn--compact ${styles.authBtn}`}
             >
               Вхід
             </Link>
             <Link
               href="/register"
-              className={`${styles.authBtn} ${styles.registerBtn}`}
+              className={`btn btn--primary btn--compact ${styles.authBtn}`}
             >
               Реєстрація
             </Link>
@@ -203,14 +203,14 @@ export const HeaderClient = () => {
             <div className={`container ${styles.menuBottom}`}>
               <Link
                 href="/login"
-                className={`${styles.authBtn} ${styles.loginBtn}`}
+                className={`btn btn--secondary btn--compact ${styles.authBtn}`}
                 onClick={close}
               >
                 Вхід
               </Link>
               <Link
                 href="/register"
-                className={`${styles.authBtn} ${styles.registerBtn}`}
+                className={`btn btn--primary btn--compact ${styles.authBtn}`}
                 onClick={close}
               >
                 Реєстрація

@@ -25,43 +25,7 @@
     display: none;
 }
 
-/* base for loginBtn and registerBtn */
-.authBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 10px;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: inherit;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-}
-
-.loginBtn {
-    color: var(--coral-darkest);
-    background-color: var(--neutral-darkest-5);
-    border: 1px solid var(--neutral-lighter);
-}
-
-.loginBtn:hover {
-    background-color: var(--coral-dark);
-        color: var(--white);
-        border-color: var(--coral-dark);
-}
-
-.registerBtn {
-    color: var(--white);
-    background-color: var(--coral);
-    border: 1px solid transparent;
-}
-
-.registerBtn:hover {
-    background-color: var(--coral-lighter);
-        color: var(--coral-darkest);
-}
+/* Header auth links: layout hooks only — size/typography from global `.btn--compact` */
 
 /* Shared base for burger and closeBtn */
 .iconBtn {
@@ -102,7 +66,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 56px;
     flex-shrink: 0;
     height: 72px;
 }
@@ -123,9 +86,6 @@
 .menuLink {
     display: inline-block;
     margin-bottom: 32px;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--text-primary);
     padding: 0px 8px;
     border-radius: 6px;
     border: 1px solid transparent;
@@ -155,9 +115,7 @@
     display: block;
     width: 100%;
     padding: 4px 10px;
-    font-family: inherit;
     font-weight: 500;
-    font-size: 16px;
     text-align: center;
     color: var(--white);
     background-color: var(--coral);
@@ -197,10 +155,8 @@
 }
 
 .userName {
-    font-family: inherit;
     font-size: 12px;
     font-weight: 400;
-    color: var(--text-primary);
 }
 
 .userDivider {
@@ -265,12 +221,12 @@
         margin-right: 16px;
     }
 
-    .loginBtn {
+    .authBtn:global(.btn--secondary) {
         width: 56px;
         height: 32px;
     }
 
-    .registerBtn {
+    .authBtn:global(.btn--primary) {
         width: 114px;
         height: 32px;
     }
@@ -306,12 +262,12 @@
         margin-left: 32px;
     }
 
-    .loginBtn {
+    .authBtn:global(.btn--secondary) {
         width: 65px;
         height: 38px;
     }
 
-    .registerBtn {
+    .authBtn:global(.btn--primary) {
         width: 137px;
         height: 38px;
     }
@@ -329,10 +285,6 @@
     }
 
     .desktopLink {
-        font-family: inherit;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 1.5;
         padding: 0px 8px;
         border-radius: 6px;
         border: 1px solid transparent;
