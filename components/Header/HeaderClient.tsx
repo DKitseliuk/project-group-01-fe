@@ -71,7 +71,6 @@ export const HeaderClient = () => {
       {isOpen && (
         <HeaderMobileMenu
           isAuthenticated={isAuthenticated}
-          user={user}
           onClose={close}
           onLogout={clearIsAuthenticated}
         />

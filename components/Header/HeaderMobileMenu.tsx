@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Logo } from '@/components/Logo/Logo';
 import { Nav } from '@/components/Nav/Nav';
 import styles from './Header.module.css';
-import { User } from '@/types/user';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const baseLinks = [
   { href: '/', label: 'Головна' },
@@ -15,12 +15,12 @@ const profileLink = { href: '/profile', label: 'Мій профіль' };
 
 type HeaderMobileMenuProps = {
   isAuthenticated: boolean;
-  user: User | null;
   onClose: () => void;
   onLogout: () => void;
 };
 
-export const HeaderMobileMenu = ({ isAuthenticated, user, onClose, onLogout }: HeaderMobileMenuProps) => {
+export const HeaderMobileMenu = ({ isAuthenticated, onClose, onLogout }: HeaderMobileMenuProps) => {
+    const { user } = useAuthStore();
   const links = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
 
   useEffect(() => {
