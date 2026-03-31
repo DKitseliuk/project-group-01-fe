@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/lib/store/authStore';
-import { getUser, getUserLocations } from '@/lib/api/users';
+import { getUser, getUserLocations } from '@/lib/api/clientApi';
 import { ProfileInfo } from './ProfileInfo';
 import { ProfilePlaceholder } from './ProfilePlaceholder';
 import styles from './ProfilePageClient.module.css';

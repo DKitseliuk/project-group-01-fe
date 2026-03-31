@@ -43,4 +43,15 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
-export { register, login, refreshSession, getMe, logout };
+const getUser = async (userId: string): Promise<User> => {
+  const { data } = await nextServer.get<User>(`/users/${userId}`);
+  return data;
+};
+
+ const getUserLocations = async (userId: string, page = 1, perPage = 6) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params: { page, perPage },
+  });
+  return data;
+};
+export { register, login, refreshSession, getMe, logout, getUser, getUserLocations };
