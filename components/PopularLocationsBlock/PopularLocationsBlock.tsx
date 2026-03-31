@@ -32,6 +32,7 @@ export default function PopularLocationsBlock() {
           <Link href="/locations" className={css.viewAllButton}>
             Всі локації
           </Link>
+        
         </div>
 
         <Swiper
