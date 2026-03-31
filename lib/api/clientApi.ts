@@ -44,9 +44,22 @@ const fetchLocations = async ({
   return res.data;
 };
 
+const fetchPopularLocations = async (): Promise<Location[]> => {
+  const res = await nextServer.get<FetchLocationsResponse>('/locations', {
+    params: {
+      page: 1,
+      perPage: 100,
+      sortBy: 'createdAt',
+      sortOrder: 'desc',
+    },
+  });
+
+  return Array.isArray(res.data.locations) ? res.data.locations : [];
+};
+
 const getRegionsClient = async (): Promise<{ regions: Region[] }> => {
   const { data } = await nextServer.get<{ regions: Region[] }>(
-    '/categories/regions'
+    '/categories/regions',
   );
   return data;
 };
@@ -55,7 +68,7 @@ const getLocationTypesClient = async (): Promise<{
   locationTypes: LocationType[];
 }> => {
   const { data } = await nextServer.get<{ locationTypes: LocationType[] }>(
-    '/categories/location-types'
+    '/categories/location-types',
   );
   return data;
 };
@@ -90,6 +103,7 @@ const getMe = async (): Promise<User> => {
 
 export {
   fetchLocations,
+  fetchPopularLocations,
   getRegionsClient,
   getLocationTypesClient,
   register,
@@ -98,3 +112,5 @@ export {
   getMe,
   logout,
 };
+
+export type { FetchLocationsResponse };

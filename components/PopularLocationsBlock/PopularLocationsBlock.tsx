@@ -9,20 +9,16 @@ import Link from 'next/link';
 import 'swiper/css';
 
 import css from './PopularLocationsBlock.module.css';
-import { fetchLocations } from '@/lib/api/clientApi';
+import { fetchPopularLocations } from '@/lib/api/clientApi';
 import type { Location } from '@/types/location';
 import LocationCard from '@/components/LocationCard/LocationCard';
 
 export default function PopularLocationsBlock() {
   const swiperRef = useRef<SwiperType | null>(null);
 
-  const {
-    data: locations = [],
-    isLoading,
-    isError,
-  } = useQuery<Location[]>({
+  const { data, isLoading, isError } = useQuery<Location[]>({
     queryKey: ['popularLocations'],
-    queryFn: () => fetchLocations(),
+    queryFn: fetchPopularLocations,
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
@@ -30,8 +26,10 @@ export default function PopularLocationsBlock() {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading locations</p>;
 
-  const topLocations = [...locations]
-    .sort((a, b) => b.rate - a.rate)
+  const safeLocations = Array.isArray(data) ? data : [];
+
+  const topLocations = [...safeLocations]
+    .sort((a, b) => (b.rate ?? 0) - (a.rate ?? 0))
     .slice(0, 6);
 
   return (
@@ -45,7 +43,7 @@ export default function PopularLocationsBlock() {
         </div>
 
         <Swiper
-          onSwiper={swiper => {
+          onSwiper={(swiper) => {
             swiperRef.current = swiper;
           }}
           spaceBetween={24}
@@ -55,7 +53,7 @@ export default function PopularLocationsBlock() {
             1440: { slidesPerView: 3 },
           }}
         >
-          {topLocations.map(location => (
+          {topLocations.map((location) => (
             <SwiperSlide key={location._id}>
               <LocationCard location={location} />
             </SwiperSlide>
@@ -64,6 +62,7 @@ export default function PopularLocationsBlock() {
 
         <div className={css.navBtns}>
           <button
+            type="button"
             className={css.navBtn}
             onClick={() => swiperRef.current?.slidePrev()}
           >
@@ -71,7 +70,9 @@ export default function PopularLocationsBlock() {
               <use href="/img/icons.svg#icon-arrow-back" />
             </svg>
           </button>
+
           <button
+            type="button"
             className={css.navBtn}
             onClick={() => swiperRef.current?.slideNext()}
           >

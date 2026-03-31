@@ -1,22 +1,16 @@
-"use client";
+'use client';
 
-import styles from "./LocationsGrid.module.css";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
-import LocationCard from "../LocationCard/LocationCard";
-import Pagination from "../Pagination/Pagination";
-import { fetchLocations } from "@/lib/api/clientApi";
-import { LOCATIONS_PER_PAGE } from "@/constants/pagination";
-import type { LocationType } from "@/types/locationType";
+import styles from './LocationsGrid.module.css';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-type Location = {
-  _id: string;
-  name: string;
-  region: string;
-  image: string;
-  rate: number;
-  locationType?: string;
-};
+import LocationCard from '../LocationCard/LocationCard';
+import Pagination from '../Pagination/Pagination';
+
+import { fetchLocations } from '@/lib/api/clientApi';
+import { LOCATIONS_PER_PAGE } from '@/constants/pagination';
+import type { LocationType } from '@/types/locationType';
+import type { Location } from '@/types/location';
 
 type Filters = {
   search: string;
@@ -32,7 +26,6 @@ type LocationsGridProps = {
   locationTypes: LocationType[];
 };
 
-
 export default function LocationsGrid({
   initialPage,
   initialFilters,
@@ -41,14 +34,14 @@ export default function LocationsGrid({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const page = Number(searchParams.get("page")) || initialPage;
+  const page = Number(searchParams.get('page')) || initialPage;
 
   const filters: Filters = {
-    search: searchParams.get("search") || initialFilters.search,
-    region: searchParams.get("region") || initialFilters.region,
-    type: searchParams.get("type") || initialFilters.type,
-    sortBy: searchParams.get("sortBy") || initialFilters.sortBy,
-    sortOrder: searchParams.get("sortOrder") || initialFilters.sortOrder,
+    search: searchParams.get('search') || initialFilters.search,
+    region: searchParams.get('region') || initialFilters.region,
+    type: searchParams.get('type') || initialFilters.type,
+    sortBy: searchParams.get('sortBy') || initialFilters.sortBy,
+    sortOrder: searchParams.get('sortOrder') || initialFilters.sortOrder,
   };
 
   const updateQueryParams = (newParams: Record<string, string>) => {
@@ -65,26 +58,44 @@ export default function LocationsGrid({
     router.push(`?${params.toString()}`);
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["locations", { page, ...filters }],
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [
+      'locations',
+      {
+        page,
+        perPage: LOCATIONS_PER_PAGE,
+        ...filters,
+      },
+    ],
     queryFn: () =>
-  fetchLocations({
-    page,
-    perPage: LOCATIONS_PER_PAGE,
-    search: filters.search,
-    region: filters.region,
-    type: filters.type,
-    sortBy: filters.sortBy,
-    sortOrder: filters.sortOrder,
-  }),
+      fetchLocations({
+        page,
+        perPage: LOCATIONS_PER_PAGE,
+        search: filters.search,
+        region: filters.region,
+        type: filters.type,
+        sortBy: filters.sortBy,
+        sortOrder: filters.sortOrder,
+      }),
   });
 
-  const locations: Location[] = data?.locations || [];
-  const totalPages = data?.totalPages || 1;
+  const locations: Location[] = Array.isArray(data?.locations)
+    ? data.locations
+    : [];
+
+  const totalPages = data?.totalPages ?? 1;
+
+  if (isLoading) {
+    return <p className={styles.empty}>Завантаження...</p>;
+  }
+
+  if (isError) {
+    return <p className={styles.empty}>Помилка завантаження локацій</p>;
+  }
 
   return (
     <>
-      {!locations.length && !isLoading ? (
+      {!locations.length ? (
         <p className={styles.empty}>Нічого не знайдено</p>
       ) : (
         <ul className={styles.grid}>
