@@ -1,5 +1,14 @@
-import Link from 'next/link';
+
 import styles from './Footer.module.css';
+import { Logo } from '@/components/Logo/Logo';
+import { Nav } from '@/components/Nav/Nav';
+
+
+
+const footerLinks = [
+  { href: '/', label: 'Головна' },
+  { href: '/locations', label: 'Місця відпочинку' },
+];
 
 export const Footer = () => {
   return (
@@ -7,38 +16,37 @@ export const Footer = () => {
       <div className={`container ${styles.inner}`}>
 
         {/* Logo */}
-        <Link href="/" className={styles.logo} aria-label="Relax Map — на головну">
-          <svg width="129" height="40" className={styles.logoIcon} aria-hidden="true">
-            <use href="/img/icons.svg#icon-logo" />
-          </svg>
-        </Link>
+        <div className={styles.logo}>
+           <Logo />
+        </div>
+            
 
         {/* Social links */}
         <ul className={styles.socials}>
           <li>
             <a href="https://facebook.com" className={styles.socialLink} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <svg width="32" height="32" aria-hidden="true">
+              <svg width="24" height="24" aria-hidden="true">
                 <use href="/img/icons.svg#icon-facebook" />
               </svg>
             </a>
           </li>
           <li>
             <a href="https://instagram.com" className={styles.socialLink} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <svg width="32" height="32" aria-hidden="true">
+              <svg width="24" height="24" aria-hidden="true">
                 <use href="/img/icons.svg#icon-instagram" />
               </svg>
             </a>
           </li>
           <li>
             <a href="https://x.com" className={styles.socialLink} target="_blank" rel="noopener noreferrer" aria-label="X">
-              <svg width="32" height="32" aria-hidden="true">
+              <svg width="24" height="24" aria-hidden="true">
                 <use href="/img/icons.svg#icon-x" />
               </svg>
             </a>
           </li>
           <li>
             <a href="https://youtube.com" className={styles.socialLink} target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <svg width="32" height="32" aria-hidden="true">
+              <svg width="24" height="24" aria-hidden="true">
                 <use href="/img/icons.svg#icon-youtube" />
               </svg>
             </a>
@@ -46,20 +54,13 @@ export const Footer = () => {
         </ul>
 
         {/* Nav */}
-        <nav className={styles.nav}>
-          <ul className={styles.navList}>
-            <li>
-              <Link href="/" className={styles.navLink}>
-                Головна
-              </Link>
-            </li>
-            <li>
-              <Link href="/locations" className={styles.navLink}>
-                Місця відпочинку
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        <div className={styles.nav}>
+              <Nav links={footerLinks}
+            linkClassName={styles.navLink}
+            listClassName={styles.navList} />
+        </div>
+         
+    
 
         {/* Divider */}
         <div className={styles.divider} />

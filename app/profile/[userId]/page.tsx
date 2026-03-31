@@ -1,11 +1,11 @@
 import { ProfilePageClient } from '@/components/Profile/ProfilePageClient';
-import styles from './ProfilePage.module.css';
+import styles from './ProfileByIdPage.module.css';
 
-type ProfilePageProps = {
+type ProfileByIdPageProps = {
   params: Promise<{ userId: string }>;
 };
 
-const ProfilePage = async ({ params }: ProfilePageProps) => {
+const ProfileByIdPage = async ({ params }: ProfileByIdPageProps) => {
   const { userId } = await params;
   return (
     <main className={styles.main}>
@@ -14,4 +14,4 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
   );
 };
 
-export default ProfilePage;
+export default ProfileByIdPage;

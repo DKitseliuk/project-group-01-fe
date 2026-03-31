@@ -34,8 +34,6 @@
     font-size: 16px;
     font-weight: 500;
     font-family: inherit;
-    align-items: center;
-    justify-content: center;
     border-radius: 6px;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
@@ -102,12 +100,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 56px;
     flex-shrink: 0;
     height: 72px;
 }
 
 /* Nav */
+.menuNavInner {
+    width: 100%;
+}
 .menuNav {
     flex: 1;
     display: flex;
@@ -118,11 +118,18 @@
 .menuList {
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .menuLink {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 32px;
+    height: 32px;
     font-size: 16px;
     font-weight: 400;
     color: var(--text-primary);
@@ -133,7 +140,7 @@
 }
 
 .menuLink:hover {
-    border-color: 1px solid var(--neutral-darkest);
+    border-color: var(--neutral-darkest);
 }
 
 /* Bottom */
@@ -151,7 +158,9 @@
 }
 
 /* Publish button */
-.publishBtn {
+.publishBtn,
+.publishBtnBottom,
+.publishBtnTop {
     display: block;
     width: 100%;
     padding: 4px 10px;
@@ -166,10 +175,19 @@
     transition: background-color 0.15s ease;
 }
 
-.publishBtn:hover {
+.publishBtn:hover,
+.publishBtnBottom:hover,
+.publishBtnTop:hover {
     background-color: var(--coral-lighter);
     color: var(--coral-darkest);
 }
+
+.publishBtnTop {
+    display: none;
+}
+
+
+
 
 /* Auth bottom */
 .menuBottomAuth {
@@ -238,58 +256,79 @@
     display: none;
 }
 
+.menuTopAuth {
+    display: none;
+   
+}
+
+
 /* Tablet (768px+) */
 @media screen and (min-width: 768px) {
-    .header {
-        position: relative;
-        z-index: 201;
-    }
 
-    .mobileMenu {
-        top: 72px;
-    }
+        .menuTopAuth {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+            margin-right: 16px;
+        }
+    
+        .menuBottom {
+            display: none;
+        }
+        .header {
+            position: relative;
+            z-index: 201;
+        }
 
-    .menuTop {
-        display: none;
-    }
+        .mobileMenu {
+        inset: 0;
+        }
 
-    .menuBottom {
-        display: none;
-    }
+        .authButtons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+            margin-right: 16px;
+        }
+    
+        .loginBtn {
+            width: 56px;
+            height: 32px;
+        }
+    
+        .registerBtn {
+            width: 114px;
+            height: 32px;
+        }
+    
+        .authActions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+            margin-right: 16px;
+        }
+         
+        .userRowDesktop {
+            display: none;
+        }
 
-    .authButtons {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-left: auto;
-        margin-right: 16px;
-    }
+        .publishBtnTop {
+            display: block;
+            width: auto;
+            padding: 4px 16px;
+            white-space: nowrap;
+            margin-left: auto;
+            margin-right: 16px;
+           
+        }
 
-    .loginBtn {
-        width: 56px;
-        height: 32px;
-    }
-
-    .registerBtn {
-        width: 114px;
-        height: 32px;
-    }
-
-    .authActions {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-left: auto;
-        margin-right: 16px;
-    }
-
-    .publishBtnMobile {
-        display: none;
-    }
-
-    .userRowDesktop {
-        display: none;
-    }
+        .publishBtnBottom {
+            display: none;
+        }
+        
 }
 
 /* Desktop (1440px+) */
@@ -329,8 +368,11 @@
     }
 
     .desktopLink {
+        display: flex;
+        align-items: center;
         font-family: inherit;
         font-weight: 400;
+        height: 32px;
         font-size: 16px;
         line-height: 1.5;
         padding: 0px 8px;
@@ -340,7 +382,7 @@
     }
 
     .desktopLink:hover {
-        border-color: 1px solid var(--neutral-darkest);
+        border-color: var(--neutral-darkest);
     }
 
     .authActions {
@@ -367,4 +409,3 @@
         font-size: 16px;
     }
 }
-

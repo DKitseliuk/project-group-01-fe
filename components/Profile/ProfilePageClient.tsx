@@ -30,7 +30,12 @@ export const ProfilePageClient = ({ userId }: ProfilePageClientProps) => {
         articlesAmount={user.articlesAmount}
       />
       <h2 className={styles.title}>Локації</h2>
-      <ProfilePlaceholder />
+      {user.articlesAmount === 0 ? (
+        <ProfilePlaceholder />
+      ) : (
+        //<LocationsGrid />
+        <ProfilePlaceholder />
+      )}
     </div>
   );
 };
