@@ -14,11 +14,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'ftp.goit.study',
+        hostname: 'ac.goit.global',
       },
       {
         protocol: 'https',
-        hostname: 'relax-map-api.onrender.com',
+        hostname: 'ftp.goit.study',
       },
       {
         protocol: 'https',
