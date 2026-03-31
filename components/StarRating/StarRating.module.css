@@ -1,9 +1,10 @@
-.rating {
-    display: flex !important;
-    gap: 6px;
+.wrapper {
+    margin: 0 16px 4px;
 }
 
-.rating :global(span) {
-    display: flex !important;
-    gap: 6px;
+.rating {
+    max-width: 130px;
+    --smastrom-color-fill: var(--text-primary);
+    --smastrom-color-empty: transparent;
+    --smastrom-color-empty-stroke: var(--text-primary);
 }
