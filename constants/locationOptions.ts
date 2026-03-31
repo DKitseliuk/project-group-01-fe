@@ -1,4 +1,4 @@
-import { LocationType, Region } from '@/types/location';
+import { LocationType, Region } from '@/types/location_type';
 
 export const LOCATION_TYPES: { value: LocationType; label: string }[] = [
     { value: 'beach', label: 'Пляж' },

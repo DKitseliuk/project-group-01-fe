@@ -1,139 +1,474 @@
-.form {
-  background-color: var(--background-secondary);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  max-width: 335px;
+/* .form {
+    background-color: var(--background-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
 }
 
-.fieldGroup {
+/* .fieldGroup {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 8px;
+} */
+
+/* .imageWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 24px;
 }
 
+.uploadedImage {
+    object-fit: cover;
+}
+
+
 .label {
-  color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 8px;
 }
 
 .imageUploadBox {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+    position: relative;
+    width: 100%;
+    height: 223px;
+    overflow: hidden;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.imagePlaceholder {
+
+
+/* .imageBox {
+  width: 100%;
+  min-height: 184px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background-color: var(--foreground-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 124px;
-  border-radius: 12px;
-  background-color: var(--foreground-primary);
   overflow: hidden;
+} */
+
+/* 
+.imagePlaceholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 223px;
+    border-radius: 12px;
+    background-color: var(--foreground-primary);
+    overflow: hidden;
 }
 
 
 .uploadButton {
-  align-self: flex-start;
-  min-height: 32px;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--foreground-secondary);
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
+    height: 38px;
+    width: fit-content;
+    min-height: 36px;
+    padding: 4px 10px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background-color: var(--neutral-darkest-5);
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
+    transition:
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+ 
+}
+
+
+.uploadButton:hover,
+.uploadButton:focus {
+    border-color: var(--coral-light);
 }
 
 .input,
 .select,
 .textarea {
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 14px;
-  background-color: var(--foreground-secondary);
-  color: var(--text-secondary);
-  font-size: 16px;
-  line-height: 1.5;
-  outline: none;
+    height: 40px;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: var(--foreground-secondary);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        opacity 0.2s ease;
 }
 
 .input::placeholder,
-.textarea::placeholder {
-  color: var(--neutral);
+.textarea::placeholder,
+.select {
+    color: var(--neutral);
 }
 
+.input:hover,
+.select:hover,
+.textarea:hover {
+    border-color: var(--coral-light);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    border-color: var(--coral);
+}
+
+
 .textarea {
-  resize: none;
-  min-height: 120px;
+    resize: none;
+    padding: 8px;
+    min-height: 120px;
 }
 
 .actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 64px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    margin-bottom: 64px;
 }
 
 .cancelButton,
 .submitButton {
-  min-height: 40px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    cursor: pointer;
+    transition:
+        opacity 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease;
 }
 
 .cancelButton {
-  background-color: var(--foreground-primary);
-  color: var(--neutral-dark);
+    border: 1px solid var(--neutral-lightest);
+    background-color: var(--foreground-primary);
+    color: var(--neutral-dark);
 }
 
-/* .cancelButton :hover {
-  background-color: var(--foreground-primary);
-  color: var(--neutral-dark);
-} */
+.cancelButton:hover,
+.cancelButton:focus {
+    border-color: var(--coral-light);
+    background-color: var(--foreground-secondary);
+}
 
 .submitButton {
-  background-color: var(--coral-light);
-  color: var(--white);
-}
-
-.submitButton:hover {
-  background-color: var(--coral-);
-  color: var(--white);
+    border: none;
+    background-color: var(--coral-light);
+    color: var(--white);
 }
 
 
 
 @media screen and (min-width: 768px) {
-  .form {
-    max-width: 480px;
-    gap: 24px;
-  }
+    .form {
+        gap: 24px;
+    }
 
-  .imagePlaceholder {
-    height: 180px;
-  }
+    .imageWrapper {
+    
+        flex-direction: column;
+    }
 
-  .actions {
-    flex-direction: row;
-  }
+    .imageUploadBox {
 
-  .cancelButton,
-  .submitButton {
-    min-width: 180px;
-  }
+        height: 468px;
+
+    }
+
+
+
+    .imagePlaceholder {
+        height: 180px;
+    }
+
+    .actions {
+        flex-direction: row;
+    }
+
+    .cancelButton,
+    .submitButton {
+        width: 204px;
+        height: 48px;
+    }
 }
 
 @media screen and (min-width: 1440px) {
-  .form {
-    max-width: 520px;
-  }
+    .form {
+        max-width: 1091px;
+    }
+
+
+    .imageWrapper {
+        /* display: flex; */
+/* flex-direction: column-reverse;
+    }
+
+    .imageUploadBox {
+        height: 726px;
+    }
+
+    .uploadButton {
+        font-size: 20px;
+    } */
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    background-color: var(--background-secondary);
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.hiddenInput {
+    display: none;
+}
+
+
+.label {
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 24px;
+}
+
+.imageUploadBox {
+    position: relative;
+    width: 100%;
+    height: 223px;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--foreground-primary);
+}
+
+.uploadedImage {
+    object-fit: cover;
+}
+
+.uploadButton {
+    width: fit-content;
+    height: 40px;
+    padding: 4px 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: var(--foreground-secondary);
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+
+
+.input{
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: var(--foreground-secondary);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.select {
+  background-color: var(--foreground-secondary);
+  width: 100%;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--coral-darker);
+}
+
+.selectPlaceholder {
+    color: #4c4c4c;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+  /* color: var(--text-secondary); */
+}
+
+.textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    resize: none;
+    background-color: var(--foreground-secondary);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--neutral);
+}
+
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+    border-color: var(--coral-light);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    border-color: var(--coral);
+}
+
+.actions {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 16px;
+    margin-bottom: 64px;
+}
+
+.cancelButton,
+.submitButton {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    cursor: pointer;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.cancelButton {
+    border: 1px solid var(--neutral-lightest);
+    background-color: var(--foreground-primary);
+    color: var(--neutral-dark);
+}
+
+
+.submitButton {
+    border: none;
+    background-color: var(--coral-light);
+    color: var(--white);
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media screen and (min-width: 768px) {
+    .imageUploadBox {
+        height: 468px;
+    }
+
+    .actions {
+        flex-direction: row;
+    }
+
+    .cancelButton,
+    .submitButton {
+        width: 204px;
+        height: 48px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .form {
+        max-width: 1091px;
+    }
+
+    .upload {
+        flex-direction: column-reverse;
+
+    }
+
+    .imageUploadBox {
+        height: 726px;
+    }
+
+    .label {
+        font-size: 18px;
+    }
+
+    .uploadButton {
+        font-size: 20px;
+    }
+
+    .uploadButton:hover,
+.uploadButton:focus {
+    border-color: var(--coral-light);
+}
+
+.selectPlaceholder {
+    color: #4c4c4c;
+     font-size: 18px;
+  /* color: var(--text-secondary); */
+}
+
+
+    .cancelButton:hover,
+.cancelButton:focus {
+    border-color: var(--coral-light);
+    background-color: var(--foreground-secondary);
+}
+
 }
