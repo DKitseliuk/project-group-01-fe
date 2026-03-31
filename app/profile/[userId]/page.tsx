@@ -1,4 +1,4 @@
-import { ProfilePageClient } from '@/components/Profile/ProfilePageClient';
+import { ProfilePageClient } from '@/components/ProfilePage/ProfilePageClient';
 import styles from './ProfileByIdPage.module.css';
 
 type ProfileByIdPageProps = {

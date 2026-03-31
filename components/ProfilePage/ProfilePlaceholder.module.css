@@ -6,9 +6,12 @@
     padding: 20px;
     background-color: var(--coral-lighter);
     border-radius: 24px;
-    max-width: 335px;
+    width: 335px;
 }
 
+.wrapperOwn {
+    height: 195px;
+}
 .text {
     font-size: 16px;
     font-weight: 700;
@@ -41,26 +44,51 @@
 /* Tablet (768px+) */
 @media screen and (min-width: 768px) {
     .wrapper {
-        width: 100%;
-        max-width: 533px;
+        width: 533px;
         padding: 40px 32px;
     }
+   .wrapperOwn {
+      height: 210px;
+      padding: 40px 32px;
+  }
+    .text {
+      max-width: 350px;
+         }
 
     .btn {
          width: 171px;
          white-space: nowrap;
     }
+
+     .btnOwn {
+         width: 204px;
+         white-space: nowrap;
+         }
 }
 
 /*Desktop (1440px+)*/
 @media screen and (min-width: 1440px) {
+    .wrapper {
+            height: 232px;
+        }
+
+    .wrapperOwn {
+    padding: 40px 32px 40px;
+    gap: 32px;
+    height: auto;
+     }
+
     .text {
             font-size: 26px;
         }
-
+   
     .btn {
             width: 208px;
             font-size: 20px;
             }
+    .btnOwn {
+            width: 249px;
+            font-size: 20px;
+        }
 
 }
