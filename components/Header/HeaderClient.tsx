@@ -17,13 +17,12 @@ const profileLink = { href: '/profile', label: 'Мій профіль' };
 
 export const HeaderClient = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticated, clearIsAuthenticated } = useAuthStore();
- 
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
 
-    const navLinks = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
-
+  const navLinks = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
 
   return (
     <header className={styles.header}>
@@ -32,7 +31,7 @@ export const HeaderClient = () => {
         <Logo />
 
         {/* Desktop nav */}
-           <div className={styles.desktopNav}>
+        <div className={styles.desktopNav}>
           <Nav
             links={navLinks}
             listClassName={styles.desktopList}
@@ -41,11 +40,7 @@ export const HeaderClient = () => {
         </div>
 
         {/* Auth buttons or actions */}
-        <HeaderActions
-          isAuthenticated={isAuthenticated}
-          user={user}
-          onLogout={clearIsAuthenticated}
-        />
+        <HeaderActions />
 
         {/* Burger */}
         <button
@@ -68,14 +63,7 @@ export const HeaderClient = () => {
       </div>
 
       {/* Mobile menu */}
-      {isOpen && (
-        <HeaderMobileMenu
-          isAuthenticated={isAuthenticated}
-          user={user}
-          onClose={close}
-          onLogout={clearIsAuthenticated}
-        />
-      )}
+      {isOpen && <HeaderMobileMenu onClose={close} />}
     </header>
   );
 };

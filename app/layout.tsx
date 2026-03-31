@@ -1,22 +1,23 @@
-import type { Metadata } from 'next';
-import { Montserrat } from 'next/font/google';
-import './globals.css';
-import 'modern-normalize';
+import type { Metadata } from "next";
+import { Montserrat } from "next/font/google";
+import "./globals.css";
+import "modern-normalize";
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
-import { Header } from '@/components/Header/Header';
-import { Footer } from '@/components/Footer/Footer';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
 
 
 const montserrat = Montserrat({
-  variable: '--font-montserrat',
-  display: 'swap',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  variable: "--font-montserrat",
+  display: "swap",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: 'Relax Map',
-  description: 'Relax Map app',
+  title: "Relax Map",
+  description: "Relax Map app",
 };
 
 export default function RootLayout({
@@ -28,9 +29,11 @@ export default function RootLayout({
     <html lang="uk">
       <body className={montserrat.variable}>
         <TanStackProvider>
-          <Header />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <Header />
+            {children}
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>
