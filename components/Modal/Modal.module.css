@@ -1,0 +1,84 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --modal-viewport-pad: 20px;
+  padding: var(--modal-viewport-pad);
+  background-color: var(--neutral-darkest-60);
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: min(768px, calc(100vw - 2 * var(--modal-viewport-pad)));
+  max-height: calc(100vh - 2 * var(--modal-viewport-pad));
+  overflow-y: auto;
+  border-radius: 24px;
+  background-color: var(--background-secondary);
+  box-shadow: var(--neutral-darkest-20) 0 8px 32px;
+}
+
+.modalBody {
+  box-sizing: border-box;
+  width: 100%;
+  padding-block: 64px;
+  padding-inline: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .backdrop {
+    --modal-viewport-pad: 32px;
+  }
+
+  .modalBody {
+    padding: 64px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .backdrop {
+    --modal-viewport-pad: 64px;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: var(--neutral-darkest-5);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+.closeIcon {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+}
