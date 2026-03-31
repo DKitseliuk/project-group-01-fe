@@ -1,0 +1,77 @@
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+}
+
+.title {
+  padding-bottom: 16px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.body {
+  margin-bottom: 32px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.actionsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Below ~374px viewport the modal content column is narrower than 294px — full-width buttons */
+@media screen and (min-width: 374px) and (max-width: 767px) {
+  .actionsRow {
+    align-items: center;
+  }
+}
+
+.modalBtn {
+  width: 100%;
+}
+
+/* Mobile layout: fixed 294×48; only when the modal body can fit 294px */
+@media screen and (min-width: 374px) and (max-width: 767px) {
+  .modalBtn {
+    width: 294px;
+    max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .actionsRow {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .modalBtn {
+    flex: 0 0 auto;
+    width: 203px;
+    max-width: 203px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .title {
+    font-size: 48px;
+  }
+
+  .body {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,143 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: start;
+}
+
+.reviewField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media screen and (min-width: 1440px) {
+  .label {
+    font-size: 18px;
+  }
+}
+
+.textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 12px;
+  border: 1px solid var(--neutral-darkest-15);
+  border-radius: 6px;
+  background-color: var(--foreground-secondary);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.textarea::placeholder {
+  color: var(--neutral-light);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--coral-dark);
+}
+
+.textareaError {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.textareaError:focus {
+  border-color: var(--red);
+}
+
+.error {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--red);
+}
+
+.stars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.starButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.starButton:hover {
+  background-color: var(--neutral-darkest-5);
+}
+
+.starButton:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+.starIcon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+  justify-content: center;
+}
+
+.cancelButton,
+.submitButton {
+  width: 294px;
+  max-width: 100%;
+  flex: none;
+  transition: transform 0.15s ease;
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+  transform: none;
+}
+
+.loadingNote {
+  font-size: 14px;
+  color: var(--neutral-dark);
+  width: 100%;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .actions {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: auto;
+  }
+
+  .cancelButton,
+  .submitButton {
+    flex: 0 0 auto;
+    width: 203px;
+  }
+}
