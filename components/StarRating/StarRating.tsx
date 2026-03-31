@@ -31,7 +31,7 @@ export default function StarRating({
       fillColor="black"
       emptyColor="transparent"
       SVGstrokeColor="black"
-      SVGstrokeWidth={2}
+      SVGstorkeWidth={2}
     />
   );
 }

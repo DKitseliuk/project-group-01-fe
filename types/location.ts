@@ -13,9 +13,12 @@ export interface Location {
   ownerId: string;
   feedbacksId: string[];
 }
-export interface FetchLocationsParams  {
+export type FetchLocationsParams = {
   page?: number;
   perPage?: number;
   search?: string;
   region?: string;
+  type?: string;
+  sortBy?: string;
+  sortOrder?: string;
 };

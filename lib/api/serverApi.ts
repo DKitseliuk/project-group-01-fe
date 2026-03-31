@@ -1,16 +1,7 @@
-import { cookies } from "next/headers";
-import { nextServer } from "@/lib/api/api";
-import type { Location } from "@/types/location";
-
-export type FetchLocationsParams = {
-  page?: number;
-  perPage?: number;
-  search?: string;
-  region?: string;
-  type?: string;
-  sortBy?: string;
-  sortOrder?: string;
-};
+import { cookies } from 'next/headers';
+import { backendServer } from '@/lib/api/api';
+import type { Location, FetchLocationsParams } from '@/types/location';
+import type { LocationType } from '@/types/locationType';
 
 type FetchLocationsResponse = {
   locations: Location[];
@@ -28,50 +19,40 @@ type Region = {
   note: string;
 };
 
-type LocationType = {
-  _id: string;
-  slug: string;
-  type: string;
-  shortDescription: string;
+const getCookieHeader = async () => {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
+  const sessionId = cookieStore.get('sessionId')?.value;
+
+  return `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`;
 };
 
-export const fetchLocations = async ({
+const fetchLocations = async ({
   page = 1,
   perPage = 6,
-  search = "",
-  region = "",
-  type = "",
-  sortBy = "createdAt",
-  sortOrder = "desc",
+  search = '',
+  region = '',
+  type = '',
+  sortBy = 'createdAt',
+  sortOrder = 'desc',
 }: FetchLocationsParams = {}): Promise<FetchLocationsResponse> => {
-  const cookieStore = await cookies();
+  const cookieHeader = await getCookieHeader();
 
-  const { data } = await nextServer.get<FetchLocationsResponse>("/locations", {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-    params: {
-      page,
-      perPage,
-      search: search || undefined,
-      region: region || undefined,
-      type: type || undefined,
-      sortBy,
-      sortOrder,
-    },
-  });
-
-  return data;
-};
-
-export const getRegionsServer = async (): Promise<{ regions: Region[] }> => {
-  const cookieStore = await cookies();
-
-  const { data } = await nextServer.get<{ regions: Region[] }>(
-    "/categories/regions",
+  const { data } = await backendServer.get<FetchLocationsResponse>(
+    '/locations',
     {
       headers: {
-        Cookie: cookieStore.toString(),
+        Cookie: cookieHeader,
+      },
+      params: {
+        page,
+        perPage,
+        search: search || undefined,
+        region: region || undefined,
+        type: type || undefined,
+        sortBy,
+        sortOrder,
       },
     }
   );
@@ -79,19 +60,36 @@ export const getRegionsServer = async (): Promise<{ regions: Region[] }> => {
   return data;
 };
 
-export const getLocationTypesServer = async (): Promise<{
+const getRegionsServer = async (): Promise<{ regions: Region[] }> => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<{ regions: Region[] }>(
+    '/categories/regions',
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    }
+  );
+
+  return data;
+};
+
+const getLocationTypesServer = async (): Promise<{
   locationTypes: LocationType[];
 }> => {
-  const cookieStore = await cookies();
+  const cookieHeader = await getCookieHeader();
 
-  const { data } = await nextServer.get<{ locationTypes: LocationType[] }>(
-    "/categories/location-types",
+  const { data } = await backendServer.get<{ locationTypes: LocationType[] }>(
+    '/categories/location-types',
     {
       headers: {
-        Cookie: cookieStore.toString(),
+        Cookie: cookieHeader,
       },
     }
   );
 
   return data;
 };
+
+export { fetchLocations, getRegionsServer, getLocationTypesServer };
