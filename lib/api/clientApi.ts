@@ -1,8 +1,8 @@
-import { nextServer } from '@/lib/api/api';
+import { nextServer, publicApi } from '@/lib/api/api';
 import type { Location, FetchLocationsParams } from '@/types/location';
 import type { LoginValues, RegisterValues } from '@/types/auth';
 import type { User } from '@/types/user';
-import type { LocationType } from '@/types/locationType';
+import type { Region, LocationType } from '@/types/categories';
 
 type FetchLocationsResponse = {
   locations: Location[];
@@ -10,14 +10,6 @@ type FetchLocationsResponse = {
   totalItems: number;
   page: number;
   perPage: number;
-};
-
-type Region = {
-  _id: string;
-  slug: string;
-  region: string;
-  level: string;
-  note: string;
 };
 
 const fetchLocations = async ({
@@ -29,7 +21,7 @@ const fetchLocations = async ({
   sortBy = 'createdAt',
   sortOrder = 'desc',
 }: FetchLocationsParams = {}): Promise<FetchLocationsResponse> => {
-  const res = await nextServer.get<FetchLocationsResponse>('/locations', {
+  const res = await publicApi.get<FetchLocationsResponse>('/locations', {
     params: {
       page,
       perPage,
@@ -45,7 +37,7 @@ const fetchLocations = async ({
 };
 
 const fetchPopularLocations = async (): Promise<Location[]> => {
-  const res = await nextServer.get<FetchLocationsResponse>('/locations', {
+  const res = await publicApi.get<FetchLocationsResponse>('/locations', {
     params: {
       page: 1,
       perPage: 100,
@@ -57,20 +49,20 @@ const fetchPopularLocations = async (): Promise<Location[]> => {
   return Array.isArray(res.data.locations) ? res.data.locations : [];
 };
 
-const getRegionsClient = async (): Promise<{ regions: Region[] }> => {
-  const { data } = await nextServer.get<{ regions: Region[] }>(
-    '/categories/regions',
-  );
-  return data;
-};
-
-const getLocationTypesClient = async (): Promise<{
-  locationTypes: LocationType[];
-}> => {
-  const { data } = await nextServer.get<{ locationTypes: LocationType[] }>(
+const fetchLocationTypes = async (): Promise<LocationType[]> => {
+  const res = await publicApi.get<{ locationTypes: LocationType[] }>(
     '/categories/location-types',
   );
-  return data;
+
+  return res.data.locationTypes;
+};
+
+const fetchRegions = async (): Promise<Region[]> => {
+  const res = await publicApi.get<{ regions: Region[] }>(
+    '/categories/regions',
+  );
+
+  return res.data.regions;
 };
 
 async function register(payload: RegisterValues) {
@@ -104,8 +96,8 @@ const getMe = async (): Promise<User> => {
 export {
   fetchLocations,
   fetchPopularLocations,
-  getRegionsClient,
-  getLocationTypesClient,
+  fetchLocationTypes,
+  fetchRegions,
   register,
   login,
   refreshSession,

@@ -6,7 +6,7 @@ export interface Location {
   region: string;
   rate: number;
   description: string;
-  coordinates: {
+  coordinates?: {
     lat: number;
     lng: number;
   };

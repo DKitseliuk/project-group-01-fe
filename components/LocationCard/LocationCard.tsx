@@ -1,79 +1,72 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import StarRating from "@/components/StarRating/StarRating";
-import styles from "./LocationCard.module.css";
-import type { LocationType } from "@/types/locationType";
+import Image from 'next/image';
+import Link from 'next/link';
 
-type Location = {
-  _id: string;
-  name: string;
-  region: string;
-  image: string;
-  rate: number;
-  locationType?: string;
-};
+import StarRating from '@/components/StarRating/StarRating';
+import type { Location } from '@/types/location';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useCategoriesStore } from '@/lib/store/categoriesStore';
+
+import css from './LocationCard.module.css';
 
 type Props = {
   location: Location;
-  locationTypes?: LocationType[];
-  isOwner?: boolean;
-};
-
-const getLocationTypeLabel = (
-  slug?: string,
-  locationTypes?: LocationType[]
-) => {
-  return locationTypes?.find((item) => item.slug === slug)?.type || "";
+  isOwner?: string;
+  canEdit?: boolean;
 };
 
 export default function LocationCard({
   location,
-  locationTypes,
   isOwner,
+  canEdit = false,
 }: Props) {
+  const user = useAuthStore((state) => state.user);
+  const { locationTypes } = useCategoriesStore((state) => state.categories);
+
+  const locationTypeLabel =
+    locationTypes.find(
+      (item) =>
+        item._id === location.locationType || item.slug === location.locationType,
+    )?.type ?? location.locationType;
+
   return (
-    <li className={styles.card}>
-      <div className={styles.imageWrapper}>
-        <Image
-          src={location.image || "/placeholder.jpg"}
-          alt={location.name}
-          fill
-          className={styles.image}
-        />
-      </div>
+    <div className={css.card}>
+      <Image
+        src={location.image || '/placeholder.jpg'}
+        alt={location.name}
+        width={335}
+        height={335}
+        sizes='(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px'
+        className={css.image}
+      />
 
-      <div className={styles.info}>
-        <span className={styles.tag}>
-          {getLocationTypeLabel(location.locationType, locationTypes)}
-        </span>
+      <p className={css.tag}>{locationTypeLabel}</p>
 
-        <StarRating value={location.rate} />
+      <StarRating value={location.rate ?? 0} />
 
-        <h3 className={styles.title}>{location.name}</h3>
+      <h3 className={css.title}>{location.name}</h3>
 
-        <div className={styles.actions}>
+      <div className={css.actions}>
+        <Link
+          href={`/locations/${location._id}`}
+          className={css.viewBtn}
+        >
+          Переглянути локацію
+        </Link>
+
+        {isOwner === user?._id && canEdit && (
           <Link
-            href={`/locations/${location._id}`}
-            className={styles.viewBtn}
+            href={`/locations/${location._id}/edit`}
+            className={css.editBtn}
+            title='Редагувати'
           >
-            Переглянути локацію
+            <svg width='24' height='24'>
+              <use href='/img/icons.svg#icon-edit' />
+            </svg>
           </Link>
-
-          {isOwner && (
-            <Link
-              href={`/locations/${location._id}/edit`}
-              className={styles.editBtn}
-              title="Редагувати"
-            >
-              <svg width="24" height="24">
-                <use href="/img/icons.svg#icon-edit" />
-              </svg>
-            </Link>
-          )}
-        </div>
+        )}
       </div>
-    </li>
+    </div>
   );
 }
