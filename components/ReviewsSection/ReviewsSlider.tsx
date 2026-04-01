@@ -1,19 +1,18 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
-import { Rating, Star } from "@smastrom/react-rating";
-import "@smastrom/react-rating/style.css";
-import type { Review } from "@/types/review";
-import "swiper/css";
-import styles from "./ReviewsSection.module.css";
+import { useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
+import StarRating from '@/components/StarRating/StarRating';
+import type { Review } from '@/types/review';
+import 'swiper/css';
+import styles from './ReviewsSection.module.css';
 
 type Props = { reviews: Review[] };
 
-function NavArrow({ direction }: { direction: "prev" | "next" }) {
+function NavArrow({ direction }: { direction: 'prev' | 'next' }) {
   const iconId =
-    direction === "prev" ? "icon-arrow-back" : "icon-arrow-forward";
+    direction === 'prev' ? 'icon-arrow-back' : 'icon-arrow-forward';
   return (
     <svg className={styles.navIcon} viewBox="0 0 32 32" aria-hidden>
       <use href={`/img/icons.svg#${iconId}`} />
@@ -21,25 +20,10 @@ function NavArrow({ direction }: { direction: "prev" | "next" }) {
   );
 }
 
-const starStyles = {
-  itemShapes: Star,
-  activeFillColor: "rgb(0, 0, 0)",
-  inactiveFillColor: "transparent",
-  activeStrokeColor: "rgb(0, 0, 0)",
-  inactiveStrokeColor: "rgb(0, 0, 0)",
-  itemStrokeWidth: 0.8,
-};
-
 function ReviewCard({ review }: { review: Review }) {
   return (
     <article className={styles.card}>
-      <Rating
-        value={review.rating}
-        readOnly
-        halfFillMode="svg"
-        itemStyles={starStyles}
-        className={styles.stars}
-      />
+      <StarRating value={review.rating} size={20} />
       <p className={styles.reviewText}>{review.text}</p>
       <div className={styles.authorBlock}>
         <span className={styles.authorName}>{review.authorName}</span>
@@ -52,19 +36,18 @@ function ReviewCard({ review }: { review: Review }) {
 export default function ReviewsSlider({ reviews }: Props) {
   const swiperRef = useRef<SwiperType | null>(null);
 
-  const goPrev = () => swiperRef.current?.slidePrev();
-  const goNext = () => swiperRef.current?.slideNext();
-
   return (
     <>
       <div className={styles.sliderWrap}>
         <Swiper
           className={styles.swiper}
-          rewind
+          loop
           spaceBetween={16}
           slidesPerView={1}
           slidesPerGroup={1}
-          onSwiper={(s) => { swiperRef.current = s; }}
+          onSwiper={(s) => {
+            swiperRef.current = s;
+          }}
           breakpoints={{
             375: { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 18 },
             768: { slidesPerView: 2, slidesPerGroup: 1, spaceBetween: 20 },
@@ -85,7 +68,7 @@ export default function ReviewsSlider({ reviews }: Props) {
             type="button"
             className={styles.navBtn}
             aria-label="Попередній відгук"
-            onClick={goPrev}
+            onClick={() => swiperRef.current?.slidePrev()}
           >
             <NavArrow direction="prev" />
           </button>
@@ -93,7 +76,7 @@ export default function ReviewsSlider({ reviews }: Props) {
             type="button"
             className={styles.navBtn}
             aria-label="Наступний відгук"
-            onClick={goNext}
+            onClick={() => swiperRef.current?.slideNext()}
           >
             <NavArrow direction="next" />
           </button>

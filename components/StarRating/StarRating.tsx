@@ -1,34 +1,36 @@
-"use client";
+'use client';
 
-import { Rating, Star } from "@smastrom/react-rating";
-import "@smastrom/react-rating/style.css";
-import css from "./StarRating.module.css";
+import dynamic from 'next/dynamic';
 
-const customStyles = {
-  itemShapes: Star,
-  activeFillColor: "var(--text-primary)",
-  inactiveFillColor: "transparent",
-  inactiveStrokeColor: "var(--text-primary)",
-  activeStrokeColor: "var(--text-primary)",
-  itemStrokeWidth: 1.5,
-};
+const Rating = dynamic(
+  () => import('react-simple-star-rating').then((m) => m.Rating),
+  { ssr: false },
+);
 
 interface Props {
   value: number;
   readonly?: boolean;
+  size?: number;
   onChange?: (rate: number) => void;
 }
 
-export default function StarRating({ value, readonly = true, onChange }: Props) {
+export default function StarRating({
+  value,
+  readonly = true,
+  size = 20,
+  onChange,
+}: Props) {
   return (
-    <div className={css.wrapper}>
-      <Rating
-        value={value}
-        readOnly={readonly}
-        onChange={onChange}
-        itemStyles={customStyles}
-        className={css.rating}
-      />
-    </div>
+    <Rating
+      initialValue={value}
+      readonly={readonly}
+      size={size}
+      allowFraction
+      onClick={onChange}
+      fillColor="black"
+      emptyColor="transparent"
+      SVGstrokeColor="black"
+      SVGstorkeWidth={2}
+    />
   );
 }

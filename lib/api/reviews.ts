@@ -1,14 +1,10 @@
-import type { Review } from "@/types/review";
-
-const DEFAULT_API_BASE = "https://relax-map-api.onrender.com";
+import { cookies } from 'next/headers';
+import { nextServer } from '@/lib/api/api';
+import type { Review } from '@/types/review';
 
 const LOCATIONS_PAGE_SIZE = 12;
 const FEEDBACKS_PER_LOCATION = 10;
 const MAX_HOME_REVIEWS = 30;
-
-type LocationsPayload = {
-  locations?: Array<{ _id: string }>;
-};
 
 type PopulatedLocation = {
   _id?: string;
@@ -23,81 +19,57 @@ type FeedbackItem = {
   locationId?: PopulatedLocation | string;
 };
 
-type FeedbacksPayload = {
-  feedbacks?: FeedbackItem[];
-};
-
-function apiUrl(base: string, path: string): string {
-  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
-}
-
-async function fetchJson<T>(url: string): Promise<T | null> {
-  try {
-    const res = await fetch(url, {
-      next: { revalidate: 120 },
-      headers: { Accept: "application/json" },
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as T;
-  } catch {
-    return null;
-  }
-}
-
-function feedbackToReview(f: FeedbackItem): Review | null {
-  const text = f.description?.trim() ?? "";
+function feedbackToReview(
+  f: FeedbackItem,
+  locationName: string,
+): Review | null {
+  const text = f.description?.trim() ?? '';
   if (!text) return null;
-
-  const loc =
-    f.locationId && typeof f.locationId === "object" ? f.locationId : undefined;
-  const locationName = loc?.name?.trim() || "Локація";
 
   return {
     id: String(f._id),
     rating: Math.min(5, Math.max(0, Number(f.rate) || 0)),
     text,
-    authorName: (f.userName?.trim() || "Користувач").slice(0, 120),
-    locationName,
+    authorName: (f.userName?.trim() || 'Користувач').slice(0, 120),
+    locationName: locationName.trim() || 'Локація',
   };
 }
 
 export async function getReviews(): Promise<Review[]> {
-  const base = (
-    process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_BASE
-  ).replace(/\/$/, "");
+  const cookieStore = await cookies();
+  const headers = { Cookie: cookieStore.toString() };
 
-  const locPayload = await fetchJson<LocationsPayload>(
-    apiUrl(
-      base,
-      `/api/locations?page=1&perPage=${LOCATIONS_PAGE_SIZE}`
-    )
-  );
+  const locRes = await nextServer.get<{
+    locations: Array<{ _id: string; name: string }>;
+  }>('/locations', {
+    headers,
+    params: { page: 1, perPage: LOCATIONS_PAGE_SIZE },
+  });
 
-  const locationIds =
-    locPayload?.locations?.map((l) => l._id).filter(Boolean) ?? [];
-  if (locationIds.length === 0) {
-    return [];
-  }
+  const locations = locRes.data.locations?.filter((l) => l._id) ?? [];
+  if (locations.length === 0) return [];
 
   const feedbackBatches = await Promise.all(
-    locationIds.map((locationId) =>
-      fetchJson<FeedbacksPayload>(
-        apiUrl(
-          base,
-          `/api/feedbacks?locationId=${encodeURIComponent(locationId)}&perPage=${FEEDBACKS_PER_LOCATION}`
+    locations.map((loc) =>
+      nextServer
+        .get<{ feedbacks: FeedbackItem[] }>(
+          `/locations/${encodeURIComponent(loc._id)}/feedbacks`,
+          { headers, params: { page: 1, perPage: FEEDBACKS_PER_LOCATION } },
         )
-      )
-    )
+        .then((r) => ({ feedbacks: r.data.feedbacks, locationName: loc.name }))
+        .catch(() => null),
+    ),
   );
 
   const seen = new Set<string>();
   const out: Review[] = [];
 
   for (const batch of feedbackBatches) {
-    for (const f of batch?.feedbacks ?? []) {
+    if (!batch) continue;
+    for (const f of batch.feedbacks ?? []) {
       if (!f?._id || seen.has(f._id)) continue;
       seen.add(f._id);
-      const rev = feedbackToReview(f);
+      const rev = feedbackToReview(f, batch.locationName);
       if (rev) out.push(rev);
       if (out.length >= MAX_HOME_REVIEWS) return out;
     }
