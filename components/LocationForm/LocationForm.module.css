@@ -101,7 +101,7 @@
     font-size: 16px;
     line-height: 1.5;
     font-weight: 400;
-  /* color: var(--text-secondary); */
+  color: var(--neutral-darkest)
 }
 
 .textarea {
@@ -152,7 +152,7 @@
     width: 100%;
     height: 40px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     line-height: 1.4;
     cursor: pointer;
@@ -180,6 +180,15 @@
     cursor: not-allowed;
 }
 
+.desktopTopButton {
+  display: none;
+}
+
+.desktopBottomButton {
+  display: block;
+}
+
+
 @media screen and (min-width: 768px) {
     .imageUploadBox {
         height: 468px;
@@ -191,12 +200,69 @@
 
     .cancelButton,
     .submitButton {
+        font-size: 20px;
         width: 204px;
         height: 48px;
     }
 }
 
+
 @media screen and (min-width: 1440px) {
+  .form {
+    max-width: 1091px;
+  }
+
+  .upload {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imageUploadBox {
+    height: 726px;
+  }
+
+  .label {
+    font-size: 18px;
+  }
+
+  .uploadButton {
+    font-size: 20px;
+  }
+
+  .uploadButton:hover,
+  .uploadButton:focus {
+    border-color: var(--coral-light);
+  }
+
+  .selectPlaceholder {
+    color: var(--neutral-dark);
+    font-size: 18px;
+  }
+
+  .cancelButton:hover,
+  .cancelButton:focus {
+    border-color: var(--coral-light);
+    background-color: var(--foreground-secondary);
+  }
+
+  /* верхня кнопка показується, коли немає фото */
+  .desktopTopButton {
+    display: block;
+  }
+
+  /* нижню кнопку на desktop ховаємо за замовчуванням */
+  .upload > .uploadButton:not(.desktopTopButton) {
+    display: none;
+  }
+
+  /* але якщо фото є і додався клас desktopBottomButton — показуємо */
+  .upload > .uploadButton.desktopBottomButton {
+    display: block;
+  }
+}
+
+
+/* @media screen and (min-width: 1440px) {
     .form {
         max-width: 1091px;
     }
@@ -226,7 +292,7 @@
 .selectPlaceholder {
     color: #4c4c4c;
      font-size: 18px;
-  /* color: var(--text-secondary); */
+
 }
 
 
@@ -236,4 +302,28 @@
     background-color: var(--foreground-secondary);
 }
 
-}
+  .desktopTopButton {
+    display: block;
+  }
+
+
+  .uploadButton:not(.desktopTopButton) {
+    display: none;
+  }
+
+  .desktopAfterUpload {
+    display: block;
+  }
+
+  .desktopTopButton + .imageUploadBox ~ .uploadButton.desktopAfterUpload {
+    display: block;
+  }
+
+  .desktopTopButton {
+    display: none;
+  }
+} */
+
+
+
+

@@ -3,49 +3,15 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
-import * as Yup from 'yup';
 import css from './LocationForm.module.css';
 import { LOCATION_TYPES, REGIONS } from '@/constants/locationOptions';
+import { locationValidationSchema } from '@/validation/locationValidationSchema';
+import type { LocationFormValues } from '@/types/location';
 
-type FormValues = {
-    title: string;
-    type: string;
-    region: string;
-    description: string;
-    image: File | null;
-};
 
-const validationSchema = Yup.object({
-    title: Yup.string()
-        .trim()
-        .min(3, 'Назва має містити щонайменше 3 символи')
-        .max(100, 'Назва має містити не більше 100 символів')
-        .required("Введіть назву місця"),
-    type: Yup.string().required('Оберіть тип місця'),
-    region: Yup.string().required('Оберіть регіон'),
-    description: Yup.string()
-        .trim()
-        .min(10, 'Опис має містити щонайменше 10 символів')
-        .max(1000, 'Опис має містити не більше 1000 символів')
-        .required('Додайте детальний опис'),
-    image: Yup.mixed()
-        .nullable()
-        .required('Додайте фото')
-        .test('fileSize', 'Розмір фото має бути менше 5 MB', value => {
-            if (!value) return true;
-            if (!(value instanceof File)) return false;
 
-            return value.size <= 5 * 1024 * 1024;
-        })
-        .test('fileFormat', 'Дозволені лише JPG, JPEG, PNG, WEBP', value => {
-            if (!value) return true;
-            if (!(value instanceof File)) return false;
 
-            return ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(value.type);
-        }),
-});
-
-const initialValues: FormValues = {
+const initialValues: LocationFormValues = {
     title: '',
     type: '',
     region: '',
@@ -57,8 +23,8 @@ const LocationForm = () => {
     const [preview, setPreview] = useState<string>('');
 
     const handleSubmit = async (
-        values: FormValues,
-        actions: FormikHelpers<FormValues>
+        values: LocationFormValues,
+        actions: FormikHelpers<LocationFormValues>
     ) => {
         try {
             console.log('Form values:', values);
@@ -78,11 +44,11 @@ const LocationForm = () => {
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={validationSchema}
+            validationSchema={locationValidationSchema}
             validateOnMount
             onSubmit={handleSubmit}
         >
-            {({ values, setFieldValue, isValid, isSubmitting, touched, errors, status }) => {
+            {({ values, setFieldValue, resetForm, isValid, isSubmitting, touched, errors, status }) => {
                 const isFormFilled =
                     values.title.trim() !== '' &&
                     values.type.trim() !== '' &&
@@ -109,6 +75,15 @@ const LocationForm = () => {
                             </label>
 
                             <div className={css.upload}>
+                                {!preview && (
+                                    <label
+                                        htmlFor="image"
+                                        className={`${css.uploadButton} ${css.desktopTopButton}`}
+                                    >
+                                        Завантажити фото
+                                    </label>
+                                )}
+
                                 <div className={css.imageUploadBox}>
                                     <Image
                                         src={preview || '/img/PlaceholderImageCreate.jpg'}
@@ -123,17 +98,21 @@ const LocationForm = () => {
                                     id="image"
                                     name="image"
                                     type="file"
-                                    accept="image/jpeg,image/png,image/webp,image/jpg"
+                                    accept="image/jpeg,image/png"
                                     className={css.hiddenInput}
                                     onChange={handleImageChange}
                                 />
 
-                                <label htmlFor="image" className={css.uploadButton}>
+                                <label
+                                    htmlFor="image"
+                                    className={`${css.uploadButton} ${preview ? css.desktopBottomButton : ''}`}
+                                >
                                     Завантажити фото
                                 </label>
 
                                 <ErrorMessage name="image" component="p" className={css.errorMessage} />
                             </div>
+
                         </div>
 
                         <div className={css.fieldGroup}>
@@ -236,9 +215,19 @@ const LocationForm = () => {
                                         : 'Опублікувати'}
                             </button>
 
-                            <button type="reset" className={css.cancelButton}>
+                            <button
+                                type="button"
+                                className={css.cancelButton}
+                                onClick={() => {
+                                    resetForm();
+                                    setPreview('');
+                                }}
+                            >
                                 Відмінити
                             </button>
+                            {/* <button type="reset" className={css.cancelButton}>
+                                Відмінити
+                            </button> */}
                         </div>
                     </Form>
                 );

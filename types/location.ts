@@ -19,3 +19,11 @@ export interface FetchLocationsParams {
   search?: string;
   region?: string;
 };
+
+export type LocationFormValues = {
+  title: string;
+  type: string;
+  region: string;
+  description: string;
+  image: File | null;
+};
