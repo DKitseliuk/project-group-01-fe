@@ -1,11 +1,34 @@
 import styles from './HomePage.module.css';
 
-const Home = () => {
+import Hero from "@/components/Hero/Hero";
+import ReviewsSection from "@/components/ReviewsSection/ReviewsSection";
+import AdvantagesBlock from "@/components/AdvantagesBlock/AdvantagesBlock";
+import PopularLocationsBlock from '@/components/PopularLocationsBlock/PopularLocationsBlock';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+
+import { fetchLocations } from '@/lib/api/serverApi';
+
+export default async function Home() {
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['popularLocations'],
+    queryFn: fetchLocations,
+  });
+
   return (
     <main className={styles.main}>
-      <h1>Home page</h1>
+      <Hero />
+      <AdvantagesBlock />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PopularLocationsBlock />
+      </HydrationBoundary>
+      <ReviewsSection />
     </main>
   );
-};
-
-export default Home;
+}
