@@ -2,6 +2,7 @@ import { nextServer } from '@/lib/api/api';
 import type { Location, FetchLocationsParams } from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
+import { Region, LocationType } from '@/types/categories';
 
 export const fetchLocations = async ({
   page,
@@ -13,8 +14,20 @@ export const fetchLocations = async ({
     params: { page, perPage, search, region },
   });
 
-  return res.data.locations;
+  return res.data.locations; 
 };
+
+
+export const fetchLocationTypes = async (): Promise<LocationType[]> => {
+  const res = await nextServer.get<{ locationTypes: LocationType[] }>("/categories/location-types");
+  return res.data.locationTypes;
+};
+
+export const fetchRegions = async (): Promise<Region[]> => {
+  const res = await nextServer.get<{ regions: Region[] }>("/categories/regions");
+  return res.data.regions;
+};
+
 async function register(payload: RegisterValues) {
   const { data } = await nextServer.post('/auth/register', payload);
   return data;
