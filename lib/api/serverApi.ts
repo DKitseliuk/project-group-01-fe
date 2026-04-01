@@ -11,6 +11,36 @@ const getCookieHeader = async () => {
   const sessionId = cookieStore.get('sessionId')?.value;
   return `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`;
 };
+
+const fetchLocations = async (): Promise<Location[]> => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get<{ locations: Location[] }>(
+    'locations',
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
+  return data.locations;
+};
+
+const fetchLocationById = async (locationId: string): Promise<Location> => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<{ location: Location }>(
+    `/locations/${locationId}`,
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
+  return data.location;
+};
+
 const getLocationTypes = async (): Promise<LocationType[]> => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get<LocationType[]>(
@@ -21,8 +51,6 @@ const getLocationTypes = async (): Promise<LocationType[]> => {
       },
     },
   );
-  console.log('locationTypes response:', data);
-  
   return data;
 };
 const getRegions = async (): Promise<Region[]> => {
@@ -46,24 +74,15 @@ const refreshSession = async (): Promise<
       headers: {
         Cookie: cookieHeader,
       },
-    }
+    },
   );
   return res;
 };
 
-const fetchLocations = async (): Promise<Location[]> => {
-  const cookieHeader = await getCookieHeader();
-
-  const { data } = await backendServer.get<{ locations: Location[] }>(
-    'locations',
-    {
-      headers: {
-        Cookie: cookieHeader,
-      },
-    }
-  );
-
-  return data.locations;
+export {
+  fetchLocations,
+  fetchLocationById,
+  refreshSession,
+  getLocationTypes,
+  getRegions,
 };
-
-export { fetchLocations, refreshSession, getLocationTypes, getRegions };

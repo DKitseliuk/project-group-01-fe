@@ -10,15 +10,15 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { categoriesOptionsServer } from '@/lib/queries/categoriesServer';
 
 const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  display: "swap",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  variable: '--font-montserrat',
+  display: 'swap',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
-  title: "Relax Map",
-  description: "Relax Map app",
+  title: 'Relax Map',
+  description: 'Relax Map app',
 };
 
 export default async function RootLayout({

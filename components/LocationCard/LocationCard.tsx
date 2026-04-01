@@ -22,9 +22,7 @@ export default function LocationCard({ location, isOwner, canEdit = false }: Pro
  const locationTypeLabel = locationTypes.find(
   type => type._id === location.locationType
 )?.type ?? '';
-console.log('location.locationType:', location.locationType);
-console.log('locationTypes ids:', locationTypes.map(t => t._id));
-console.log('locationTypeLabel:', locationTypeLabel);
+
 
   
   return (

@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -8,8 +9,6 @@ import {
 } from '@tanstack/react-query';
 import { useState } from 'react';
 
-
-
 export default function TanStackProvider({
   children,
   dehydratedState,
@@ -18,9 +17,6 @@ export default function TanStackProvider({
   dehydratedState: DehydratedState;
 }) {
   const [client] = useState(() => new QueryClient());
-
-
-
 
   return (
     <QueryClientProvider client={client}>
