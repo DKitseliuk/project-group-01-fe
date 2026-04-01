@@ -14,18 +14,7 @@ export const fetchLocations = async ({
     params: { page, perPage, search, region },
   });
 
-  return res.data.locations; 
-};
-
-
-export const fetchLocationTypes = async (): Promise<LocationType[]> => {
-  const res = await nextServer.get<{ locationTypes: LocationType[] }>("/categories/location-types");
-  return res.data.locationTypes;
-};
-
-export const fetchRegions = async (): Promise<Region[]> => {
-  const res = await nextServer.get<{ regions: Region[] }>("/categories/regions");
-  return res.data.regions;
+  return res.data.locations;
 };
 
 async function register(payload: RegisterValues) {
@@ -56,4 +45,24 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
-export { register, login, refreshSession, getMe, logout };
+const getLocationTypes = async (): Promise<LocationType[]> => {
+  const { data } = await nextServer.get<LocationType[]>(
+    '/categories/location-types',
+  );
+  return data;
+};
+
+const getRegions = async (): Promise<Region[]> => {
+  const { data } = await nextServer.get<Region[]>('/categories/regions');
+  return data;
+};
+
+export {
+  register,
+  login,
+  refreshSession,
+  getMe,
+  logout,
+  getLocationTypes,
+  getRegions,
+};
