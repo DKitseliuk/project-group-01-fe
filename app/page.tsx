@@ -11,14 +11,18 @@ import {
 } from '@tanstack/react-query';
 
 import { fetchLocations } from '@/lib/api/serverApi';
+import { getReviews } from '@/lib/api/reviews';
 
 export default async function Home() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ['popularLocations'],
-    queryFn: fetchLocations,
-  });
+  const [reviews] = await Promise.all([
+    getReviews(),
+    queryClient.prefetchQuery({
+      queryKey: ['popularLocations'],
+      queryFn: fetchLocations,
+    }),
+  ]);
 
   return (
     <main className={styles.main}>
@@ -26,8 +30,8 @@ export default async function Home() {
       <AdvantagesBlock />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <PopularLocationsBlock />
-        <ReviewsSection />
       </HydrationBoundary>
+      <ReviewsSection reviews={reviews} title="Останні відгуки" />
     </main>
   );
 }

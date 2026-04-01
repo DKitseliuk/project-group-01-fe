@@ -1,25 +1,30 @@
-import { getReviews } from "@/lib/api/reviews";
-
+import type { ReactNode } from "react";
+import type { Review } from "@/types/review";
 import ReviewsSlider from "./ReviewsSlider";
 import styles from "./ReviewsSection.module.css";
 
-export default async function ReviewsSection() {
-  const reviews = await getReviews();
+type Props = {
+  reviews: Review[];
+  title?: string;
+  action?: ReactNode;
+  showLocation?: boolean;
+};
 
+export default function ReviewsSection({ reviews, title = "Відгуки", action, showLocation = true }: Props) {
   if (reviews.length === 0) {
     return null;
   }
 
   return (
-    <section
-      className={styles.section}
-      aria-labelledby="reviews-heading"
-    >
+    <section className={styles.section} aria-labelledby="reviews-heading">
       <div className="container">
-        <h2 id="reviews-heading" className={styles.title}>
-          Останні відгуки
-        </h2>
-        <ReviewsSlider reviews={reviews} />
+        <div className={styles.header}>
+          <h2 id="reviews-heading" className={styles.title}>
+            {title}
+          </h2>
+          {action}
+        </div>
+        <ReviewsSlider reviews={reviews} showLocation={showLocation} />
       </div>
     </section>
   );

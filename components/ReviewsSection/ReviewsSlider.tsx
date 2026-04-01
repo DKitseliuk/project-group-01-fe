@@ -3,12 +3,15 @@
 import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
-import StarRating from '@/components/StarRating/StarRating';
 import type { Review } from '@/types/review';
+import ReviewCards from '@/components/ReviewCards/ReviewCards';
 import 'swiper/css';
 import styles from './ReviewsSection.module.css';
 
-type Props = { reviews: Review[] };
+type Props = {
+  reviews: Review[];
+  showLocation?: boolean;
+};
 
 function NavArrow({ direction }: { direction: 'prev' | 'next' }) {
   const iconId =
@@ -20,20 +23,8 @@ function NavArrow({ direction }: { direction: 'prev' | 'next' }) {
   );
 }
 
-function ReviewCard({ review }: { review: Review }) {
-  return (
-    <article className={styles.card}>
-      <StarRating value={review.rating} size={20} />
-      <p className={styles.reviewText}>{review.text}</p>
-      <div className={styles.authorBlock}>
-        <span className={styles.authorName}>{review.authorName}</span>
-        <p className={styles.locationName}>{review.locationName}</p>
-      </div>
-    </article>
-  );
-}
 
-export default function ReviewsSlider({ reviews }: Props) {
+export default function ReviewsSlider({ reviews, showLocation = true }: Props) {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
@@ -56,7 +47,7 @@ export default function ReviewsSlider({ reviews }: Props) {
         >
           {reviews.map((review) => (
             <SwiperSlide key={review.id} className={styles.slide}>
-              <ReviewCard review={review} />
+              <ReviewCards review={review} showLocation={showLocation} />
             </SwiperSlide>
           ))}
         </Swiper>
