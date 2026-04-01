@@ -1,5 +1,6 @@
 .section {
     padding: 64px 0;
+    background-color: var(--background-secondary);
 }
 
 .header {
@@ -59,18 +60,34 @@
     gap: 10px;
     margin-top: 40px;
 }
-
 .navBtn {
-    border: rgb(255 229 217);
-        border-radius: 8px;
-        padding: 12px;
-        width: 48px;
-        height: 48px;
-        background: rgb(255 229 217);
+    border: 1px solid var(--neutral-darkest-15);
+    border-radius: 8px;
+    padding: 12px;
+    width: 48px;
+    height: 48px;
+    background-color: var(--foreground-secondary);
+    transition: background 0.2s;
 }
 
-.navBtn:hover {
-    background: rgb(216, 216, 216);
+.navBtn:hover,
+.navBtn:focus {
+    background: var(--coral);
+    border-color: var(--coral);
+   
+}
+
+.navBtn:active {
+    background: var(--coral);
+    border-color: var(--neutral-darkest-15);
+}
+
+.navBtn:disabled {
+    background: var(--neutral-lighter);
+    border-color: var(--neutral-lighter);
+    color: var(--neutral);
+    cursor: not-allowed;
+    pointer-events: none;
 }
 /* tablet */
 @media screen and (min-width: 768px) {

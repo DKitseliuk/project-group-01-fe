@@ -1,21 +1,40 @@
+// 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import styles from './Header.module.css';
-import { User } from '@/types/user'
+import { useAuthStore } from '@/lib/store/authStore';
+import { logout } from '@/lib/api/clientApi';
 
+export const HeaderActions = () => {
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated,
+  );
 
-type HeaderActionsProps = {
-  isAuthenticated: boolean;
-  user: User | null;
-  onLogout: () => void;
-};
+  const onLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      clearIsAuthenticated();
+      router.push('/');
+    }
+  };
 
-export const HeaderActions = ({ isAuthenticated, user, onLogout }: HeaderActionsProps) => {
   if (!isAuthenticated) {
     return (
       <div className={styles.authButtons}>
-        <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`}>Вхід</Link>
-        <Link href="/register" className={`${styles.authBtn} ${styles.registerBtn}`}>Реєстрація</Link>
+        <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`}>
+          Вхід
+        </Link>
+        <Link
+          href="/register"
+          className={`${styles.authBtn} ${styles.registerBtn}`}
+        >
+          Реєстрація
+        </Link>
       </div>
     );
   }
@@ -25,11 +44,17 @@ export const HeaderActions = ({ isAuthenticated, user, onLogout }: HeaderActions
   return (
     <div className={styles.authActions}>
       {/* Планшет */}
-      <Link href="/locations/action/add" className={`${styles.publishBtn} ${styles.publishBtnTablet}`}>
+      <Link
+        href="/locations/action/add"
+        className={`${styles.publishBtn} ${styles.publishBtnTablet}`}
+      >
         Опублікувати статтю
       </Link>
       {/* Десктоп */}
-      <Link href="/locations/action/add" className={`${styles.publishBtn} ${styles.publishBtnDesktop}`}>
+      <Link
+        href="/locations/action/add"
+        className={`${styles.publishBtn} ${styles.publishBtnDesktop}`}
+      >
         Поділитись локацією
       </Link>
       <div className={styles.userRowDesktop}>
@@ -38,7 +63,12 @@ export const HeaderActions = ({ isAuthenticated, user, onLogout }: HeaderActions
         </div>
         <span className={styles.userName}>{user.name}</span>
         <div className={styles.userDivider} />
-        <button className={styles.logoutBtn} type="button" aria-label="Вийти" onClick={onLogout}>
+        <button
+          className={styles.logoutBtn}
+          type="button"
+          aria-label="Вийти"
+          onClick={onLogout}
+        >
           <svg width="24" height="24" aria-hidden="true">
             <use href="/img/icons.svg#icon-logout" />
           </svg>

@@ -33,7 +33,7 @@ export default function PopularLocationsBlock() {
   const topLocations = [...locations]
     .sort((a, b) => b.rate - a.rate)
     .slice(0, 6);
-
+  
   return (
     <section className={css.section}>
       <div className="container">
@@ -50,6 +50,7 @@ export default function PopularLocationsBlock() {
           }}
           spaceBetween={24}
           slidesPerView={1}
+          loop={true}
           breakpoints={{
             768: { slidesPerView: 2 },
             1440: { slidesPerView: 3 },
