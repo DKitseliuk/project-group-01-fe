@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
 
 const Rating = dynamic(
-  () => import("react-simple-star-rating").then((m) => m.Rating),
+  () => import('react-simple-star-rating').then((m) => m.Rating),
   { ssr: false },
 );
 

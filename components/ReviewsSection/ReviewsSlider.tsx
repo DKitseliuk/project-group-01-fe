@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
-import StarRating from "@/components/StarRating/StarRating";
-import type { Review } from "@/types/review";
-import "swiper/css";
-import styles from "./ReviewsSection.module.css";
+import { useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
+import StarRating from '@/components/StarRating/StarRating';
+import type { Review } from '@/types/review';
+import 'swiper/css';
+import styles from './ReviewsSection.module.css';
 
 type Props = { reviews: Review[] };
 
-function NavArrow({ direction }: { direction: "prev" | "next" }) {
+function NavArrow({ direction }: { direction: 'prev' | 'next' }) {
   const iconId =
-    direction === "prev" ? "icon-arrow-back" : "icon-arrow-forward";
+    direction === 'prev' ? 'icon-arrow-back' : 'icon-arrow-forward';
   return (
     <svg className={styles.navIcon} viewBox="0 0 32 32" aria-hidden>
       <use href={`/img/icons.svg#${iconId}`} />
@@ -45,7 +45,9 @@ export default function ReviewsSlider({ reviews }: Props) {
           spaceBetween={16}
           slidesPerView={1}
           slidesPerGroup={1}
-          onSwiper={(s) => { swiperRef.current = s; }}
+          onSwiper={(s) => {
+            swiperRef.current = s;
+          }}
           breakpoints={{
             375: { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 18 },
             768: { slidesPerView: 2, slidesPerGroup: 1, spaceBetween: 20 },

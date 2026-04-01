@@ -128,7 +128,6 @@
   stroke: var(--white);
 }
 
-
 .navIcon {
   display: block;
   width: 24px;
@@ -146,7 +145,6 @@
 
 /* Tablet 768px+ */
 @media screen and (min-width: 768px) {
-
   .title {
     font-size: 44px;
   }
@@ -179,5 +177,4 @@
   .locationName {
     font-size: 12px;
   }
-
 }
