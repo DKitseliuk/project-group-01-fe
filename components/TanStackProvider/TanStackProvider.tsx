@@ -11,14 +11,15 @@ function initCategories() {
   fetchRegions().then(setRegions);
 }
 
-initCategories();
-
 export default function TanStackProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [client] = useState(() => new QueryClient());
+  const [client] = useState(() => {
+    initCategories();
+    return new QueryClient();
+  });
 
   return (
     <QueryClientProvider client={client}>
