@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
@@ -33,10 +33,14 @@ const validationSchema = Yup.object({
         .required('Додайте фото')
         .test('fileSize', 'Розмір фото має бути менше 5 MB', value => {
             if (!value) return true;
+            if (!(value instanceof File)) return false;
+
             return value.size <= 5 * 1024 * 1024;
         })
         .test('fileFormat', 'Дозволені лише JPG, JPEG, PNG, WEBP', value => {
             if (!value) return true;
+            if (!(value instanceof File)) return false;
+
             return ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(value.type);
         }),
 });
@@ -51,7 +55,6 @@ const initialValues: FormValues = {
 
 const LocationForm = () => {
     const [preview, setPreview] = useState<string>('');
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleSubmit = async (
         values: FormValues,
@@ -60,9 +63,7 @@ const LocationForm = () => {
         try {
             console.log('Form values:', values);
 
-            // Тут буде запит на бекенд / dispatch / mutation
-            // Наприклад:
-            // await createLocation(values);
+            // Тут буде запит на бекенд
 
             actions.resetForm();
             setPreview('');
@@ -82,6 +83,12 @@ const LocationForm = () => {
             onSubmit={handleSubmit}
         >
             {({ values, setFieldValue, isValid, isSubmitting, touched, errors, status }) => {
+                const isFormFilled =
+                    values.title.trim() !== '' &&
+                    values.type.trim() !== '' &&
+                    values.region.trim() !== '' &&
+                    values.description.trim() !== '' &&
+                    values.image !== null;
                 const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     const file = event.currentTarget.files?.[0] ?? null;
                     setFieldValue('image', file);
@@ -98,7 +105,7 @@ const LocationForm = () => {
                     <Form className={css.form}>
                         <div className={css.fieldGroup}>
                             <label className={css.label} htmlFor="image">
-                                Обкладинка
+                                {values.image ? 'Обкладинка статті' : 'Обкладинка'}
                             </label>
 
                             <div className={css.upload}>
@@ -109,7 +116,6 @@ const LocationForm = () => {
                                         fill
                                         className={css.uploadedImage}
                                         sizes="(min-width: 1440px) 1091px, (min-width: 768px) 100vw, 100vw"
-                                        priority
                                     />
                                 </div>
 
@@ -149,43 +155,27 @@ const LocationForm = () => {
                             <label className={css.label} htmlFor="type">
                                 Тип місця
                             </label>
-                            {/* <Field
+
+                            <Field
                                 as="select"
-                                className={`${css.select} ${touched.type && errors.type ? css.inputError : ''
-                                    }`}
                                 id="type"
                                 name="type"
-                            >
+                                className={`
+                             ${css.select}
+                            ${!values.type ? css.selectPlaceholder : ''}
+                            ${touched.type && errors.type ? css.inputError : ''}
+                            `}>
                                 <option value="" disabled>
                                     Оберіть тип місця
                                 </option>
+
                                 {LOCATION_TYPES.map(option => (
                                     <option key={option.value} value={option.value}>
                                         {option.label}
                                     </option>
                                 ))}
-                            </Field> */}
-
-                            <Field
-                            as="select"
-                            id="type"
-                            name="type"
-                            className={`
-                             ${css.select}
-                            ${!values.type ? css.selectPlaceholder : ''}
-                            ${touched.type && errors.type ? css.inputError : ''}
-                            `}>
-                            <option value="" disabled>
-                            Оберіть тип місця
-                             </option>
-
-                            {LOCATION_TYPES.map(option => (
-                            <option key={option.value} value={option.value}>
-                            {option.label}
-                            </option>
-                            ))}
                             </Field>
-                            
+
                             <ErrorMessage name="type" component="p" className={css.errorMessage} />
                         </div>
 
@@ -193,22 +183,6 @@ const LocationForm = () => {
                             <label className={css.label} htmlFor="region">
                                 Регіон
                             </label>
-                            {/* <Field
-                                as="select"
-                                className={`${css.select} ${touched.region && errors.region ? css.inputError : ''
-                                    }`}
-                                id="region"
-                                name="region"
-                            >
-                                <option value="" disabled>
-                                    Оберіть регіон
-                                </option>
-                                {REGIONS.map(region => (
-                                    <option key={region.value} value={region.value}>
-                                        {region.label}
-                                    </option>
-                                ))}
-                            </Field> */}
                             <Field
                                 as="select"
                                 id="region"
@@ -255,7 +229,11 @@ const LocationForm = () => {
                                 className={css.submitButton}
                                 disabled={!isValid || isSubmitting}
                             >
-                                {isSubmitting ? 'Публікація...' : 'Опублікувати'}
+                                {isSubmitting
+                                    ? 'Публікація...'
+                                    : isFormFilled
+                                        ? 'Зберегти'
+                                        : 'Опублікувати'}
                             </button>
 
                             <button type="reset" className={css.cancelButton}>

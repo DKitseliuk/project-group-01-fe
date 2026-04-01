@@ -1,239 +1,3 @@
-/* .form {
-    background-color: var(--background-secondary);
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    height: 100%;
-}
-
-/* .fieldGroup {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-} */
-
-/* .imageWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 24px;
-}
-
-.uploadedImage {
-    object-fit: cover;
-}
-
-
-.label {
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    margin-bottom: 8px;
-}
-
-.imageUploadBox {
-    position: relative;
-    width: 100%;
-    height: 223px;
-    overflow: hidden;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-
-
-/* .imageBox {
-  width: 100%;
-  min-height: 184px;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  background-color: var(--foreground-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-} */
-
-/* 
-.imagePlaceholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 223px;
-    border-radius: 12px;
-    background-color: var(--foreground-primary);
-    overflow: hidden;
-}
-
-
-.uploadButton {
-    height: 38px;
-    width: fit-content;
-    min-height: 36px;
-    padding: 4px 10px;
-    border: 1px solid transparent;
-    border-radius: 6px;
-    background-color: var(--neutral-darkest-5);
-    color: var(--text-secondary);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.5;
-    cursor: pointer;
-    transition:
-        border-color 0.2s ease,
-        opacity 0.2s ease;
- 
-}
-
-
-.uploadButton:hover,
-.uploadButton:focus {
-    border-color: var(--coral-light);
-}
-
-.input,
-.select,
-.textarea {
-    height: 40px;
-    width: 100%;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    background-color: var(--foreground-secondary);
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    outline: none;
-    transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease,
-        opacity 0.2s ease;
-}
-
-.input::placeholder,
-.textarea::placeholder,
-.select {
-    color: var(--neutral);
-}
-
-.input:hover,
-.select:hover,
-.textarea:hover {
-    border-color: var(--coral-light);
-}
-
-.input:focus,
-.select:focus,
-.textarea:focus {
-    border-color: var(--coral);
-}
-
-
-.textarea {
-    resize: none;
-    padding: 8px;
-    min-height: 120px;
-}
-
-.actions {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 8px;
-    margin-bottom: 64px;
-}
-
-.cancelButton,
-.submitButton {
-    width: 100%;
-    height: 40px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    cursor: pointer;
-    transition:
-        opacity 0.2s ease,
-        border-color 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
-}
-
-.cancelButton {
-    border: 1px solid var(--neutral-lightest);
-    background-color: var(--foreground-primary);
-    color: var(--neutral-dark);
-}
-
-.cancelButton:hover,
-.cancelButton:focus {
-    border-color: var(--coral-light);
-    background-color: var(--foreground-secondary);
-}
-
-.submitButton {
-    border: none;
-    background-color: var(--coral-light);
-    color: var(--white);
-}
-
-
-
-@media screen and (min-width: 768px) {
-    .form {
-        gap: 24px;
-    }
-
-    .imageWrapper {
-    
-        flex-direction: column;
-    }
-
-    .imageUploadBox {
-
-        height: 468px;
-
-    }
-
-
-
-    .imagePlaceholder {
-        height: 180px;
-    }
-
-    .actions {
-        flex-direction: row;
-    }
-
-    .cancelButton,
-    .submitButton {
-        width: 204px;
-        height: 48px;
-    }
-}
-
-@media screen and (min-width: 1440px) {
-    .form {
-        max-width: 1091px;
-    }
-
-
-    .imageWrapper {
-        /* display: flex; */
-/* flex-direction: column-reverse;
-    }
-
-    .imageUploadBox {
-        height: 726px;
-    }
-
-    .uploadButton {
-        font-size: 20px;
-    } */
-
 
 .form {
     display: flex;
@@ -285,17 +49,18 @@
 
 .uploadButton {
     width: fit-content;
+    align-content: center;
     height: 40px;
     padding: 4px 10px;
-    border: 1px solid transparent;
     border-radius: 8px;
-    background-color: var(--foreground-secondary);
-    color: var(--text-secondary);
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
     cursor: pointer;
     transition: border-color 0.2s ease;
+     border: 1px solid var(--neutral-darkest-15);
+    background-color: var(--foreground-primary);
+    color: var(--neutral-dark);
 }
 
 
@@ -398,7 +163,7 @@
 }
 
 .cancelButton {
-    border: 1px solid var(--neutral-lightest);
+    border: 1px solid var(--neutral-darkest-15);
     background-color: var(--foreground-primary);
     color: var(--neutral-dark);
 }
