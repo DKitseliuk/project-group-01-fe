@@ -13,10 +13,10 @@
     height: 195px;
 }
 .text {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--text-primary);
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 .btn {

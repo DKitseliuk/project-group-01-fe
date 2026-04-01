@@ -21,11 +21,13 @@ export const ProfilePageClient = ({ userId }: ProfilePageClientProps) => {
   const { data: user, isLoading, isError } = useQuery({
     queryKey: ['user', userId],
     queryFn: () => getUser(userId),
+     refetchOnMount: false,
   });
 
    const { data: locationsData } = useQuery({
     queryKey: ['userLocations', userId, page],
-    queryFn: () => getUserLocations(userId, page, PER_PAGE),
+     queryFn: () => getUserLocations(userId, page, PER_PAGE),
+    refetchOnMount: false,
   });
 
   if (isLoading) return <p>Завантаження...</p>;
@@ -41,6 +43,8 @@ export const ProfilePageClient = ({ userId }: ProfilePageClientProps) => {
         name={user.name}
         avatarUrl={user.avatarUrl}
         articlesAmount={user.articlesAmount}
+        isOwnProfile={isOwnProfile}
+
       />
       <div className={styles.placeholderWrapper}>
   {!isOwnProfile && <h2 className={styles.title}>Локації</h2>}

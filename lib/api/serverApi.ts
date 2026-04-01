@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { backendServer } from './api';
 import type { Location } from '@/types/location';
 import { LocationType, Region } from '@/types/categories';
+import type { User } from '@/types/user';
 
 const getCookieHeader = async () => {
   const cookieStore = await cookies();
@@ -80,10 +81,30 @@ const refreshSession = async (): Promise<
   return res;
 };
 
+ const getUserById = async (userId: string): Promise<User> => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get<User>(`/users/${userId}`, {
+    headers: { Cookie: cookieHeader },
+  });
+  return data;
+};
+
+ const getUserLocationsById = async (userId: string, page = 1, perPage = 6) => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get(`/users/${userId}/locations`, {
+    headers: { Cookie: cookieHeader },
+    params: { page, perPage },
+  });
+  return data;
+};
+
 export {
   fetchLocations,
   fetchLocationById,
   refreshSession,
   getLocationTypes,
   getRegions,
+  getUserById,
+  getUserLocationsById
 };
+
