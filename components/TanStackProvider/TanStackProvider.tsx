@@ -1,29 +1,30 @@
-"use client";
+'use client';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
-import { useCategoriesStore } from "@/lib/store/categoriesStore";
-import { fetchLocationTypes, fetchRegions } from "@/lib/api/clientApi";
+import {
+  DehydratedState,
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import { useState } from 'react';
 
-function initCategories() {
-  const { setLocationTypes, setRegions } = useCategoriesStore.getState();
-  fetchLocationTypes().then(setLocationTypes);
-  fetchRegions().then(setRegions);
-}
+
 
 export default function TanStackProvider({
   children,
+  dehydratedState,
 }: {
   children: React.ReactNode;
+  dehydratedState: DehydratedState;
 }) {
-  const [client] = useState(() => {
-    initCategories();
-    return new QueryClient();
-  });
+  const [client] = useState(() => new QueryClient());
+
+
+
 
   return (
     <QueryClientProvider client={client}>
-      {children}
+      <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
     </QueryClientProvider>
   );
 }

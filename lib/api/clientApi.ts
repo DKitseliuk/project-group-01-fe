@@ -2,30 +2,35 @@ import { nextServer } from '@/lib/api/api';
 import type { Location, FetchLocationsParams } from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
-import { Region, LocationType } from '@/types/categories';
+import { LocationType, Region } from '@/types/categories';
+
 
 export const fetchLocations = async ({
   page,
   perPage,
   search,
   region,
+  limit,
+  sort,
+  order,
 }: FetchLocationsParams = {}): Promise<Location[]> => {
   const res = await nextServer.get<{ locations: Location[] }>('/locations', {
-    params: { page, perPage, search, region },
+    params: { page, perPage, search, region, limit, sort, order },
   });
 
-  return res.data.locations; 
+  return res.data.locations;
 };
 
-
-export const fetchLocationTypes = async (): Promise<LocationType[]> => {
-  const res = await nextServer.get<{ locationTypes: LocationType[] }>("/categories/location-types");
-  return res.data.locationTypes;
+const getLocationTypes = async (): Promise<LocationType[]> => {
+  const { data } = await nextServer.get<LocationType[]>(
+    '/categories/location-types',
+  );
+  return data;
 };
 
-export const fetchRegions = async (): Promise<Region[]> => {
-  const res = await nextServer.get<{ regions: Region[] }>("/categories/regions");
-  return res.data.regions;
+const getRegions = async (): Promise<Region[]> => {
+  const { data } = await nextServer.get<Region[]>('/categories/regions');
+  return data;
 };
 
 async function register(payload: RegisterValues) {
@@ -56,4 +61,12 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
-export { register, login, refreshSession, getMe, logout };
+export {
+  register,
+  login,
+  refreshSession,
+  getMe,
+  logout,
+  getLocationTypes,
+  getRegions,
+};

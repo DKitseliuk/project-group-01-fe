@@ -18,4 +18,7 @@ export interface FetchLocationsParams  {
   perPage?: number;
   search?: string;
   region?: string;
+  limit?: number;
+  sort?: string;
+  order?: string;
 };
