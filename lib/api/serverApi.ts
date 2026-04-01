@@ -9,14 +9,7 @@ const getCookieHeader = async () => {
   const accessToken = cookieStore.get('accessToken')?.value;
   const refreshToken = cookieStore.get('refreshToken')?.value;
   const sessionId = cookieStore.get('sessionId')?.value;
-
-  const pairs = [
-    ['accessToken', accessToken],
-    ['refreshToken', refreshToken],
-    ['sessionId', sessionId],
-  ].filter(([, value]) => Boolean(value)) as Array<[string, string]>;
-
-  return pairs.map(([key, value]) => `${key}=${value}`).join('; ');
+  return `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`;
 };
 
 const fetchLocations = async (): Promise<Location[]> => {
