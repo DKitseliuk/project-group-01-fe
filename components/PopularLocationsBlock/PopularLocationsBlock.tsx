@@ -50,6 +50,7 @@ export default function PopularLocationsBlock() {
           }}
           spaceBetween={24}
           slidesPerView={1}
+          loop={true}
           breakpoints={{
             768: { slidesPerView: 2 },
             1440: { slidesPerView: 3 },
