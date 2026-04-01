@@ -26,6 +26,21 @@ const fetchLocations = async (): Promise<Location[]> => {
   return data.locations;
 };
 
+const fetchLocationById = async (locationId: string): Promise<Location> => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<{ location: Location }>(
+    `/locations/${locationId}`,
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
+  return data.location;
+};
+
 const getLocationTypes = async (): Promise<LocationType[]> => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get<LocationType[]>(
@@ -65,4 +80,10 @@ const refreshSession = async (): Promise<
   return res;
 };
 
-export { fetchLocations, refreshSession, getLocationTypes, getRegions };
+export {
+  fetchLocations,
+  fetchLocationById,
+  refreshSession,
+  getLocationTypes,
+  getRegions,
+};
