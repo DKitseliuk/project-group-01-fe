@@ -22,14 +22,15 @@ export default function LocationCard({ location, isOwner, canEdit = false }: Pro
 
   return (
     <div className={css.card}>
-  <div className={css.imageWrapper}>
     <Image
-      src={location.image || "/placeholder.jpg"}
-      alt={location.name}
-      fill
-      className={css.image}
-    />
-  </div>
+  src={location.image || "/placeholder.jpg"}
+  alt={location.name}
+  width={335}
+  height={335}
+  sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
+  className={css.image}
+/>
+
 
   <p className={css.tag}>{locationTypeLabel}</p>
   <StarRating value={location.rate} />
