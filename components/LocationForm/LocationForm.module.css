@@ -82,7 +82,7 @@
         background-color 0.2s ease;
 }
 
-.select {
+/* .select {
   background-color: var(--foreground-secondary);
   width: 100%;
   height: 40px;
@@ -94,15 +94,15 @@
   font-weight: 400;
   line-height: 1.5;
   color: var(--coral-darker);
-}
+} */
 
-.selectPlaceholder {
+/* .selectPlaceholder {
     color: #4c4c4c;
     font-size: 16px;
     line-height: 1.5;
     font-weight: 400;
   color: var(--neutral-darkest)
-}
+} */
 
 .textarea {
     width: 100%;
@@ -180,12 +180,195 @@
     cursor: not-allowed;
 }
 
-.desktopTopButton {
+.reactSelect {
+  width: 100%;
+}
+
+.selectControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: var(--coral-lighter);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.selectControl:hover {
+  border-color: var(--coral-light);
+}
+
+.selectControlFocused {
+  border-color: var(--coral-light);
+}
+
+.selectControlError {
+  border-color: var(--coral-light);
+}
+
+.selectValueContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 0;
+}
+
+.selectPlaceholder {
+  color: var(--neutral-darkest);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectSingleValue {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectIndicators {
+  display: flex;
+  align-items: center;
+}
+
+.selectDropdownIndicator {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.selectIndicatorSeparator {
   display: none;
 }
 
-.desktopBottomButton {
-  display: block;
+.selectMenu {
+  margin-top: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.selectMenuList {
+  padding: 0;
+}
+
+.selectOption {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.selectOptionFocused {
+  background-color: #fdf1eb;
+}
+
+.selectOptionSelected {
+  background-color: var(--coral-light);
+  color: var(--white);
+}
+
+.reactSelect {
+  width: 100%;
+}
+
+.selectControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: var(--foreground-secondary);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.selectControl:hover {
+  border-color: var(--coral-light);
+}
+
+.selectControlFocused {
+  border-color: var(--coral);
+}
+
+.selectControlError {
+  border-color: #d9534f;
+}
+
+.selectValueContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 0;
+}
+
+.selectPlaceholder {
+  color: var(--neutral);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectSingleValue {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectIndicators {
+  display: flex;
+  align-items: center;
+}
+
+.selectDropdownIndicator {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.selectIndicatorSeparator {
+  display: none;
+}
+
+.selectMenu {
+  margin-top: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--foreground-primary);
+  border: 1px solid var(--neutral-darkest-15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+}
+
+.selectMenuList {
+  padding: 0;
+}
+
+.selectOption {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  background-color: var(--coral-lighter);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.selectOptionFocused {
+  background-color: #fdf1eb;
+}
+
+.selectOptionSelected {
+  background-color: var(--coral-light);
+  color: var(--white);
 }
 
 
@@ -234,96 +417,15 @@
     border-color: var(--coral-light);
   }
 
-  .selectPlaceholder {
+  /* .selectPlaceholder {
     color: var(--neutral-dark);
     font-size: 18px;
-  }
+  } */
 
   .cancelButton:hover,
   .cancelButton:focus {
     border-color: var(--coral-light);
     background-color: var(--foreground-secondary);
   }
-
-  /* верхня кнопка показується, коли немає фото */
-  .desktopTopButton {
-    display: block;
-  }
-
-  /* нижню кнопку на desktop ховаємо за замовчуванням */
-  .upload > .uploadButton:not(.desktopTopButton) {
-    display: none;
-  }
-
-  /* але якщо фото є і додався клас desktopBottomButton — показуємо */
-  .upload > .uploadButton.desktopBottomButton {
-    display: block;
-  }
 }
-
-
-/* @media screen and (min-width: 1440px) {
-    .form {
-        max-width: 1091px;
-    }
-
-    .upload {
-        flex-direction: column-reverse;
-
-    }
-
-    .imageUploadBox {
-        height: 726px;
-    }
-
-    .label {
-        font-size: 18px;
-    }
-
-    .uploadButton {
-        font-size: 20px;
-    }
-
-    .uploadButton:hover,
-.uploadButton:focus {
-    border-color: var(--coral-light);
-}
-
-.selectPlaceholder {
-    color: #4c4c4c;
-     font-size: 18px;
-
-}
-
-
-    .cancelButton:hover,
-.cancelButton:focus {
-    border-color: var(--coral-light);
-    background-color: var(--foreground-secondary);
-}
-
-  .desktopTopButton {
-    display: block;
-  }
-
-
-  .uploadButton:not(.desktopTopButton) {
-    display: none;
-  }
-
-  .desktopAfterUpload {
-    display: block;
-  }
-
-  .desktopTopButton + .imageUploadBox ~ .uploadButton.desktopAfterUpload {
-    display: block;
-  }
-
-  .desktopTopButton {
-    display: none;
-  }
-} */
-
-
-
 

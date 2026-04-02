@@ -1,5 +1,5 @@
 'use client';
-
+import Select from 'react-select';
 import { useState } from 'react';
 import Image from 'next/image';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
@@ -19,6 +19,7 @@ const initialValues: LocationFormValues = {
   description: '',
   image: null,
 };
+
 
 const LocationForm = () => {
   const [preview, setPreview] = useState<string>('');
@@ -60,35 +61,47 @@ const LocationForm = () => {
       validateOnMount
       onSubmit={handleSubmit}
     >
-      {({
-        values,
-        setFieldValue,
-        resetForm,
-        isValid,
-        isSubmitting,
-        touched,
-        errors,
-      }) => {
-        const isFormFilled =
-          values.name.trim() !== '' &&
-          values.locationType.trim() !== '' &&
-          values.region.trim() !== '' &&
-          values.description.trim() !== '' &&
-          values.image !== null;
-        const handleImageChange = (
-          event: React.ChangeEvent<HTMLInputElement>,
-        ) => {
-          const file = event.currentTarget.files?.[0] ?? null;
-          setFieldValue('image', file);
+          {({
+              values,
+              setFieldValue,
+              setFieldTouched,
+              resetForm,
+              isValid,
+              isSubmitting,
+              touched,
+              errors,
+          }) => {
+              const isFormFilled =
+                  values.name.trim() !== '' &&
+                  values.locationType.trim() !== '' &&
+                  values.region.trim() !== '' &&
+                  values.description.trim() !== '' &&
+                  values.image !== null;
+              const handleImageChange = (
+                  event: React.ChangeEvent<HTMLInputElement>,
+              ) => {
+                  const file = event.currentTarget.files?.[0] ?? null;
+                  setFieldValue('image', file);
 
-          if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setPreview(imageUrl);
-          } else {
-            setPreview('');
-          }
-        };
+                  if (file) {
+                      const imageUrl = URL.createObjectURL(file);
+                      setPreview(imageUrl);
+                  } else {
+                      setPreview('');
+                  }
+              };
 
+              const locationTypeOptions = locationTypes.map(({ _id, type, slug }) => ({
+                  value: slug,
+                  label: type,
+              }));
+
+              const regionOptions = regions.map(({ _id, region, slug }) => ({
+                  value: slug,
+                  label: region,
+              }));
+          
+              
         return (
           <Form className={css.form}>
             <div className={css.fieldGroup}>
@@ -97,15 +110,7 @@ const LocationForm = () => {
               </label>
 
               <div className={css.upload}>
-                {!preview && (
-                  <label
-                    htmlFor="image"
-                    className={`${css.uploadButton} ${css.desktopTopButton}`}
-                  >
-                    Завантажити фото
-                  </label>
-                )}
-
+        
                 <div className={css.imageUploadBox}>
                   <Image
                     src={preview || '/img/PlaceholderImageCreate.jpg'}
@@ -125,12 +130,9 @@ const LocationForm = () => {
                   onChange={handleImageChange}
                 />
 
-                <label
-                  htmlFor="image"
-                  className={`${css.uploadButton} ${preview ? css.desktopBottomButton : ''}`}
-                >
-                  Завантажити фото
-                </label>
+                        <label htmlFor="image" className={css.uploadButton}>
+  Завантажити фото
+</label>
 
                 <ErrorMessage
                   name="image"
@@ -161,68 +163,138 @@ const LocationForm = () => {
             </div>
 
             <div className={css.fieldGroup}>
-              <label className={css.label} htmlFor="locationType">
-                Тип місця
-              </label>
+  <label className={css.label} htmlFor="locationType">
+    Тип місця
+  </label>
 
-              <Field
-                as="select"
-                id="locationType"
-                name="locationType"
-                className={`
-    ${css.select}
-    ${!values.locationType ? css.selectPlaceholder : ''}
-    ${touched.locationType && errors.locationType ? css.inputError : ''}
-  `}
-              >
-                <option value="" disabled>
-                  Оберіть тип місця
-                </option>
+                    {/* <Select
+                        className={css.reactSelect}
+    inputId="locationType"
+    options={locationTypeOptions}
+    placeholder="Оберіть тип місця"
+    value={
+      locationTypeOptions.find(
+        option => option.value === values.locationType
+      ) || null
+    }
+    onChange={option => {
+      setFieldValue('locationType', option?.value || '');
+    }}
+    onBlur={() => setFieldTouched('locationType', true)}
+    classNamePrefix="customSelect"
+  /> */}
+<Select
+  inputId="locationType"
+  options={locationTypeOptions}
+  placeholder="Оберіть тип місця"
+  value={
+    locationTypeOptions.find(
+      option => option.value === values.locationType
+    ) || null
+  }
+  onChange={option => {
+    setFieldValue('locationType', option?.value || '');
+  }}
+  onBlur={() => setFieldTouched('locationType', true)}
+  unstyled
+  className={css.reactSelect}
+  classNames={{
+    control: state =>
+      `${css.selectControl} ${
+        state.isFocused ? css.selectControlFocused : ''
+      } ${
+        touched.locationType && errors.locationType ? css.selectControlError : ''
+      }`,
+    valueContainer: () => css.selectValueContainer,
+    placeholder: () => css.selectPlaceholder,
+    singleValue: () => css.selectSingleValue,
+    indicatorsContainer: () => css.selectIndicators,
+    dropdownIndicator: () => css.selectDropdownIndicator,
+    indicatorSeparator: () => css.selectIndicatorSeparator,
+    menu: () => css.selectMenu,
+    menuList: () => css.selectMenuList,
+    option: state =>
+      `${css.selectOption} ${
+        state.isFocused ? css.selectOptionFocused : ''
+      } ${
+        state.isSelected ? css.selectOptionSelected : ''
+      }`,
+  }}
+/>
+  <ErrorMessage
+    name="locationType"
+    component="p"
+    className={css.errorMessage}
+  />
+</div>
 
-                {locationTypes.map(({ _id, type, slug }) => (
-                  <option key={_id} value={slug}>
-                    {type}
-                  </option>
-                ))}
-              </Field>
-
-              <ErrorMessage
-                name="locationType"
-                component="p"
-                className={css.errorMessage}
-              />
-            </div>
 
             <div className={css.fieldGroup}>
-              <label className={css.label} htmlFor="region">
-                Регіон
-              </label>
-              <Field
-                as="select"
-                id="region"
-                name="region"
-                className={`
-    ${css.select}
-    ${!values.region ? css.selectPlaceholder : ''}
-    ${touched.region && errors.region ? css.inputError : ''}
-  `}
-              >
-                <option value="" disabled>
-                  Оберіть регіон
-                </option>
+  <label className={css.label} htmlFor="region">
+    Регіон
+  </label>
 
-                {regions.map(({ _id, region, slug }) => (
-                  <option key={_id} value={slug}>
-                    {region}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage
-                name="region"
-                component="p"
-                className={css.errorMessage}
-              />
-            </div>
+                    {/* <Select
+                        
+    inputId="region"
+    options={regionOptions}
+    placeholder="Оберіть регіон"
+    value={
+      regionOptions.find(
+        option => option.value === values.region
+      ) || null
+    }
+    onChange={option => {
+      setFieldValue('region', option?.value || '');
+    }}
+    onBlur={() => setFieldTouched('region', true)}
+    classNamePrefix="customSelect"
+  /> */}
+                    <Select
+  inputId="region"
+  options={regionOptions}
+  placeholder="Оберіть регіон"
+  value={
+    regionOptions.find(
+      option => option.value === values.region
+    ) || null
+  }
+  onChange={option => {
+    setFieldValue('region', option?.value || '');
+  }}
+  onBlur={() => setFieldTouched('region', true)}
+  unstyled
+  className={css.reactSelect}
+  classNames={{
+    control: state =>
+      `${css.selectControl} ${
+        state.isFocused ? css.selectControlFocused : ''
+      } ${
+        touched.region && errors.region ? css.selectControlError : ''
+      }`,
+    valueContainer: () => css.selectValueContainer,
+    placeholder: () => css.selectPlaceholder,
+    singleValue: () => css.selectSingleValue,
+    indicatorsContainer: () => css.selectIndicators,
+    dropdownIndicator: () => css.selectDropdownIndicator,
+    indicatorSeparator: () => css.selectIndicatorSeparator,
+    menu: () => css.selectMenu,
+    menuList: () => css.selectMenuList,
+    option: state =>
+      `${css.selectOption} ${
+        state.isFocused ? css.selectOptionFocused : ''
+      } ${
+        state.isSelected ? css.selectOptionSelected : ''
+      }`,
+  }}
+/>
+
+  <ErrorMessage
+    name="region"
+    component="p"
+    className={css.errorMessage}
+  />
+</div>
 
             <div className={css.fieldGroup}>
               <label className={css.label} htmlFor="description">
@@ -272,7 +344,7 @@ const LocationForm = () => {
               </button>
             </div>
           </Form>
-        );
+         );
       }}
     </Formik>
   );
