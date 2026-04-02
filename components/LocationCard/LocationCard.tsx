@@ -23,6 +23,7 @@ export default function LocationCard({
 }: Props) {
   const user = useAuthStore((state) => state.user);
   const { locationTypes } = useCategoriesStore((state) => state.categories);
+  
 
   const locationTypeLabel =
     locationTypes.find(
