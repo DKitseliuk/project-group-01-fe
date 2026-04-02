@@ -18,7 +18,7 @@ export const fetchLocations = async ({
   return res.data.locations;
 };
 
-const createLocation = async (payload: CreateLocationPayload): Promise<Location> => {
+const createLocation = async (payload: FormData): Promise<Location> => {
   const res = await nextServer.post<Location>('/locations', payload);
   return res.data;
 };

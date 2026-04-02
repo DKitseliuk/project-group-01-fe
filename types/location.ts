@@ -31,11 +31,11 @@ export interface FetchLocationsParams {
   perPage?: number;
   search?: string;
   region?: string;
-};
+}
 
 export type LocationFormValues = {
-  title: string;
-  type: string;
+  name: string;
+  locationType: string;
   region: string;
   description: string;
   image: File | null;
