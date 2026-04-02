@@ -2,6 +2,7 @@ import styles from './LocationDetailsPage.module.css';
 import { LocationGallery } from '@/components/LocationGallery/LocationGallery';
 import { LocationInfoBlock } from '@/components/LocationInfoBlock/LocationInfoBlock';
 import { LocationDescription } from '@/components/LocationDescription/LocationDescription';
+import LocationMap from '@/components/LocationMap/LocationMap';
 import { fetchLocationById } from '@/lib/api/serverApi';
 import { notFound } from 'next/navigation';
 import type { LocationOwner } from '@/types/location';
@@ -52,6 +53,11 @@ const LocationDetailsPage = async ({ params }: Props) => {
             </div>
 
             <LocationDescription text={location.description} />
+
+            <LocationMap
+              region={location.region}
+              locationName={location.name}
+            />
           </div>
         </div>
       </section>
