@@ -17,29 +17,29 @@ export type CreateLocationResponse = {
     images?: string;
 };
 
-export const createLocation = async (
-    payload: CreateLocationPayload
-): Promise<CreateLocationResponse> => {
-    const formData = new FormData();
+// export const createLocation = async (
+//     payload: CreateLocationPayload
+// ): Promise<CreateLocationResponse> => {
+//     const formData = new FormData();
 
-    formData.append('title', payload.title);
-    formData.append('type', payload.type);
-    formData.append('region', payload.region);
-    formData.append('description', payload.description);
+//     formData.append('title', payload.title);
+//     formData.append('type', payload.type);
+//     formData.append('region', payload.region);
+//     formData.append('description', payload.description);
 
-    if (payload.images) {
-        formData.append('images', payload.images);
-    }
+//     if (payload.images) {
+//         formData.append('images', payload.images);
+//     }
 
-    const { data } = await axios.post<CreateLocationResponse>(
-        '/locations',
-        formData,
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        }
-    );
+//     const { data } = await (
+//         '/locations',
+//         formData,
+//         {
+//             headers: {
+//                 'Content-Type': 'multipart/form-data',
+//             },
+//         }
+//     );
 
-    return data;
-};
+//     return data;
+// };

@@ -3,6 +3,7 @@ import type { Location, FetchLocationsParams } from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
 import { Region, LocationType } from '@/types/categories';
+import { CreateLocationPayload } from './location';
 
 export const fetchLocations = async ({
   page,
@@ -15,6 +16,11 @@ export const fetchLocations = async ({
   });
 
   return res.data.locations;
+};
+
+const createLocation = async (payload: CreateLocationPayload): Promise<Location> => {
+  const res = await nextServer.post<Location>('/locations', payload);
+  return res.data;
 };
 
 async function register(payload: RegisterValues) {
@@ -65,4 +71,5 @@ export {
   logout,
   getLocationTypes,
   getRegions,
+  createLocation,
 };

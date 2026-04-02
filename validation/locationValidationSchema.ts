@@ -14,7 +14,7 @@ export const locationValidationSchema = Yup.object({
         .min(20, 'Опис має містити щонайменше 20 символів')
         .max(6000, 'Опис має містити не більше 6000 символів')
         .required('Додайте детальний опис'),
-    images: Yup.mixed()
+    image: Yup.mixed()
         .nullable()
         .required('Додайте фото')
         .test('fileSize', 'Розмір фото має бути менше 1 MB', value => {

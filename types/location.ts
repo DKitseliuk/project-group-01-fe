@@ -38,5 +38,5 @@ export type LocationFormValues = {
   type: string;
   region: string;
   description: string;
-  images: File | null;
+  image: File | null;
 };

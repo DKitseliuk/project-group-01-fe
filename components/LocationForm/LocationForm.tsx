@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 import { locationValidationSchema } from '@/validation/locationValidationSchema';
 import type { LocationFormValues } from '@/types/location';
-import { createLocation } from '@/lib/api/location';
+import { createLocation } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import toast from "react-hot-toast"
 
@@ -18,7 +18,7 @@ const initialValues: LocationFormValues = {
     type: '',
     region: '',
     description: '',
-    images: null,
+    image: null,
 };
 
 const LocationForm = () => {
@@ -38,7 +38,7 @@ const LocationForm = () => {
       type: values.type,
       region: values.region,
       description: values.description.trim(),
-      images: values.images instanceof File ? values.images : null,
+      image: values.image instanceof File ? values.image : null,
     });
 
     // actions.resetForm();
@@ -65,10 +65,10 @@ const LocationForm = () => {
                     values.type.trim() !== '' &&
                     values.region.trim() !== '' &&
                     values.description.trim() !== '' &&
-                    values.images !== null;
+                    values.image !== null;
                 const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     const file = event.currentTarget.files?.[0] ?? null;
-                    setFieldValue('images', file);
+                    setFieldValue('image', file);
 
                     if (file) {
                         const imageUrl = URL.createObjectURL(file);
@@ -81,14 +81,14 @@ const LocationForm = () => {
                 return (
                     <Form className={css.form}>
                         <div className={css.fieldGroup}>
-                            <label className={css.label} htmlFor="images">
-                                {values.images ? 'Обкладинка статті' : 'Обкладинка'}
+                            <label className={css.label} htmlFor="image">
+                                {values.image ? 'Обкладинка статті' : 'Обкладинка'}
                             </label>
 
                             <div className={css.upload}>
                                 {!preview && (
                                     <label
-                                        htmlFor="images"
+                                        htmlFor="image"
                                         className={`${css.uploadButton} ${css.desktopTopButton}`}
                                     >
                                         Завантажити фото
@@ -106,8 +106,8 @@ const LocationForm = () => {
                                 </div>
 
                                 <input
-                                    id="images"
-                                    name="images"
+                                    id="image"
+                                    name="image"
                                     type="file"
                                     accept="image/jpeg,image/png"
                                     className={css.hiddenInput}
@@ -115,13 +115,13 @@ const LocationForm = () => {
                                 />
 
                                 <label
-                                    htmlFor="images"
+                                    htmlFor="image"
                                     className={`${css.uploadButton} ${preview ? css.desktopBottomButton : ''}`}
                                 >
                                     Завантажити фото
                                 </label>
 
-                                <ErrorMessage name="images" component="p" className={css.errorMessage} />
+                                <ErrorMessage name="image" component="p" className={css.errorMessage} />
                             </div>
 
                         </div>
