@@ -5,11 +5,12 @@ import Image from 'next/image';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import css from './LocationForm.module.css';
 import { useQuery } from '@tanstack/react-query';
-// import { categoriesOptionsClient } from '@/api/categoriesOptionsClient';
+import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 import { locationValidationSchema } from '@/validation/locationValidationSchema';
 import type { LocationFormValues } from '@/types/location';
-
-
+import { createLocation } from '@/lib/api/location';
+import { useRouter } from 'next/navigation';
+import toast from "react-hot-toast"
 
 
 const initialValues: LocationFormValues = {
@@ -17,34 +18,40 @@ const initialValues: LocationFormValues = {
     type: '',
     region: '',
     description: '',
-    image: null,
+    images: null,
 };
 
 const LocationForm = () => {
     const [preview, setPreview] = useState<string>('');
-    
-    const { data: locationTypes } = useQuery(categoriesOptionsClient.locationTypes);
-const { data: regions } = useQuery(categoriesOptionsClient.regions);
+    const router = useRouter();
 
-    const handleSubmit = async (
-        values: LocationFormValues,
-        actions: FormikHelpers<LocationFormValues>
-    ) => {
-        try {
-            console.log('Form values:', values);
+    const { data: locationTypes = [] } = useQuery(categoriesOptionsClient.locationTypes);
+    const { data: regions = [] } = useQuery(categoriesOptionsClient.regions);
 
-            // Тут буде запит на бекенд
+  const handleSubmit = async (
+  values: LocationFormValues,
+  actions: FormikHelpers<LocationFormValues>
+) => {
+  try {
+    const createdLocation = await createLocation({
+      title: values.title.trim(),
+      type: values.type,
+      region: values.region,
+      description: values.description.trim(),
+      images: values.images instanceof File ? values.images : null,
+    });
 
-            actions.resetForm();
-            setPreview('');
-        } catch (error) {
-            console.error('Submit error:', error);
-            actions.setStatus('Сталася помилка під час публікації. Спробуйте ще раз.');
-        } finally {
-            actions.setSubmitting(false);
-        }
-    };
+    // actions.resetForm();
+    // setPreview('');
 
+    router.push(`/locations/${createdLocation._id}`);
+  } catch (error) {
+    console.error('Submit error:', error);
+    toast.error('Сталася помилка під час публікації. Спробуйте ще раз.');
+  } finally {
+    actions.setSubmitting(false);
+  }
+};
     return (
         <Formik
             initialValues={initialValues}
@@ -52,16 +59,16 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
             validateOnMount
             onSubmit={handleSubmit}
         >
-            {({ values, setFieldValue, resetForm, isValid, isSubmitting, touched, errors, status }) => {
+            {({ values, setFieldValue, resetForm, isValid, isSubmitting, touched, errors }) => {
                 const isFormFilled =
                     values.title.trim() !== '' &&
                     values.type.trim() !== '' &&
                     values.region.trim() !== '' &&
                     values.description.trim() !== '' &&
-                    values.image !== null;
+                    values.images !== null;
                 const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     const file = event.currentTarget.files?.[0] ?? null;
-                    setFieldValue('image', file);
+                    setFieldValue('images', file);
 
                     if (file) {
                         const imageUrl = URL.createObjectURL(file);
@@ -74,14 +81,14 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
                 return (
                     <Form className={css.form}>
                         <div className={css.fieldGroup}>
-                            <label className={css.label} htmlFor="image">
-                                {values.image ? 'Обкладинка статті' : 'Обкладинка'}
+                            <label className={css.label} htmlFor="images">
+                                {values.images ? 'Обкладинка статті' : 'Обкладинка'}
                             </label>
 
                             <div className={css.upload}>
                                 {!preview && (
                                     <label
-                                        htmlFor="image"
+                                        htmlFor="images"
                                         className={`${css.uploadButton} ${css.desktopTopButton}`}
                                     >
                                         Завантажити фото
@@ -99,8 +106,8 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
                                 </div>
 
                                 <input
-                                    id="image"
-                                    name="image"
+                                    id="images"
+                                    name="images"
                                     type="file"
                                     accept="image/jpeg,image/png"
                                     className={css.hiddenInput}
@@ -108,13 +115,13 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
                                 />
 
                                 <label
-                                    htmlFor="image"
+                                    htmlFor="images"
                                     className={`${css.uploadButton} ${preview ? css.desktopBottomButton : ''}`}
                                 >
                                     Завантажити фото
                                 </label>
 
-                                <ErrorMessage name="image" component="p" className={css.errorMessage} />
+                                <ErrorMessage name="images" component="p" className={css.errorMessage} />
                             </div>
 
                         </div>
@@ -144,17 +151,18 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
                                 id="type"
                                 name="type"
                                 className={`
-                             ${css.select}
-                            ${!values.type ? css.selectPlaceholder : ''}
-                            ${touched.type && errors.type ? css.inputError : ''}
-                            `}>
+    ${css.select}
+    ${!values.type ? css.selectPlaceholder : ''}
+    ${touched.type && errors.type ? css.inputError : ''}
+  `}
+                            >
                                 <option value="" disabled>
                                     Оберіть тип місця
                                 </option>
 
-                                {locationTypes.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
+                                {locationTypes.map(({ _id, type }) => (
+                                    <option key={_id} value={type}>
+                                        {type}
                                     </option>
                                 ))}
                             </Field>
@@ -171,17 +179,18 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
                                 id="region"
                                 name="region"
                                 className={`
-                                ${css.select}
-                                ${!values.region ? css.selectPlaceholder : ''}
-                                ${touched.region && errors.region ? css.inputError : ''}
-                                    `}>
+    ${css.select}
+    ${!values.region ? css.selectPlaceholder : ''}
+    ${touched.region && errors.region ? css.inputError : ''}
+  `}
+                            >
                                 <option value="" disabled>
                                     Оберіть регіон
                                 </option>
 
-                                {regions.map(region => (
-                                    <option key={region.value} value={region.value}>
-                                        {region.label}
+                                {regions.map(({ _id, region }) => (
+                                    <option key={_id} value={region}>
+                                        {region}
                                     </option>
                                 ))}
                             </Field>
@@ -203,8 +212,6 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
                             />
                             <ErrorMessage name="description" component="p" className={css.errorMessage} />
                         </div>
-
-                        {status ? <p className={css.submitError}>{status}</p> : null}
 
                         <div className={css.actions}>
                             <button
@@ -243,107 +250,3 @@ const { data: regions } = useQuery(categoriesOptionsClient.regions);
 export default LocationForm;
 
 
-
-
-//         <form className={css.form}>
-//             <div className={css.fieldGroup}>
-//                 <label className={css.label} htmlFor="image">
-//                     Обкладинка
-//                 </label>
-
-//                 <div className={css.upload}>
-//                     <div className={css.imageUploadBox}>
-//                         {preview ? (
-//                             <Image
-//                                 src={preview}
-//                                 alt="Завантажене фото"
-//                                 fill
-//                                 className={css.uploadedImage}
-//                             />
-//                         ) : (
-//                             <Image
-//                                 src="/img/PlaceholderImageCreate.jpg"
-//                                 alt="Placeholder"
-//                                 fill
-//                                 className={css.uploadedImage}
-//                             />
-//                         )}
-//                     </div>
-
-//                     <button type="button" className={css.uploadButton}>
-//                         Завантажити фото
-//                     </button>
-//                 </div>
-//             </div>
-
-//             <div className={css.fieldGroup}>
-//                 <label className={css.label} htmlFor="title">
-//                     Назва місця
-//                 </label>
-//                 <input
-//                     className={css.input}
-//                     id="title"
-//                     name="title"
-//                     type="text"
-//                     placeholder="Введіть назву місця"
-//                 />
-//             </div>
-
-//             <div className={css.fieldGroup}>
-//                 <label className={css.label} htmlFor="type">
-//                     Тип місця
-//                 </label>
-//                 <select className={css.select} id="type" name="type" defaultValue="">
-//                     <option value="" disabled>
-//                         Оберіть тип місця
-//                     </option>
-
-//                     {LOCATION_TYPES.map(option => (
-//                         <option key={option.value} value={option.value}>
-//                             {option.label}
-//                         </option>
-//                     ))}
-//                 </select>
-//             </div>
-
-//             <div className={css.fieldGroup}>
-//                 <label className={css.label} htmlFor="region">
-//                     Регіон
-//                 </label>
-//                 <select className={css.select} id="region" name="region" defaultValue="">
-//                     <option value="" disabled>
-//                         Оберіть регіон
-//                     </option>
-
-//                     {REGIONS.map(region => (
-//                         <option key={region.value} value={region.value}>
-//                             {region.label}
-//                         </option>
-//                     ))}
-//                 </select>
-//             </div>
-
-//             <div className={css.fieldGroup}>
-//                 <label className={css.label} htmlFor="description">
-//                     Детальний опис
-//                 </label>
-//                 <textarea
-//                     className={css.textarea}
-//                     id="description"
-//                     name="description"
-//                     placeholder="Детальний опис локації"
-//                     rows={6}
-//                 />
-//             </div>
-
-//             <div className={css.actions}>
-//                 <button type="submit" className={css.submitButton}>
-//                     Опублікувати
-//                 </button>
-
-//                 <button type="button" className={css.cancelButton}>
-//                     Відмінити
-//                 </button>
-//             </div>
-//         </form>
-//     );
