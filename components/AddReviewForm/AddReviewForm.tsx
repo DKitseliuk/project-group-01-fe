@@ -6,7 +6,7 @@ import { useId } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { isAxiosError } from 'axios';
-import { createReview } from '@/lib/api/reviews';
+import { createReview } from '@/lib/api/clientApi';
 import css from './AddReviewForm.module.css';
 
 export type AddReviewFormValues = {
