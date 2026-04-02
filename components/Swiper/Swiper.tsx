@@ -25,26 +25,34 @@ export default function Slider({
   return (
     <>
       <Swiper
-        onSwiper={swiper => { swiperRef.current = swiper; }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
         spaceBetween={spaceBetween}
         slidesPerView={1}
         loop={true}
         breakpoints={breakpoints}
       >
         {children.map((child, index) => (
-  <SwiperSlide key={index} style={{ height: 'auto' }}>
-    {child}
-  </SwiperSlide>
-))}
+          <SwiperSlide key={index} style={{ height: 'auto' }}>
+            {child}
+          </SwiperSlide>
+        ))}
       </Swiper>
 
       <div className={css.navBtns}>
-        <button className={css.navBtn} onClick={() => swiperRef.current?.slidePrev()}>
+        <button
+          className={css.navBtn}
+          onClick={() => swiperRef.current?.slidePrev()}
+        >
           <svg width="24" height="24">
             <use href="/img/icons.svg#icon-arrow-back" />
           </svg>
         </button>
-        <button className={css.navBtn} onClick={() => swiperRef.current?.slideNext()}>
+        <button
+          className={css.navBtn}
+          onClick={() => swiperRef.current?.slideNext()}
+        >
           <svg width="24" height="24">
             <use href="/img/icons.svg#icon-arrow-forward" />
           </svg>

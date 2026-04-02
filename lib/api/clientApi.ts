@@ -4,18 +4,11 @@ import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
 import { LocationType, Region } from '@/types/categories';
 
-
-export const fetchLocations = async ({
-  page,
-  perPage,
-  search,
-  region,
-  limit,
-  sort,
-  order,
-}: FetchLocationsParams = {}): Promise<Location[]> => {
+export const fetchLocations = async (
+  params: FetchLocationsParams = {},
+): Promise<Location[]> => {
   const res = await nextServer.get<{ locations: Location[] }>('/locations', {
-    params: { page, perPage, search, region, limit, sort, order },
+    params,
   });
 
   return res.data.locations;
@@ -50,7 +43,7 @@ const getMe = async (): Promise<User> => {
 };
 
 const updateMe = async (payload: { username?: string }): Promise<User> => {
-  const { data } = await nextServer.patch<User>("/users/me", {
+  const { data } = await nextServer.patch<User>('/users/me', {
     username: payload.username,
   });
 

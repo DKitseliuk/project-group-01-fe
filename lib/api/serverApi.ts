@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import { AxiosResponse } from 'axios';
 import { backendServer } from './api';
-import type { Location } from '@/types/location';
+import type { FetchLocationsParams, Location } from '@/types/location';
 import { LocationType, Region } from '@/types/categories';
-import { User } from "@/types/user";
+import { User } from '@/types/user';
 
 const getCookieHeader = async () => {
   const cookieStore = await cookies();
@@ -15,18 +15,21 @@ const getCookieHeader = async () => {
 export const getMe = async (): Promise<User> => {
   const cookieHeader = await getCookieHeader();
 
-  const { data } = await backendServer.get<User>("/users/me", {
+  const { data } = await backendServer.get<User>('/users/me', {
     headers: { Cookie: cookieHeader },
   });
 
   return data;
 };
 
-const fetchLocations = async (): Promise<Location[]> => {
+const fetchLocations = async (
+  params: FetchLocationsParams = {},
+): Promise<Location[]> => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get<{ locations: Location[] }>(
     'locations',
     {
+      params,
       headers: {
         Cookie: cookieHeader,
       },
