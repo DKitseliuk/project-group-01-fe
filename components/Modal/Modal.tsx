@@ -1,58 +1,59 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom'
 import styles from './Modal.module.css';
 
 interface ModalProps {
-  isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = ({ onClose, children }: ModalProps) => {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleEscape);
+    document.body.style.overflow = 'hidden';
 
     return () => {
-      window.removeEventListener('keydown', handleEscape);
+      setMounted(true);
+      document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, []);
 
-  if (!isOpen) return null;
+    useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
 
-  const handleBackdropClick = () => {
-    onClose();
-  };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
 
-  const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation();
-  };
+  if (!mounted) return null;
 
-  return (
-    <div className={styles.overlay} onClick={handleBackdropClick}>
-      <div className={styles.modal} onClick={handleModalClick}>
+  return createPortal(
+    <div className={styles.overlay} onClick={onClose}>
+      <div
+        className={styles.modal}
+        onClick={(e) => e.stopPropagation()}
+      >
+
         <button
           type="button"
           className={styles.closeButton}
           onClick={onClose}
           aria-label="Закрити модальне вікно"
         >
-            <svg className={styles.closeIcon} width="32" height="32">
-                <use href="/img/icons.svg#icon-close" />
-            </svg>
+          <svg className={styles.closeIcon} width="32" height="32">
+            <use href="/img/icons.svg#icon-close" />
+          </svg>
         </button>
 
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

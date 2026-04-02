@@ -1,3 +1,8 @@
+.content {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .title {
   margin-bottom: 16px;
   font-size: 26px;
@@ -26,7 +31,7 @@
 
 .cancelButton,
 .confirmButton {
-  width: 294px;
+  width: 100%;
   height: 48px;
   padding: 6px 12px;
   border-radius: 6px;
@@ -64,9 +69,14 @@
 }
 
 @media screen and (min-width: 768px) {
+  .content {
+    width: 640px;
+  }
+
   .title {
     font-size: 32px;
   }
+  
   .actions {
     flex-direction: row;
     justify-content: center;

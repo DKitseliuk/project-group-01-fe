@@ -26,19 +26,22 @@ const TestModalsPage = () => {
         Open Auth Prompt Modal
       </button>
 
-      <ConfirmationModal
-        isOpen={isConfirmationOpen}
-        onClose={() => setIsConfirmationOpen(false)}
-        onConfirm={() => {
+      {isConfirmationOpen && (
+        <ConfirmationModal
+          onClose={() => setIsConfirmationOpen(false)}
+          onConfirm={() => {
           console.log('Confirmed');
           setIsConfirmationOpen(false);
-        }}
-      />
+      }}
+  />
+)}
 
-      <AuthPromptModal
-        isOpen={isAuthPromptOpen}
-        onClose={() => setIsAuthPromptOpen(false)}
-      />
+{isAuthPromptOpen && (
+  <AuthPromptModal
+    onClose={() => setIsAuthPromptOpen(false)}
+  />
+)}
+
     </main>
   );
 };
