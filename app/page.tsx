@@ -17,7 +17,13 @@ export default async function Home() {
 
   await queryClient.prefetchQuery({
     queryKey: ['popularLocations'],
-    queryFn: fetchLocations,
+    queryFn: () =>
+      fetchLocations({
+        page: 1,
+        perPage: 9,
+        sortBy: 'rate',
+        sortOrder: 'desc',
+      }),
   });
 
   return (
