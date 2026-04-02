@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import css from './LocationForm.module.css';
-import { LOCATION_TYPES, REGIONS } from '@/constants/locationOptions';
+import { useQuery } from '@tanstack/react-query';
+// import { categoriesOptionsClient } from '@/api/categoriesOptionsClient';
 import { locationValidationSchema } from '@/validation/locationValidationSchema';
 import type { LocationFormValues } from '@/types/location';
 
@@ -21,6 +22,9 @@ const initialValues: LocationFormValues = {
 
 const LocationForm = () => {
     const [preview, setPreview] = useState<string>('');
+    
+    const { data: locationTypes } = useQuery(categoriesOptionsClient.locationTypes);
+const { data: regions } = useQuery(categoriesOptionsClient.regions);
 
     const handleSubmit = async (
         values: LocationFormValues,
@@ -148,7 +152,7 @@ const LocationForm = () => {
                                     Оберіть тип місця
                                 </option>
 
-                                {LOCATION_TYPES.map(option => (
+                                {locationTypes.map(option => (
                                     <option key={option.value} value={option.value}>
                                         {option.label}
                                     </option>
@@ -175,7 +179,7 @@ const LocationForm = () => {
                                     Оберіть регіон
                                 </option>
 
-                                {REGIONS.map(region => (
+                                {regions.map(region => (
                                     <option key={region.value} value={region.value}>
                                         {region.label}
                                     </option>
