@@ -1,39 +1,48 @@
 'use client';
 
-import { useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import type { Swiper as SwiperType } from 'swiper';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import 'swiper/css';
-
 import css from './PopularLocationsBlock.module.css';
 import { fetchLocations } from '@/lib/api/clientApi';
+import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 import type { Location } from '@/types/location';
+import Slider from '@/components/Swiper/Swiper';
 import LocationCard from '@/components/LocationCard/LocationCard';
 
 export default function PopularLocationsBlock() {
-  const swiperRef = useRef<SwiperType | null>(null);
-
   const {
     data: locations = [],
     isLoading,
     isError,
   } = useQuery<Location[]>({
     queryKey: ['popularLocations'],
-    queryFn: () => fetchLocations(),
+    queryFn: () =>
+      fetchLocations({
+        page: 1,
+        perPage: 9,
+        sortBy: 'rate',
+        sortOrder: 'desc',
+      }),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
+  const { data: locationTypes = [] } = useQuery(
+    categoriesOptionsClient.locationTypes,
+  );
+
+  const locationTypeMap = new Map(
+    locationTypes.map((type) => [type.slug, type.type]),
+  );
+
+  const updatedLocations = locations.map((location) => ({
+    ...location,
+    locationTypeLabel: locationTypeMap.get(location.locationType) ?? '',
+  }));
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading locations</p>;
 
-  const topLocations = [...locations]
-    .sort((a, b) => b.rate - a.rate)
-    .slice(0, 6);
-  
   return (
     <section className={css.section}>
       <div className="container">
@@ -44,43 +53,11 @@ export default function PopularLocationsBlock() {
           </Link>
         </div>
 
-        <Swiper
-          onSwiper={swiper => {
-            swiperRef.current = swiper;
-          }}
-          spaceBetween={24}
-          slidesPerView={1}
-          loop={true}
-          breakpoints={{
-            768: { slidesPerView: 2 },
-            1440: { slidesPerView: 3 },
-          }}
-        >
-          {topLocations.map(location => (
-            <SwiperSlide key={location._id}>
-              <LocationCard location={location} />
-            </SwiperSlide>
+        <Slider>
+          {updatedLocations.map((location) => (
+            <LocationCard key={location._id} location={location} />
           ))}
-        </Swiper>
-
-        <div className={css.navBtns}>
-          <button
-            className={css.navBtn}
-            onClick={() => swiperRef.current?.slidePrev()}
-          >
-            <svg width="24" height="24">
-              <use href="/img/icons.svg#icon-arrow-back" />
-            </svg>
-          </button>
-          <button
-            className={css.navBtn}
-            onClick={() => swiperRef.current?.slideNext()}
-          >
-            <svg width="24" height="24">
-              <use href="/img/icons.svg#icon-arrow-forward" />
-            </svg>
-          </button>
-        </div>
+        </Slider>
       </div>
     </section>
   );
