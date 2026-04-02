@@ -2,7 +2,6 @@ import { nextServer, publicApi } from '@/lib/api/api';
 import type { Location, FetchLocationsParams } from '@/types/location';
 import type { LoginValues, RegisterValues } from '@/types/auth';
 import type { User } from '@/types/user';
-import type { Region, LocationType } from '@/types/categories';
 
 type FetchLocationsResponse = {
   locations: Location[];
@@ -49,22 +48,6 @@ const fetchPopularLocations = async (): Promise<Location[]> => {
   return Array.isArray(res.data.locations) ? res.data.locations : [];
 };
 
-const fetchLocationTypes = async (): Promise<LocationType[]> => {
-  const res = await publicApi.get<{ locationTypes: LocationType[] }>(
-    '/categories/location-types',
-  );
-
-  return res.data.locationTypes;
-};
-
-const fetchRegions = async (): Promise<Region[]> => {
-  const res = await publicApi.get<{ regions: Region[] }>(
-    '/categories/regions',
-  );
-
-  return res.data.regions;
-};
-
 async function register(payload: RegisterValues) {
   const { data } = await nextServer.post('/auth/register', payload);
   return data;
@@ -96,8 +79,6 @@ const getMe = async (): Promise<User> => {
 export {
   fetchLocations,
   fetchPopularLocations,
-  fetchLocationTypes,
-  fetchRegions,
   register,
   login,
   refreshSession,

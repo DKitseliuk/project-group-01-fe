@@ -7,7 +7,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { SORT_OPTIONS } from "@/constants/filters";
 import { SEARCH_DEBOUNCE_DELAY } from "@/constants/pagination";
 import styles from "./FilterPanel.module.css";
-import type { LocationType } from "@/types/locationType";
+import type { LocationType, Region } from "@/types/categories";
 
 const Select = dynamic(() => import("react-select"), {
   ssr: false,
@@ -20,15 +20,6 @@ type Filters = {
   sortBy: string;
   sortOrder: string;
 };
-
-type Region = {
-  _id: string;
-  slug: string;
-  region: string;
-  level: string;
-  note: string;
-};
-
 
 type FilterPanelProps = {
   filters: Filters;

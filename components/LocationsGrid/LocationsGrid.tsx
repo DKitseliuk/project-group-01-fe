@@ -9,7 +9,6 @@ import Pagination from '../Pagination/Pagination';
 
 import { fetchLocations } from '@/lib/api/clientApi';
 import { LOCATIONS_PER_PAGE } from '@/constants/pagination';
-import type { LocationType } from '@/types/locationType';
 import type { Location } from '@/types/location';
 
 type Filters = {
@@ -23,13 +22,11 @@ type Filters = {
 type LocationsGridProps = {
   initialPage: number;
   initialFilters: Filters;
-  locationTypes: LocationType[];
 };
 
 export default function LocationsGrid({
   initialPage,
   initialFilters,
-  locationTypes,
 }: LocationsGridProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -103,7 +100,6 @@ export default function LocationsGrid({
             <LocationCard
               key={location._id}
               location={location}
-              locationTypes={locationTypes}
             />
           ))}
         </ul>

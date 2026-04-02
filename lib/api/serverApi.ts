@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
-import { backendServer } from '@/lib/api/api';
+import { backendServer } from './api';
 import type { Location, FetchLocationsParams } from '@/types/location';
-import type { LocationType } from '@/types/locationType';
+import type { LocationType, Region } from '@/types/categories';
 
 type FetchLocationsResponse = {
   locations: Location[];
@@ -9,14 +9,6 @@ type FetchLocationsResponse = {
   totalItems: number;
   page: number;
   perPage: number;
-};
-
-type Region = {
-  _id: string;
-  slug: string;
-  region: string;
-  level: string;
-  note: string;
 };
 
 const getCookieHeader = async () => {
@@ -54,30 +46,28 @@ const fetchLocations = async ({
         sortBy,
         sortOrder,
       },
-    }
+    },
   );
 
   return data;
 };
 
-const getRegionsServer = async (): Promise<{ regions: Region[] }> => {
+const fetchLocationById = async (locationId: string): Promise<Location> => {
   const cookieHeader = await getCookieHeader();
 
-  const { data } = await backendServer.get<{ regions: Region[] }>(
-    '/categories/regions',
+  const { data } = await backendServer.get<{ location: Location }>(
+    `/locations/${locationId}`,
     {
       headers: {
         Cookie: cookieHeader,
       },
-    }
+    },
   );
 
-  return data;
+  return data.location;
 };
 
-const getLocationTypesServer = async (): Promise<{
-  locationTypes: LocationType[];
-}> => {
+const getLocationTypes = async (): Promise<LocationType[]> => {
   const cookieHeader = await getCookieHeader();
 
   const { data } = await backendServer.get<{ locationTypes: LocationType[] }>(
@@ -86,10 +76,30 @@ const getLocationTypesServer = async (): Promise<{
       headers: {
         Cookie: cookieHeader,
       },
-    }
+    },
   );
 
-  return data;
+  return data.locationTypes;
 };
 
-export { fetchLocations, getRegionsServer, getLocationTypesServer };
+const getRegions = async (): Promise<Region[]> => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<{ regions: Region[] }>(
+    '/categories/regions',
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
+  return data.regions;
+};
+
+export {
+  fetchLocations,
+  fetchLocationById,
+  getLocationTypes,
+  getRegions,
+};

@@ -8,8 +8,8 @@ import {
 } from "@tanstack/react-query";
 import {
   fetchLocations,
-  getRegionsServer,
-  getLocationTypesServer,
+  getRegions,
+  getLocationTypes,
 } from "@/lib/api/serverApi";
 import { LOCATIONS_PER_PAGE } from "@/constants/pagination";
 
@@ -52,9 +52,9 @@ const LocationsPage = async ({ searchParams }: LocationsPageProps) => {
 
   const queryClient = new QueryClient();
 
-  const [regionsData, locationTypesData] = await Promise.all([
-    getRegionsServer(),
-    getLocationTypesServer(),
+  const [regions, locationTypes] = await Promise.all([
+    getRegions(),
+    getLocationTypes(),
   ]);
 
   await queryClient.prefetchQuery({
@@ -74,13 +74,12 @@ const LocationsPage = async ({ searchParams }: LocationsPageProps) => {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <FilterPanel
           filters={filters}
-          regions={regionsData.regions}
-          locationTypes={locationTypesData.locationTypes}
+          regions={regions}
+          locationTypes={locationTypes}
         />
         <LocationsGrid
           initialPage={page}
           initialFilters={filters}
-          locationTypes={locationTypesData.locationTypes}
         />
       </HydrationBoundary>
     </main>

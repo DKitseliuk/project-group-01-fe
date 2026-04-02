@@ -8,6 +8,7 @@ type LocationInfoBlockProps = {
   type: string;
   authorId: string;
   authorName: string;
+  className?: string;
 };
 
 export const LocationInfoBlock = ({
@@ -17,6 +18,7 @@ export const LocationInfoBlock = ({
   type,
   authorId,
   authorName,
+  className,
 }: LocationInfoBlockProps) => {
   const hasRating = typeof rating === 'number' && !Number.isNaN(rating);
   const ratingRounded = hasRating ? Math.round(rating * 2) / 2 : 0;
@@ -24,7 +26,7 @@ export const LocationInfoBlock = ({
 
   return (
     <section
-      className={styles.locationInfoBlock}
+      className={[styles.locationInfoBlock, className].filter(Boolean).join(' ')}
       aria-labelledby="location-title"
     >
       {/* Rating */}
@@ -72,12 +74,16 @@ export const LocationInfoBlock = ({
         </div>
         <div className={styles.metaItem}>
           <span className={styles.metaLabel}>Автор статті:</span>
-          <Link
-            href={`/profile/${authorId}`}
-            className={`${styles.metaText} ${styles.metaTextLink}`}
-          >
-            {authorName}
-          </Link>
+          {authorId ? (
+            <Link
+              href={`/profile/${authorId}`}
+              className={`${styles.metaText} ${styles.metaTextLink}`}
+            >
+              {authorName}
+            </Link>
+          ) : (
+            <span className={styles.metaText}>{authorName}</span>
+          )}
         </div>
       </div>
     </section>
