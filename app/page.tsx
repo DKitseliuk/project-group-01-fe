@@ -1,8 +1,8 @@
 import styles from './HomePage.module.css';
 
-import Hero from "@/components/Hero/Hero";
-import ReviewsSection from "@/components/ReviewsSection/ReviewsSection";
-import AdvantagesBlock from "@/components/AdvantagesBlock/AdvantagesBlock";
+import Hero from '@/components/Hero/Hero';
+import ReviewsSection from '@/components/ReviewsSection/ReviewsSection';
+import AdvantagesBlock from '@/components/AdvantagesBlock/AdvantagesBlock';
 import PopularLocationsBlock from '@/components/PopularLocationsBlock/PopularLocationsBlock';
 import {
   dehydrate,
@@ -13,7 +13,6 @@ import {
 import { fetchLocations } from '@/lib/api/serverApi';
 
 export default async function Home() {
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -27,8 +26,8 @@ export default async function Home() {
       <AdvantagesBlock />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <PopularLocationsBlock />
+        <ReviewsSection />
       </HydrationBoundary>
-      <ReviewsSection />
     </main>
   );
 }
