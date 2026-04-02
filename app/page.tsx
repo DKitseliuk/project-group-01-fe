@@ -10,24 +10,15 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 
-import { fetchLocations } from '@/lib/api/serverApi';
 import { getReviews } from '@/lib/api/reviews';
+import { homeOptionsServer } from '@/lib/queries/homeServer';
 
 export default async function Home() {
   const queryClient = new QueryClient();
 
   const [reviews] = await Promise.all([
     getReviews(),
-    queryClient.prefetchQuery({
-      queryKey: ['popularLocations'],
-      queryFn: () =>
-        fetchLocations({
-          page: 1,
-          perPage: 9,
-          sortBy: 'rate',
-          sortOrder: 'desc',
-        }),
-    }),
+    queryClient.prefetchQuery(homeOptionsServer.popularLocations),
   ]);
 
   return (
