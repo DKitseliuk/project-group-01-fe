@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { backendServer } from './api';
 import type { Location } from '@/types/location';
 import { LocationType, Region } from '@/types/categories';
+import { User } from "@/types/user";
 
 const getCookieHeader = async () => {
   const cookieStore = await cookies();
@@ -10,6 +11,15 @@ const getCookieHeader = async () => {
   const refreshToken = cookieStore.get('refreshToken')?.value;
   const sessionId = cookieStore.get('sessionId')?.value;
   return `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`;
+};
+export const getMe = async (): Promise<User> => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<User>("/users/me", {
+    headers: { Cookie: cookieHeader },
+  });
+
+  return data;
 };
 
 const fetchLocations = async (): Promise<Location[]> => {

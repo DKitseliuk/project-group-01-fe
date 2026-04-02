@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import css from './PopularLocationsBlock.module.css';
 import { fetchLocations } from '@/lib/api/clientApi';
+import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 import type { Location } from '@/types/location';
 import Slider from '@/components/Swiper/Swiper';
 import LocationCard from '@/components/LocationCard/LocationCard';
@@ -21,6 +22,19 @@ export default function PopularLocationsBlock() {
     refetchOnMount: false,
   });
 
+  const { data: locationTypes = [] } = useQuery(
+    categoriesOptionsClient.locationTypes,
+  );
+
+  const locationTypeMap = new Map(
+    locationTypes.map((type) => [type.slug, type.type]),
+  );
+
+  const updatedLocations = locations.map((location) => ({
+    ...location,
+    locationTypeLabel: locationTypeMap.get(location.locationType) ?? '',
+  }));
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading locations</p>;
 
@@ -35,7 +49,7 @@ export default function PopularLocationsBlock() {
         </div>
 
         <Slider>
-          {locations.map(location => (
+          {updatedLocations.map(location => (
             <LocationCard key={location._id} location={location} />
           ))}
         </Slider>

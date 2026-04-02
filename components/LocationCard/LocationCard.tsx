@@ -2,29 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from '@tanstack/react-query';
 import StarRating from "@/components/StarRating/StarRating";
 import css from "./LocationCard.module.css";
 import type { Location } from "@/types/location";
 import { useAuthStore } from "@/lib/store/authStore";
-import { categoriesOptionsClient } from "@/lib/queries/categoriesClient"
+
+export type LocationWithTypeLabel = Location & { locationTypeLabel?: string };
 
 interface Props {
-  location: Location;
+  location: LocationWithTypeLabel;
   isOwner?: string;
   canEdit?: boolean;
 }
 
 export default function LocationCard({ location, isOwner, canEdit = false }: Props) {
   const user = useAuthStore(state => state.user);
-  const { data: locationTypes = [] } = useQuery(categoriesOptionsClient.locationTypes);
 
- const locationTypeLabel = locationTypes.find(
-  type => type._id === location.locationType
-)?.type ?? '';
-
-
-  
   return (
     <div className={css.card}>
       <Image
@@ -37,7 +30,9 @@ export default function LocationCard({ location, isOwner, canEdit = false }: Pro
       />
 
       <div className={css.info}>
-        <p className={css.tag}>{locationTypeLabel}</p>
+        {location.locationTypeLabel && (
+          <p className={css.tag}>{location.locationTypeLabel}</p>
+        )}
         <StarRating value={location.rate} />
         <h3 className={css.title}>{location.name}</h3>
 
