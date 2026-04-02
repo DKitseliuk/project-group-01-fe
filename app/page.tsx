@@ -1,34 +1,27 @@
 import styles from './HomePage.module.css';
 
 import Hero from '@/components/Hero/Hero';
-import ReviewsSection from '@/components/ReviewsSection/ReviewsSection';
 import AdvantagesBlock from '@/components/AdvantagesBlock/AdvantagesBlock';
 import PopularLocationsBlock from '@/components/PopularLocationsBlock/PopularLocationsBlock';
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query';
+import ReviewsBlock from '@/components/ReviewsBlock/ReviewsBlock';
 
-import { getReviews } from '@/lib/api/reviews';
-import { homeOptionsServer } from '@/lib/queries/homeServer';
+import { HOME_POPULATION_LOCATIONS_PARAMS } from '@/constants/locations';
+
+import { fetchLocations } from '@/lib/api/serverApi';
+import { getReviews } from '@/lib/api/serverApi';
 
 export default async function Home() {
-  const queryClient = new QueryClient();
-
-  const [reviews] = await Promise.all([
+  const [popularLocations, popularReviews] = await Promise.all([
+    fetchLocations(HOME_POPULATION_LOCATIONS_PARAMS),
     getReviews(),
-    queryClient.prefetchQuery(homeOptionsServer.popularLocations),
   ]);
 
   return (
     <main className={styles.main}>
       <Hero />
       <AdvantagesBlock />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <PopularLocationsBlock />
-      </HydrationBoundary>
-      <ReviewsSection reviews={reviews} title="Останні відгуки" />
+      <PopularLocationsBlock locations={popularLocations} />
+      <ReviewsBlock reviews={popularReviews} title="Останні відгуки" />
     </main>
   );
 }
