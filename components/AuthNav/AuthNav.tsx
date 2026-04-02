@@ -1,34 +1,27 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import styles from './AuthNav.module.css';
+import Link from "next/link";
+import css from "./AuthNav.module.css";
+import { usePathname } from "next/navigation";
 
 const AuthNav = () => {
   const pathname = usePathname();
-
   return (
-    <div className={styles.nav}>
+    <nav className={css.nav}>
       <Link
+        className={`${css.link} ${pathname === "/register" ? css.active : ""}`}
         href="/register"
-        className={`${styles.link} ${
-          pathname === '/register' ? styles.active : ''
-        }`}
       >
         Реєстрація
       </Link>
-
       <Link
+        className={`${css.link} ${pathname === "/login" ? css.active : ""}`}
         href="/login"
-        className={`${styles.link} ${
-          pathname === '/login' ? styles.active : ''
-        }`}
       >
         Вхід
       </Link>
-    </div>
+    </nav>
   );
 };
 
 export default AuthNav;
-
