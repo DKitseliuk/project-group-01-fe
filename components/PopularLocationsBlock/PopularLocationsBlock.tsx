@@ -17,11 +17,16 @@ export default function PopularLocationsBlock() {
     isError,
   } = useQuery<Location[]>({
     queryKey: ['popularLocations'],
-    queryFn: () => fetchLocations({ limit: 6, sort: 'rate', order: 'desc' }),
+    queryFn: () =>
+      fetchLocations({
+        page: 1,
+        perPage: 9,
+        sortBy: 'rate',
+        sortOrder: 'desc',
+      }),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
-
   const { data: locationTypes = [] } = useQuery(
     categoriesOptionsClient.locationTypes,
   );
@@ -49,7 +54,7 @@ export default function PopularLocationsBlock() {
         </div>
 
         <Slider>
-          {updatedLocations.map(location => (
+          {updatedLocations.map((location) => (
             <LocationCard key={location._id} location={location} />
           ))}
         </Slider>

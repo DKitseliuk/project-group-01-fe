@@ -7,7 +7,7 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const backendServer = axios.create({
   baseURL: `${API_URL}/api`,
-  // withCredentials: true,
+  withCredentials: true,
 });
 
 const nextServer = axios.create({
