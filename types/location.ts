@@ -35,3 +35,8 @@ export interface FetchLocationsParams {
   sortBy?: string;
   sortOrder?: string;
 }
+
+export type PopulatedLocation = {
+  _id?: string;
+  name?: string;
+};
