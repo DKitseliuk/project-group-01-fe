@@ -36,6 +36,17 @@ export interface FetchLocationsParams {
   sortOrder?: string;
 }
 
+export type LocationFormValues = {
+  name: string;
+  locationType: string;
+  region: string;
+  description: string;
+  image: File | null;
+  type?: string;
+  sortBy?: string;
+  sortOrder?: string;
+};
+
 export type PopulatedLocation = {
   _id?: string;
   name?: string;

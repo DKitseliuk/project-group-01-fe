@@ -2,7 +2,7 @@ import { nextServer } from '@/lib/api/api';
 import type { Location, FetchLocationsParams } from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
-import { LocationType, Region } from '@/types/categories';
+import { Region, LocationType } from '@/types/categories';
 
 export const fetchLocations = async (
   params: FetchLocationsParams = {},
@@ -12,6 +12,11 @@ export const fetchLocations = async (
   });
 
   return res.data.locations;
+};
+
+const createLocation = async (payload: FormData): Promise<Location> => {
+  const res = await nextServer.post<Location>('/locations', payload);
+  return res.data;
 };
 
 async function register(payload: RegisterValues) {
@@ -71,4 +76,5 @@ export {
   logout,
   getLocationTypes,
   getRegions,
+  createLocation,
 };
