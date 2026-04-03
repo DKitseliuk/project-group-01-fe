@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import StarRating from "@/components/StarRating/StarRating";
-import css from "./LocationCard.module.css";
-import type { Location } from "@/types/location";
-import { useAuthStore } from "@/lib/store/authStore";
+import Image from 'next/image';
+import Link from 'next/link';
+import StarRating from '@/components/StarRating/StarRating';
+import css from './LocationCard.module.css';
+import type { Location } from '@/types/location';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export type LocationWithTypeLabel = Location & { locationTypeLabel?: string };
 
@@ -15,13 +15,17 @@ interface Props {
   canEdit?: boolean;
 }
 
-export default function LocationCard({ location, isOwner, canEdit = false }: Props) {
-  const user = useAuthStore(state => state.user);
+export default function LocationCard({
+  location,
+  isOwner,
+  canEdit = false,
+}: Props) {
+  const user = useAuthStore((state) => state.user);
 
   return (
     <div className={css.card}>
       <Image
-        src={location.image || "/placeholder.jpg"}
+        src={location.image || '/placeholder.jpg'}
         alt={location.name}
         width={335}
         height={335}
@@ -33,7 +37,7 @@ export default function LocationCard({ location, isOwner, canEdit = false }: Pro
         {location.locationTypeLabel && (
           <p className={css.tag}>{location.locationTypeLabel}</p>
         )}
-        <StarRating value={location.rate} />
+        {location.rate ? <StarRating value={location.rate} /> : '—'}
         <h3 className={css.title}>{location.name}</h3>
 
         <div className={css.actions}>
@@ -42,7 +46,11 @@ export default function LocationCard({ location, isOwner, canEdit = false }: Pro
           </Link>
 
           {isOwner === user?._id && canEdit && (
-            <Link href={`/locations/${location._id}/edit`} className={css.editBtn} title="Редагувати">
+            <Link
+              href={`/locations/${location._id}/edit`}
+              className={css.editBtn}
+              title="Редагувати"
+            >
               <svg width="24" height="24">
                 <use href="/img/icons.svg#icon-edit" />
               </svg>

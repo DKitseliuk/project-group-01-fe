@@ -22,6 +22,7 @@ export default function StarRating({
 }: Props) {
   return (
     <Rating
+      key={value}
       initialValue={value}
       readonly={readonly}
       size={size}

@@ -1,17 +1,20 @@
 import { nextServer } from '@/lib/api/api';
 import type { Location, FetchLocationsParams, GetLocationByIdResponse } from '@/types/location';
+import type {
+  FetchLocationsResponse,
+} from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
 import { Region, LocationType } from '@/types/categories';
 
 export const fetchLocations = async (
   params: FetchLocationsParams = {},
-): Promise<Location[]> => {
-  const res = await nextServer.get<{ locations: Location[] }>('/locations', {
+): Promise<FetchLocationsResponse> => {
+  const { data } = await nextServer.get<FetchLocationsResponse>('/locations', {
     params,
   });
 
-  return res.data.locations;
+  return data;
 };
 
 const createLocation = async (payload: FormData): Promise<Location> => {
@@ -59,6 +62,18 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
+const getUser = async (userId: string): Promise<User> => {
+  const { data } = await nextServer.get<User>(`/users/${userId}`);
+  return data;
+};
+
+const getUserLocations = async (userId: string, page = 1, perPage = 6) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params: { page, perPage },
+  });
+  return data;
+};
+
 const updateMe = async (payload: { username?: string }): Promise<User> => {
   const { data } = await nextServer.patch<User>('/users/me', {
     username: payload.username,
@@ -88,6 +103,8 @@ export {
   logout,
   getLocationTypes,
   getRegions,
+  getUser,
+  getUserLocations,
   createLocation,
   updateLocation,
   getLocationById,
