@@ -20,7 +20,7 @@ export default async function Home() {
     <main className={styles.main}>
       <Hero />
       <AdvantagesBlock />
-      <PopularLocationsBlock locations={popularLocations} />
+      <PopularLocationsBlock locations={popularLocations.locations} />
       <ReviewsBlock reviews={popularReviews} title="Останні відгуки" />
     </main>
   );
