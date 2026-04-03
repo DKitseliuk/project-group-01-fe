@@ -1,11 +1,38 @@
 .main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  background-color: var(--background-secondary);
+  min-height: 100vh;
+  padding-top: 24px;
+  padding-bottom: 40px;
 }
 
 .title {
-  font-size: 32px;
-  font-weight: 600;
   margin-bottom: 24px;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    padding-top: 32px;
+    padding-bottom: 48px;
+  }
+
+  .title {
+    font-size: 56px;
+    margin-bottom: 24px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .main {
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+
+  .title {
+    font-size: 64px;
+  }
 }

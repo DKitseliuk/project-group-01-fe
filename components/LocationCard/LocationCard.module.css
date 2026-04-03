@@ -1,4 +1,5 @@
 .card {
+  width: 100%;
   display: flex;
   flex-direction: column;
   border-radius: 12px;
@@ -12,26 +13,31 @@
   height: 335px;
   object-fit: cover;
   display: block;
+  flex-shrink: 0;
 }
+
 .info {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 16px;
+  flex: 1;
 }
+
 .tag {
   font-weight: 600;
   font-size: 12px;
-  line-height: 150%;
-  color: var(--color-scheme-2-text);
+  line-height: 1.5;
+  color: var(--text-secondary);
 }
 
 .title {
   font-size: 18px;
+  line-height: 1.3;
   letter-spacing: -0.01em;
-  color: var(--text-secondary);
   font-weight: 700;
-  line-height: 1.5;
+  color: var(--text-secondary);
+  min-height: 47px;
 }
 
 .actions {
@@ -42,59 +48,79 @@
 }
 
 .viewBtn {
-  display: inline-block;
-  text-align: center;
-  line-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
-  height: 48px;
-  background-color: var(--neutral-darkest-5);
+  min-height: 48px;
+  padding: 0 16px;
   border: 1px solid var(--neutral-darkest-15);
   border-radius: 6px;
+  background-color: var(--neutral-darkest-5);
   font-weight: 500;
   font-size: 16px;
+  line-height: 1.5;
   color: var(--text-primary);
-  transition: background-color 0.2s ease;
+  text-align: center;
+  transition: background-color 200ms ease, border-color 200ms ease;
 }
 
 .viewBtn:hover,
 .viewBtn:focus {
   background-color: var(--foreground-secondary);
+  border-color: var(--coral-light);
+  outline: none;
 }
 
 .editBtn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 48px;
+  min-width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 6px;
   border: 1px solid var(--neutral-darkest-15);
-  background: var(--neutral-darkest-5);
-  transition: background-color 0.2s ease;
-  text-align: center;
-  line-height: 48px;
+  border-radius: 6px;
+  background-color: var(--neutral-darkest-5);
+  transition: background-color 200ms ease, border-color 200ms ease;
 }
 
-.editBtn:hover {
+.editBtn:hover,
+.editBtn:focus {
   background-color: var(--foreground-secondary);
+  border-color: var(--coral-light);
+  outline: none;
 }
+
 .editBtn svg {
   fill: var(--text-primary);
 }
 
+/* tablet */
 @media screen and (min-width: 768px) {
   .image {
     height: 340px;
   }
 }
 
+/* desktop */
 @media screen and (min-width: 1440px) {
   .image {
     height: 421px;
   }
-  .title {
-    font-size: 26px;
+
+  .info {
+    gap: 12px;
+    padding: 16px;
   }
+
   .tag {
     font-size: 16px;
+  }
+
+  .title {
+    font-size: 26px;
+    min-height: 68px;
   }
 }

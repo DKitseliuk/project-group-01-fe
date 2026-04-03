@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   margin-top: 32px;
   margin-bottom: 40px;
   padding: 0;
@@ -26,6 +26,7 @@
   color: var(--text-secondary);
   font-size: 16px;
   font-weight: 500;
+  line-height: 1;
   transition: background-color 200ms ease, border-color 200ms ease,
     color 200ms ease, opacity 200ms ease;
 }
@@ -53,6 +54,7 @@
 
 @media screen and (min-width: 768px) {
   .pagination {
+    gap: 12px;
     margin-top: 40px;
     margin-bottom: 48px;
   }
@@ -62,5 +64,11 @@
     width: 56px;
     height: 56px;
     font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .pagination {
+    gap: 12px;
   }
 }

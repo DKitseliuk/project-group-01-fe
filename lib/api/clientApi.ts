@@ -1,4 +1,4 @@
-import { nextServer } from '@/lib/api/api';
+import { nextServer, publicServer } from '@/lib/api/api';
 import type {
   Location,
   FetchLocationsParams,
@@ -11,7 +11,7 @@ import { Region, LocationType } from '@/types/categories';
 export const fetchLocations = async (
   params: FetchLocationsParams = {},
 ): Promise<FetchLocationsResponse> => {
-  const { data } = await nextServer.get<FetchLocationsResponse>('/locations', {
+  const { data } = await publicServer.get<FetchLocationsResponse>('/locations', {
     params,
   });
 
@@ -60,14 +60,14 @@ const updateMe = async (payload: { username?: string }): Promise<User> => {
 };
 
 const getLocationTypes = async (): Promise<LocationType[]> => {
-  const { data } = await nextServer.get<LocationType[]>(
+  const { data } = await publicServer.get<LocationType[]>(
     '/categories/location-types',
   );
   return data;
 };
 
 const getRegions = async (): Promise<Region[]> => {
-  const { data } = await nextServer.get<Region[]>('/categories/regions');
+  const { data } = await publicServer.get<Region[]>('/categories/regions');
   return data;
 };
 
