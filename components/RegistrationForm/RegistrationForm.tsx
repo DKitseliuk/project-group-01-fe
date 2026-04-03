@@ -12,6 +12,8 @@ import { register } from '@/lib/api/clientApi';
 import toast from 'react-hot-toast';
 import { RotatingLines } from 'react-loader-spinner';
 
+import { useSearchParams } from 'next/navigation';
+
 const initialValues: RegisterValues = {
   name: '',
   email: '',
@@ -35,6 +37,10 @@ const validationSchema = Yup.object({
 
 const RegistrationForm = () => {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
+
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState('');
 
@@ -43,7 +49,7 @@ const RegistrationForm = () => {
       const data = await register(values);
       setUser(data);
       toast.success('Реєстрація успішна!');
-      router.push('/profile');
+      router.push(redirect || '/');
       router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
