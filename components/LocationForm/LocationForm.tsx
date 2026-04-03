@@ -11,14 +11,16 @@ import { createLocation, getLocationById, updateLocation } from '@/lib/api/clien
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
+import type { GetLocationByIdResponse } from '@/types/location';
+
+
 
 const Select = dynamic(() => import('react-select'), {
   ssr: false,
 });
 
-type GetLocationByIdResponse = {
-  location: Location;
-};
+
+
 
 
 type LocationFormProps = {
@@ -394,20 +396,21 @@ console.log('updatedLocation._id:', updatedLocation?._id);
             </div>
 
             <div className={css.actions}>
-              <button
-                type="submit"
-                className={css.submitButton}
-                disabled={!isValid || isSubmitting || !isFormFilled}
-              >
-                {isSubmitting
-                  ? isEditMode
-                    ? 'Збереження...'
-                    : 'Публікація...'
-                  : isEditMode
-                    ? 'Зберегти'
-                    : 'Опублікувати'}
-              </button>
-
+        <button
+  type="submit"
+  className={css.submitButton}
+  disabled={!isValid || isSubmitting || !isFormFilled}
+>
+  {isSubmitting
+    ? isEditMode
+      ? 'Збереження...'
+      : 'Публікація...'
+    : isEditMode
+      ? 'Зберегти зміни'
+      : isFormFilled
+        ? 'Зберегти'
+        : 'Опублікувати'}
+</button>
               <button
                 type="button"
                 className={css.cancelButton}
@@ -418,7 +421,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                   );
                 }}
               >
-                Відмінити
+              {isEditMode ? 'Відмінити зміни' : 'Відмінити'}
               </button>
             </div>
           </Form>

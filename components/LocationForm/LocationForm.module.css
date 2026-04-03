@@ -82,28 +82,6 @@
         background-color 0.2s ease;
 }
 
-/* .select {
-  background-color: var(--foreground-secondary);
-  width: 100%;
-  height: 40px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  outline: none;
-  padding: 0 12px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--coral-darker);
-} */
-
-/* .selectPlaceholder {
-    color: #4c4c4c;
-    font-size: 16px;
-    line-height: 1.5;
-    font-weight: 400;
-  color: var(--neutral-darkest)
-} */
-
 .textarea {
     width: 100%;
     min-height: 120px;
@@ -371,6 +349,12 @@
   color: var(--white);
 }
 
+.errorMessage{
+  color:var(--red);
+   font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
 
 @media screen and (min-width: 768px) {
     .imageUploadBox {
@@ -417,10 +401,7 @@
     border-color: var(--coral-light);
   }
 
-  /* .selectPlaceholder {
-    color: var(--neutral-dark);
-    font-size: 18px;
-  } */
+
 
   .cancelButton:hover,
   .cancelButton:focus {

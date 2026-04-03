@@ -51,3 +51,7 @@ export type PopulatedLocation = {
   _id?: string;
   name?: string;
 };
+
+export interface GetLocationByIdResponse {
+  location: Location;
+}
