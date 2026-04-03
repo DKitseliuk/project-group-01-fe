@@ -19,6 +19,16 @@ const createLocation = async (payload: FormData): Promise<Location> => {
   return res.data;
 };
 
+const getLocationById = async (locationId: string): Promise<Location> => {
+  const res = await nextServer.get<Location>(`/locations/${locationId}`);
+  return res.data;
+};
+
+const updateLocation = async (locationId: string, payload: FormData,): Promise<Location> => {
+  const res = await nextServer.patch<Location>(`/locations/${locationId}`, payload);
+  return res.data;
+};
+
 async function register(payload: RegisterValues) {
   const { data } = await nextServer.post('/auth/register', payload);
   return data;
@@ -77,4 +87,6 @@ export {
   getLocationTypes,
   getRegions,
   createLocation,
+  updateLocation,
+  getLocationById,
 };
