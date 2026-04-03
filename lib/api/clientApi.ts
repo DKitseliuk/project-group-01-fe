@@ -51,6 +51,18 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
+const getUser = async (userId: string): Promise<User> => {
+  const { data } = await nextServer.get<User>(`/users/${userId}`);
+  return data;
+};
+
+ const getUserLocations = async (userId: string, page = 1, perPage = 6) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params: { page, perPage },
+  });
+  return data;
+ };
+
 const updateMe = async (payload: { username?: string }): Promise<User> => {
   const { data } = await nextServer.patch<User>('/users/me', {
     username: payload.username,
@@ -80,5 +92,7 @@ export {
   logout,
   getLocationTypes,
   getRegions,
+  getUser,
+  getUserLocations
   createLocation,
 };

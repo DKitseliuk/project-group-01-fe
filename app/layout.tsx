@@ -9,6 +9,7 @@ import { Footer } from '@/components/Footer/Footer';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { categoriesOptionsServer } from '@/lib/queries/categoriesServer';
 
+
 const montserrat = Montserrat({
   variable: '--font-montserrat',
   display: 'swap',
