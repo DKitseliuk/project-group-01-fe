@@ -42,8 +42,10 @@ const LoginForm = () => {
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
         setError('Невірна пошта або пароль');
+        toast.error('Невірна пошта або пароль');
       } else {
         setError('Щось пішло не так');
+        toast.error('Щось пішло не так');
       }
     }
   };

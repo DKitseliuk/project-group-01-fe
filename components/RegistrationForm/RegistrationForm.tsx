@@ -48,8 +48,10 @@ const RegistrationForm = () => {
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
         setError('Ця пошта вже використовується');
+        toast.error('Ця пошта вже використовується');
       } else {
         setError('Щось пішло не так');
+        toast.error('Щось пішло не так');
       }
     }
   };

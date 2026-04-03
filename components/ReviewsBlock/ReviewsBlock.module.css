@@ -1,0 +1,39 @@
+/* Mobile-first: базові стилі 320px+ */
+
+.section {
+  padding-block: 64px;
+  background-color: var(--background-secondary);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--text-secondary);
+}
+
+/* Tablet 768px+ */
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 44px;
+  }
+}
+
+/* Desktop 1440px+ */
+@media screen and (min-width: 1440px) {
+  .section {
+    padding-block: 112px;
+  }
+
+  .title {
+    font-size: 52px;
+  }
+}

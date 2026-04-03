@@ -4,17 +4,19 @@ import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
 import { Region, LocationType } from '@/types/categories';
 
-export const fetchLocations = async ({
-  page,
-  perPage,
-  search,
-  region,
-}: FetchLocationsParams = {}): Promise<Location[]> => {
+export const fetchLocations = async (
+  params: FetchLocationsParams = {},
+): Promise<Location[]> => {
   const res = await nextServer.get<{ locations: Location[] }>('/locations', {
-    params: { page, perPage, search, region },
+    params,
   });
 
   return res.data.locations;
+};
+
+const createLocation = async (payload: FormData): Promise<Location> => {
+  const res = await nextServer.post<Location>('/locations', payload);
+  return res.data;
 };
 
 async function register(payload: RegisterValues) {
@@ -45,6 +47,14 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
+const updateMe = async (payload: { username?: string }): Promise<User> => {
+  const { data } = await nextServer.patch<User>('/users/me', {
+    username: payload.username,
+  });
+
+  return data;
+};
+
 const getLocationTypes = async (): Promise<LocationType[]> => {
   const { data } = await nextServer.get<LocationType[]>(
     '/categories/location-types',
@@ -62,7 +72,9 @@ export {
   login,
   refreshSession,
   getMe,
+  updateMe,
   logout,
   getLocationTypes,
   getRegions,
+  createLocation,
 };
