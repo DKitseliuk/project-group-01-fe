@@ -13,6 +13,8 @@ import { fetchLocations } from '@/lib/api/clientApi';
 import type { Location } from '@/types/location';
 import LocationCard from '@/components/LocationCard/LocationCard';
 
+import Loader from '@/app/loading';
+
 export default function PopularLocationsBlock() {
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -27,13 +29,13 @@ export default function PopularLocationsBlock() {
     refetchOnMount: false,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
   if (isError) return <p>Error loading locations</p>;
 
   const topLocations = [...locations]
     .sort((a, b) => b.rate - a.rate)
     .slice(0, 6);
-  
+
   return (
     <section className={css.section}>
       <div className="container">
@@ -45,7 +47,7 @@ export default function PopularLocationsBlock() {
         </div>
 
         <Swiper
-          onSwiper={swiper => {
+          onSwiper={(swiper) => {
             swiperRef.current = swiper;
           }}
           spaceBetween={24}
@@ -56,7 +58,7 @@ export default function PopularLocationsBlock() {
             1440: { slidesPerView: 3 },
           }}
         >
-          {topLocations.map(location => (
+          {topLocations.map((location) => (
             <SwiperSlide key={location._id}>
               <LocationCard location={location} />
             </SwiperSlide>

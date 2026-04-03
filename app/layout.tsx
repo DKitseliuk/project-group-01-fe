@@ -8,6 +8,7 @@ import { Header } from '@/components/Header/Header';
 import { Footer } from '@/components/Footer/Footer';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { categoriesOptionsServer } from '@/lib/queries/categoriesServer';
+import { ToastProvider } from '@/components/ToastProvider/ToastProvider';
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -41,6 +42,7 @@ export default async function RootLayout({
             <Header />
             {children}
             <Footer />
+            <ToastProvider />
           </AuthProvider>
         </TanStackProvider>
       </body>
