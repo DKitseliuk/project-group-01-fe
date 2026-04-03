@@ -13,13 +13,17 @@
   object-fit: cover;
   display: block;
 }
-
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
 .tag {
   font-weight: 600;
   font-size: 12px;
   line-height: 150%;
   color: var(--color-scheme-2-text);
-  margin: 16px 16px 12px;
 }
 
 .title {
@@ -28,12 +32,10 @@
   color: var(--text-secondary);
   font-weight: 700;
   line-height: 1.5;
-  margin: 12px 16px 0;
 }
 
 .actions {
   margin-top: auto;
-  padding: 12px 16px 16px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -51,13 +53,12 @@
   font-weight: 500;
   font-size: 16px;
   color: var(--text-primary);
-  text-decoration: none;
-  transition: background 0.2s;
+  transition: background-color 0.2s ease;
 }
 
 .viewBtn:hover,
 .viewBtn:focus {
-  background: var(--foreground-secondary);
+  background-color: var(--foreground-secondary);
 }
 
 .editBtn {
@@ -68,16 +69,14 @@
   border-radius: 6px;
   border: 1px solid var(--neutral-darkest-15);
   background: var(--neutral-darkest-5);
-  transition: background 0.2s;
+  transition: background-color 0.2s ease;
   text-align: center;
   line-height: 48px;
 }
 
-.editBtn:hover,
-.editBtn:focus {
-  background: var(--foreground-secondary);
+.editBtn:hover {
+  background-color: var(--foreground-secondary);
 }
-
 .editBtn svg {
   fill: var(--text-primary);
 }
@@ -92,11 +91,9 @@
   .image {
     height: 421px;
   }
-
   .title {
     font-size: 26px;
   }
-
   .tag {
     font-size: 16px;
   }

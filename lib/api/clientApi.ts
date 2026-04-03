@@ -1,51 +1,22 @@
-import { nextServer, publicApi } from '@/lib/api/api';
+import { nextServer } from '@/lib/api/api';
 import type { Location, FetchLocationsParams } from '@/types/location';
-import type { LoginValues, RegisterValues } from '@/types/auth';
-import type { User } from '@/types/user';
+import { LoginValues, RegisterValues } from '@/types/auth';
+import { User } from '@/types/user';
+import { Region, LocationType } from '@/types/categories';
 
-type FetchLocationsResponse = {
-  locations: Location[];
-  totalPages: number;
-  totalItems: number;
-  page: number;
-  perPage: number;
-};
-
-const fetchLocations = async ({
-  page = 1,
-  perPage = 6,
-  search = '',
-  region = '',
-  type = '',
-  sortBy = 'createdAt',
-  sortOrder = 'desc',
-}: FetchLocationsParams = {}): Promise<FetchLocationsResponse> => {
-  const res = await publicApi.get<FetchLocationsResponse>('/locations', {
-    params: {
-      page,
-      perPage,
-      search: search || undefined,
-      region: region || undefined,
-      type: type || undefined,
-      sortBy,
-      sortOrder,
-    },
+export const fetchLocations = async (
+  params: FetchLocationsParams = {},
+): Promise<Location[]> => {
+  const res = await nextServer.get<{ locations: Location[] }>('/locations', {
+    params,
   });
 
+  return res.data.locations;
+};
+
+const createLocation = async (payload: FormData): Promise<Location> => {
+  const res = await nextServer.post<Location>('/locations', payload);
   return res.data;
-};
-
-const fetchPopularLocations = async (): Promise<Location[]> => {
-  const res = await publicApi.get<FetchLocationsResponse>('/locations', {
-    params: {
-      page: 1,
-      perPage: 100,
-      sortBy: 'createdAt',
-      sortOrder: 'desc',
-    },
-  });
-
-  return Array.isArray(res.data.locations) ? res.data.locations : [];
 };
 
 async function register(payload: RegisterValues) {
@@ -76,14 +47,34 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
+const updateMe = async (payload: { username?: string }): Promise<User> => {
+  const { data } = await nextServer.patch<User>('/users/me', {
+    username: payload.username,
+  });
+
+  return data;
+};
+
+const getLocationTypes = async (): Promise<LocationType[]> => {
+  const { data } = await nextServer.get<LocationType[]>(
+    '/categories/location-types',
+  );
+  return data;
+};
+
+const getRegions = async (): Promise<Region[]> => {
+  const { data } = await nextServer.get<Region[]>('/categories/regions');
+  return data;
+};
+
 export {
-  fetchLocations,
-  fetchPopularLocations,
   register,
   login,
   refreshSession,
   getMe,
+  updateMe,
   logout,
+  getLocationTypes,
+  getRegions,
+  createLocation,
 };
-
-export type { FetchLocationsResponse };

@@ -1,0 +1,431 @@
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    background-color: var(--background-secondary);
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.hiddenInput {
+    display: none;
+}
+
+
+.label {
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 24px;
+}
+
+.imageUploadBox {
+    position: relative;
+    width: 100%;
+    height: 223px;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--foreground-primary);
+}
+
+.uploadedImage {
+    object-fit: cover;
+}
+
+.uploadButton {
+    width: fit-content;
+    align-content: center;
+    height: 40px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+     border: 1px solid var(--neutral-darkest-15);
+    background-color: var(--foreground-primary);
+    color: var(--neutral-dark);
+}
+
+
+
+.input{
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: var(--foreground-secondary);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+/* .select {
+  background-color: var(--foreground-secondary);
+  width: 100%;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--coral-darker);
+} */
+
+/* .selectPlaceholder {
+    color: #4c4c4c;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+  color: var(--neutral-darkest)
+} */
+
+.textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    resize: none;
+    background-color: var(--foreground-secondary);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--neutral);
+}
+
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+    border-color: var(--coral-light);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    border-color: var(--coral);
+}
+
+.actions {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 16px;
+    margin-bottom: 64px;
+}
+
+.cancelButton,
+.submitButton {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    cursor: pointer;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.cancelButton {
+    border: 1px solid var(--neutral-darkest-15);
+    background-color: var(--foreground-primary);
+    color: var(--neutral-dark);
+}
+
+
+.submitButton {
+    border: none;
+    background-color: var(--coral-light);
+    color: var(--white);
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.reactSelect {
+  width: 100%;
+}
+
+.selectControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: var(--coral-lighter);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.selectControl:hover {
+  border-color: var(--coral-light);
+}
+
+.selectControlFocused {
+  border-color: var(--coral-light);
+}
+
+.selectControlError {
+  border-color: var(--coral-light);
+}
+
+.selectValueContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 0;
+}
+
+.selectPlaceholder {
+  color: var(--neutral-darkest);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectSingleValue {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectIndicators {
+  display: flex;
+  align-items: center;
+}
+
+.selectDropdownIndicator {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.selectIndicatorSeparator {
+  display: none;
+}
+
+.selectMenu {
+  margin-top: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.selectMenuList {
+  padding: 0;
+}
+
+.selectOption {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.selectOptionFocused {
+  background-color: #fdf1eb;
+}
+
+.selectOptionSelected {
+  background-color: var(--coral-light);
+  color: var(--white);
+}
+
+.reactSelect {
+  width: 100%;
+}
+
+.selectControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: var(--foreground-secondary);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.selectControl:hover {
+  border-color: var(--coral-light);
+}
+
+.selectControlFocused {
+  border-color: var(--coral);
+}
+
+.selectControlError {
+  border-color: #d9534f;
+}
+
+.selectValueContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 0;
+}
+
+.selectPlaceholder {
+  color: var(--neutral);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectSingleValue {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.selectIndicators {
+  display: flex;
+  align-items: center;
+}
+
+.selectDropdownIndicator {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.selectIndicatorSeparator {
+  display: none;
+}
+
+.selectMenu {
+  margin-top: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--foreground-primary);
+  border: 1px solid var(--neutral-darkest-15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+}
+
+.selectMenuList {
+  padding: 0;
+}
+
+.selectOption {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  background-color: var(--coral-lighter);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.selectOptionFocused {
+  background-color: #fdf1eb;
+}
+
+.selectOptionSelected {
+  background-color: var(--coral-light);
+  color: var(--white);
+}
+
+
+@media screen and (min-width: 768px) {
+    .imageUploadBox {
+        height: 468px;
+    }
+
+    .actions {
+        flex-direction: row;
+    }
+
+    .cancelButton,
+    .submitButton {
+        font-size: 20px;
+        width: 204px;
+        height: 48px;
+    }
+}
+
+
+@media screen and (min-width: 1440px) {
+  .form {
+    max-width: 1091px;
+  }
+
+  .upload {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imageUploadBox {
+    height: 726px;
+  }
+
+  .label {
+    font-size: 18px;
+  }
+
+  .uploadButton {
+    font-size: 20px;
+  }
+
+  .uploadButton:hover,
+  .uploadButton:focus {
+    border-color: var(--coral-light);
+  }
+
+  /* .selectPlaceholder {
+    color: var(--neutral-dark);
+    font-size: 18px;
+  } */
+
+  .cancelButton:hover,
+  .cancelButton:focus {
+    border-color: var(--coral-light);
+    background-color: var(--foreground-secondary);
+  }
+}
+
