@@ -52,13 +52,16 @@
 
 .registerBtn {
     color: var(--white);
-    background-color: var(--coral);
-    border: 1px solid transparent;
+    background-color: var(--coral-dark);
+    border: 1px solid var(--coral-dark);
 }
 
 .registerBtn:hover {
     background-color: var(--coral-lighter);
-        color: var(--coral-darkest);
+    color: var(--coral-darkest);
+    border-color: var(--coral-dark);
+   
+
 }
 
 /* Shared base for burger and closeBtn */

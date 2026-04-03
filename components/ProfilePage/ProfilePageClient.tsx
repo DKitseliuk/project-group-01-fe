@@ -6,17 +6,20 @@ import { getUser, getUserLocations } from '@/lib/api/clientApi';
 import { ProfileInfo } from './ProfileInfo';
 import { ProfilePlaceholder } from './ProfilePlaceholder';
 import styles from './ProfilePageClient.module.css';
+import { LocationsSearchParams } from '@/types/location';
+//import LocationsGrid from '@/components/LocationsGrid/LocationsGrid';
 
-const PER_PAGE = 6;
+
 
 type ProfilePageClientProps = {
   userId: string;
+  initialParams: LocationsSearchParams;
 };
 
-export const ProfilePageClient = ({ userId }: ProfilePageClientProps) => {
+export const ProfilePageClient = ({ userId, initialParams }: ProfilePageClientProps) => {
   const { user: currentUser } = useAuthStore();
   const isOwnProfile = currentUser?._id === userId;
-   const [page, setPage] = useState(1);
+  const [params, setParams] = useState(initialParams);
 
   const { data: user, isLoading, isError } = useQuery({
     queryKey: ['user', userId],
@@ -25,8 +28,8 @@ export const ProfilePageClient = ({ userId }: ProfilePageClientProps) => {
   });
 
    const { data: locationsData } = useQuery({
-    queryKey: ['userLocations', userId, page],
-     queryFn: () => getUserLocations(userId, page, PER_PAGE),
+    queryKey: ['userLocations', userId, params],
+     queryFn: () => getUserLocations(userId, params.page, params.perPage),
     refetchOnMount: false,
   });
 
@@ -52,9 +55,9 @@ export const ProfilePageClient = ({ userId }: ProfilePageClientProps) => {
         <ProfilePlaceholder isOwnProfile={isOwnProfile} />
         ) : (
           <>
-            {/*<LocationsGrid locations={locations} isOwnProfile={isOwnProfile} /> */}
-            {page < totalPages && (
-              <button onClick={() => setPage(p => p + 1)}>
+            {/*<LocationsGrid initialParams={params} userId={userId} /> прописати в LocationsGridProps userId */}
+            {(params.page ?? 1) < totalPages && (
+              <button onClick={() => setParams(p => ({ ...p, page: (p.page ?? 1) + 1 }))}>
                 Показати ще
               </button>
             )}
