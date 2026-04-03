@@ -19,6 +19,8 @@ const createLocation = async (payload: FormData): Promise<Location> => {
   return res.data;
 };
 
+
+
 const getLocationById = async (locationId: string): Promise<Location> => {
   const res = await nextServer.get<Location>(`/locations/${locationId}`);
   return res.data;

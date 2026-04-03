@@ -16,6 +16,11 @@ const Select = dynamic(() => import('react-select'), {
   ssr: false,
 });
 
+type GetLocationByIdResponse = {
+  location: Location;
+};
+
+
 type LocationFormProps = {
   mode?: 'create' | 'edit';
   locationId?: string;
@@ -57,7 +62,7 @@ const validationSchema = isEditMode
     data: locationData,
     isLoading: isLocationLoading,
     isError: isLocationError,
-  } = useQuery({
+  } = useQuery<GetLocationByIdResponse>({
     queryKey: ['location', locationId],
     queryFn: () => getLocationById(locationId as string),
     enabled: isEditMode && !!locationId,
@@ -70,17 +75,17 @@ console.log('locationData:', locationData);
   const initialValues: LocationFormValues =
     isEditMode && locationData
       ? {
-          name: locationData.name ?? '',
-          locationType: locationData.locationType ?? '',
-          region: locationData.region ?? '',
-          description: locationData.description ?? '',
+          name: locationData.location.name ?? '',
+          locationType: locationData.location.locationType ?? '',
+          region: locationData.location.region ?? '',
+          description: locationData.location.description ?? '',
           image: null,
         }
       : emptyInitialValues;
 
   useEffect(() => {
-    if (isEditMode && locationData?.image) {
-      setPreview(locationData.image);
+    if (isEditMode && locationData?.location?.image) {
+      setPreview(locationData.location.image);
     }
   }, [isEditMode, locationData]);
 
@@ -198,7 +203,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
             setPreview(imageUrl);
           } else {
             setPreview(
-              isEditMode && locationData?.image ? locationData.image : '',
+              isEditMode && locationData?.location?.image ? locationData.location.image : '',
             );
           }
         };
@@ -409,7 +414,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                 onClick={() => {
                   resetForm();
                   setPreview(
-                    isEditMode && locationData?.image ? locationData.image : '',
+                    isEditMode && locationData?.location?.image ? locationData.location.image : '',
                   );
                 }}
               >
