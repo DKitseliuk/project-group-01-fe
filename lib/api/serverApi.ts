@@ -1,7 +1,11 @@
 import { cookies } from 'next/headers';
 import { AxiosResponse } from 'axios';
 import { backendServer } from './api';
-import type { FetchLocationsParams, Location } from '@/types/location';
+import type {
+  FetchLocationsParams,
+  FetchLocationsResponse,
+  Location,
+} from '@/types/location';
 import { LocationType, Region } from '@/types/categories';
 import { User } from '@/types/user';
 import { FeedbackItem, Review } from '@/types/review';
@@ -26,9 +30,9 @@ export const getMe = async (): Promise<User> => {
 
 const fetchLocations = async (
   params: FetchLocationsParams = {},
-): Promise<Location[]> => {
+): Promise<FetchLocationsResponse> => {
   const cookieHeader = await getCookieHeader();
-  const { data } = await backendServer.get<{ locations: Location[] }>(
+  const { data } = await backendServer.get<FetchLocationsResponse>(
     'locations',
     {
       params,
@@ -38,7 +42,7 @@ const fetchLocations = async (
     },
   );
 
-  return data.locations;
+  return data;
 };
 
 const fetchLocationById = async (locationId: string): Promise<Location> => {

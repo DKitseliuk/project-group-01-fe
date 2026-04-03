@@ -1,30 +1,23 @@
-"use client";
+'use client';
 
-import { ChangeEvent } from "react";
-import dynamic from "next/dynamic";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
-import { SORT_OPTIONS } from "@/constants/filters";
-import { SEARCH_DEBOUNCE_DELAY } from "@/constants/pagination";
-import styles from "./FilterPanel.module.css";
-import type { LocationType, Region } from "@/types/categories";
+import { ChangeEvent } from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
+import { LOCATIONS_SORTING_OPTIONS } from '@/constants/sorting';
+import { SEARCH_DEBOUNCE_DELAY } from '@/constants/pagination';
+import styles from './FilterPanel.module.css';
+import { LocationsSearchParams } from '@/types/location';
+import { useQuery } from '@tanstack/react-query';
+import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
+import { parseLocationParams } from '@/helpers/parseLocationsParams';
 
-const Select = dynamic(() => import("react-select"), {
+const Select = dynamic(() => import('react-select'), {
   ssr: false,
 });
 
-type Filters = {
-  search: string;
-  region: string;
-  type: string;
-  sortBy: string;
-  sortOrder: string;
-};
-
 type FilterPanelProps = {
-  filters: Filters;
-  regions: Region[];
-  locationTypes: LocationType[];
+  initialParams: LocationsSearchParams;
 };
 
 type SelectOption = {
@@ -32,13 +25,19 @@ type SelectOption = {
   label: string;
 };
 
-export default function FilterPanel({
-  filters,
-  regions,
-  locationTypes,
-}: FilterPanelProps) {
+export default function FilterPanel({ initialParams }: FilterPanelProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const currentParams = parseLocationParams(
+    Object.fromEntries(searchParams.entries()),
+    initialParams,
+  );
+
+  const { data: locationTypes } = useQuery(
+    categoriesOptionsClient.locationTypes,
+  );
+  const { data: regions } = useQuery(categoriesOptionsClient.regions);
 
   const updateQueryParams = (newParams: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -51,13 +50,15 @@ export default function FilterPanel({
       }
     });
 
-    params.set("page", "1");
+    params.set('page', '1');
     router.push(`?${params.toString()}`);
   };
 
   const debouncedSearchChange = useDebouncedCallback((value: string) => {
     updateQueryParams({ search: value });
   }, SEARCH_DEBOUNCE_DELAY);
+
+  if (!regions || !locationTypes) return null;
 
   const regionOptions: SelectOption[] = regions.map((item) => ({
     value: item.slug,
@@ -70,14 +71,16 @@ export default function FilterPanel({
   }));
 
   const selectedRegion =
-    regionOptions.find((item) => item.value === filters.region) || null;
+    regionOptions.find((item) => item.value === currentParams.region) || null;
 
   const selectedType =
-    locationTypeOptions.find((item) => item.value === filters.type) || null;
+    locationTypeOptions.find((item) => item.value === currentParams.type) ||
+    null;
 
   const selectedSort =
-    SORT_OPTIONS.find(
-      (item) => item.value === `${filters.sortBy}-${filters.sortOrder}`,
+    LOCATIONS_SORTING_OPTIONS.find(
+      (item) =>
+        item.value === `${currentParams.sortBy}-${currentParams.sortOrder}`,
     ) || null;
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -87,11 +90,11 @@ export default function FilterPanel({
   return (
     <div className={styles.panel}>
       <input
-        key={filters.search}
+        key={currentParams.search}
         type="text"
         name="search"
         placeholder="Пошук"
-        defaultValue={filters.search}
+        defaultValue={currentParams.search}
         onChange={handleSearchChange}
         className={styles.input}
       />
@@ -103,7 +106,7 @@ export default function FilterPanel({
         value={selectedRegion}
         onChange={(option) =>
           updateQueryParams({
-            region: (option as SelectOption | null)?.value || "",
+            region: (option as SelectOption | null)?.value || '',
           })
         }
         placeholder="Регіон"
@@ -117,7 +120,7 @@ export default function FilterPanel({
         value={selectedType}
         onChange={(option) =>
           updateQueryParams({
-            type: (option as SelectOption | null)?.value || "",
+            type: (option as SelectOption | null)?.value || '',
           })
         }
         placeholder="Тип локації"
@@ -127,13 +130,13 @@ export default function FilterPanel({
       <Select
         className={styles.select}
         classNamePrefix="react-select"
-        options={SORT_OPTIONS}
+        options={LOCATIONS_SORTING_OPTIONS}
         value={selectedSort}
         onChange={(option) => {
           const selectedOption = option as SelectOption | null;
           if (!selectedOption) return;
 
-          const [sortBy, sortOrder] = selectedOption.value.split("-");
+          const [sortBy, sortOrder] = selectedOption.value.split('-');
 
           updateQueryParams({
             sortBy,

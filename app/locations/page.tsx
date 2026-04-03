@@ -1,86 +1,53 @@
-import styles from "./LocationsPage.module.css";
-import LocationsGrid from "@/components/LocationsGrid/LocationsGrid";
-import FilterPanel from "@/components/FilterPanel/FilterPanel";
+import styles from './LocationsPage.module.css';
+import LocationsGrid from '@/components/LocationsGrid/LocationsGrid';
+import FilterPanel from '@/components/FilterPanel/FilterPanel';
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
-} from "@tanstack/react-query";
-import {
-  fetchLocations,
-  getRegions,
-  getLocationTypes,
-} from "@/lib/api/serverApi";
-import { LOCATIONS_PER_PAGE } from "@/constants/pagination";
+} from '@tanstack/react-query';
+import { fetchLocations } from '@/lib/api/serverApi';
 
-type Filters = {
-  search: string;
-  region: string;
-  type: string;
-  sortBy: string;
-  sortOrder: string;
-};
+import { LocationsSearchParams } from '@/types/location';
+import { LOCATIONS_DEFAULT_PARAMS } from '@/constants/locations';
+import { redirect } from 'next/navigation';
 
 type LocationsPageProps = {
-  searchParams?: Promise<{
-    page?: string;
-    search?: string;
-    region?: string;
-    type?: string;
-    sortBy?: string;
-    sortOrder?: string;
-  }>;
+  searchParams?: Promise<LocationsSearchParams>;
 };
 
 const LocationsPage = async ({ searchParams }: LocationsPageProps) => {
-  const params = await searchParams;
+  const incomingParams = await searchParams;
 
-  const page = Number(params?.page) || 1;
-  const search = params?.search || "";
-  const region = params?.region || "";
-  const type = params?.type || "";
-  const sortBy = params?.sortBy || "createdAt";
-  const sortOrder = params?.sortOrder || "desc";
+  if (!incomingParams || Object.keys(incomingParams).length === 0) {
+    const defaultQuery = new URLSearchParams(
+      Object.fromEntries(
+        Object.entries(LOCATIONS_DEFAULT_PARAMS)
+          .filter(([_, v]) => v !== undefined)
+          .map(([k, v]) => [k, String(v)]),
+      ),
+    ).toString();
+    redirect(`/locations?${defaultQuery}`);
+  }
 
-  const filters: Filters = {
-    search,
-    region,
-    type,
-    sortBy,
-    sortOrder,
+  const params: LocationsSearchParams = {
+    ...LOCATIONS_DEFAULT_PARAMS,
+    ...incomingParams,
   };
 
   const queryClient = new QueryClient();
 
-  const [regions, locationTypes] = await Promise.all([
-    getRegions(),
-    getLocationTypes(),
-  ]);
-
   await queryClient.prefetchQuery({
-    queryKey: ["locations", { page, perPage: LOCATIONS_PER_PAGE, ...filters }],
-    queryFn: () =>
-      fetchLocations({
-        page,
-        perPage: LOCATIONS_PER_PAGE,
-        ...filters,
-      }),
+    queryKey: ['locations', { ...params }],
+    queryFn: () => fetchLocations(params),
   });
 
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Усі місця відпочинку</h1>
-
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <FilterPanel
-          filters={filters}
-          regions={regions}
-          locationTypes={locationTypes}
-        />
-        <LocationsGrid
-          initialPage={page}
-          initialFilters={filters}
-        />
+        <FilterPanel initialParams={params} />
+        <LocationsGrid initialParams={params} />
       </HydrationBoundary>
     </main>
   );

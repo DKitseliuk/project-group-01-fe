@@ -37,7 +37,7 @@ export default function LocationCard({
         {location.locationTypeLabel && (
           <p className={css.tag}>{location.locationTypeLabel}</p>
         )}
-        <StarRating value={location.rate} />
+        {location.rate ? <StarRating value={location.rate} /> : '—'}
         <h3 className={css.title}>{location.name}</h3>
 
         <div className={css.actions}>

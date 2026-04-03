@@ -8,38 +8,22 @@ import LocationCard from '../LocationCard/LocationCard';
 import Pagination from '../Pagination/Pagination';
 
 import { fetchLocations } from '@/lib/api/clientApi';
-import { LOCATIONS_PER_PAGE } from '@/constants/pagination';
-import type { Location } from '@/types/location';
-
-type Filters = {
-  search: string;
-  region: string;
-  type: string;
-  sortBy: string;
-  sortOrder: string;
-};
+import type { Location, LocationsSearchParams } from '@/types/location';
+import { parseLocationParams } from '@/helpers/parseLocationsParams';
+import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 
 type LocationsGridProps = {
-  initialPage: number;
-  initialFilters: Filters;
+  initialParams: LocationsSearchParams;
 };
 
-export default function LocationsGrid({
-  initialPage,
-  initialFilters,
-}: LocationsGridProps) {
+export default function LocationsGrid({ initialParams }: LocationsGridProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const page = Number(searchParams.get('page')) || initialPage;
-
-  const filters: Filters = {
-    search: searchParams.get('search') || initialFilters.search,
-    region: searchParams.get('region') || initialFilters.region,
-    type: searchParams.get('type') || initialFilters.type,
-    sortBy: searchParams.get('sortBy') || initialFilters.sortBy,
-    sortOrder: searchParams.get('sortOrder') || initialFilters.sortOrder,
-  };
+  const currentParams = parseLocationParams(
+    Object.fromEntries(searchParams.entries()),
+    initialParams,
+  );
 
   const updateQueryParams = (newParams: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -47,40 +31,35 @@ export default function LocationsGrid({
     Object.entries(newParams).forEach(([key, value]) => {
       if (value) {
         params.set(key, value);
-      } else {
-        params.delete(key);
       }
     });
 
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`);
   };
 
+  const { data: locationTypes = [] } = useQuery(
+    categoriesOptionsClient.locationTypes,
+  );
+
+  const locationTypeMap = new Map(
+    locationTypes.map((type) => [type.slug, type.type]),
+  );
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: [
-      'locations',
-      {
-        page,
-        perPage: LOCATIONS_PER_PAGE,
-        ...filters,
-      },
-    ],
-    queryFn: () =>
-      fetchLocations({
-        page,
-        perPage: LOCATIONS_PER_PAGE,
-        search: filters.search,
-        region: filters.region,
-        type: filters.type,
-        sortBy: filters.sortBy,
-        sortOrder: filters.sortOrder,
-      }),
+    queryKey: ['locations', { ...currentParams }],
+    queryFn: () => fetchLocations(currentParams),
+    refetchOnMount: false,
   });
 
-  const locations: Location[] = Array.isArray(data?.locations)
-    ? data.locations
-    : [];
+  const locations: Location[] = data?.locations || [];
 
-  const totalPages = data?.totalPages ?? 1;
+  const updatedLocations = locations.map((location) => ({
+    ...location,
+    locationTypeLabel: locationTypeMap.get(location.locationType) ?? '',
+  }));
+
+  const page = data?.page ?? currentParams?.page ?? 1;
+  const totalPages = data?.totalPages ?? 0;
 
   if (isLoading) {
     return <p className={styles.empty}>Завантаження...</p>;
@@ -92,15 +71,12 @@ export default function LocationsGrid({
 
   return (
     <>
-      {!locations.length ? (
+      {!updatedLocations.length ? (
         <p className={styles.empty}>Нічого не знайдено</p>
       ) : (
         <ul className={styles.grid}>
-          {locations.map((location) => (
-            <LocationCard
-              key={location._id}
-              location={location}
-            />
+          {updatedLocations.map((location) => (
+            <LocationCard key={location._id} location={location} />
           ))}
         </ul>
       )}

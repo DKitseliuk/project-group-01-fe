@@ -2,20 +2,17 @@
 
 import axios from 'axios';
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  process.env.API_URL ||
-  'http://localhost:3001';
+const API_URL = process.env.API_URL;
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const nextServer = axios.create({
+const backendServer = axios.create({
   baseURL: `${API_URL}/api`,
   withCredentials: true,
 });
 
-export const publicApi = axios.create({
-  baseURL: `${API_URL}/api`,
-  withCredentials: false,
+const nextServer = axios.create({
+  baseURL: `${NEXT_PUBLIC_API_URL}/api`,
+  withCredentials: true,
 });
 
-export const backendServer = nextServer;
-export const api = nextServer;
+export { backendServer, nextServer };
