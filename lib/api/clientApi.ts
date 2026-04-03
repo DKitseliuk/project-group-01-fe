@@ -1,17 +1,21 @@
 import { nextServer } from '@/lib/api/api';
-import type { Location, FetchLocationsParams } from '@/types/location';
+import type {
+  Location,
+  FetchLocationsParams,
+  FetchLocationsResponse,
+} from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
 import { Region, LocationType } from '@/types/categories';
 
 export const fetchLocations = async (
   params: FetchLocationsParams = {},
-): Promise<Location[]> => {
-  const res = await nextServer.get<{ locations: Location[] }>('/locations', {
+): Promise<FetchLocationsResponse> => {
+  const { data } = await nextServer.get<FetchLocationsResponse>('/locations', {
     params,
   });
 
-  return res.data.locations;
+  return data;
 };
 
 const createLocation = async (payload: FormData): Promise<Location> => {
