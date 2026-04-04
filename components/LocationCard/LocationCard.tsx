@@ -11,15 +11,10 @@ export type LocationWithTypeLabel = Location & { locationTypeLabel?: string };
 
 interface Props {
   location: LocationWithTypeLabel;
-  isOwner?: string;
   canEdit?: boolean;
 }
 
-export default function LocationCard({
-  location,
-  isOwner,
-  canEdit = false,
-}: Props) {
+export default function LocationCard({ location, canEdit = false }: Props) {
   const user = useAuthStore((state) => state.user);
 
   return (
@@ -45,7 +40,7 @@ export default function LocationCard({
             Переглянути локацію
           </Link>
 
-          {isOwner === user?._id && canEdit && (
+          {location.ownerId === user?._id && canEdit && (
             <Link
               href={`/locations/${location._id}/edit`}
               className={css.editBtn}

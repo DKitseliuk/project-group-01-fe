@@ -69,15 +69,18 @@ export const HeaderActions = () => {
         Поділитись локацією
       </Link>
       <div className={styles.userRowDesktop}>
-        <Link href={`/profile/${user._id}`} className={styles.userLink}>
+        <Link href={`/profile/${user._id}/edit`} className={styles.userLink}>
           <div className={styles.avatar}>
             <Image
               src={user.avatarUrl}
               alt={user.name}
-              width={36}
-              height={36}
+              fill
+              sizes="32px"
+              loading="eager"
             />
           </div>
+        </Link>
+        <Link href={`/profile/${user._id}`} className={styles.userLink}>
           <span className={styles.userName}>{user.name}</span>
         </Link>
         <div className={styles.userDivider} />
