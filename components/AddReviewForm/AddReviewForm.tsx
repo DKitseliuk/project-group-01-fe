@@ -56,7 +56,7 @@ export default function AddReviewForm({
 
   const mutation = useMutation({
     mutationFn: (values: AddReviewFormValues) =>
-      createReview(id, { rating: values.rating, text: values.review }),
+      createReview(id, { rate: values.rating, description: values.review }),
     onSuccess: () => {
       toast.success(
         'Дякуємо! Ваш відгук надіслано на модерацію.'

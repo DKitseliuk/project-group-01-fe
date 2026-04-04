@@ -98,6 +98,17 @@ const getReviews = async ({ page = 1, perPage = 9 }: ReviewParams) => {
   return data;
 };
 
+const createReview = async (
+  locationId: string,
+  payload: { rate: number; description: string },
+) => {
+  const { data } = await nextServer.post(
+    `/locations/${locationId}/feedbacks`,
+    payload,
+  );
+  return data;
+};
+
 export {
   register,
   login,
@@ -111,4 +122,5 @@ export {
   getUserLocations,
   createLocation,
   getReviews,
+  createReview,
 };
