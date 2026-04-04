@@ -52,3 +52,9 @@ input:focus::placeholder {
 .input:invalid {
   border-color: var(--red);
 }
+@media screen and (min-width: 1440px) {
+  .error {
+    font-size: 14px;
+    color: var(--red);
+  }
+}

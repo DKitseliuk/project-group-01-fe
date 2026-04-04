@@ -8,16 +8,17 @@ import { HeaderActions } from './HeaderActions';
 import { HeaderMobileMenu } from './HeaderMobileMenu';
 import styles from './Header.module.css';
 
-const baseLinks = [
-  { href: '/', label: 'Головна' },
-  { href: '/locations', label: 'Місця відпочинку' },
-];
-
-const profileLink = { href: '/profile', label: 'Мій профіль' };
-
 export const HeaderClient = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+
+  const baseLinks = [
+    { href: '/', label: 'Головна' },
+    { href: '/locations', label: 'Місця відпочинку' },
+  ];
+
+  const profileLink = { href: `/profile/${user?._id}`, label: 'Мій профіль' };
 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
