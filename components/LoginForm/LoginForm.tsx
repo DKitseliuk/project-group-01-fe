@@ -10,8 +10,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 import axios from 'axios';
 import { LoginValues } from '@/types/auth';
 import toast from 'react-hot-toast';
-import { RotatingLines } from 'react-loader-spinner';
-import { useSearchParams } from 'next/navigation';
+import ButtonLoader from '../ButtonLoader/ButtonLoader';
 
 const initialValues: LoginValues = {
   email: '',
@@ -30,10 +29,10 @@ const validationSchema = Yup.object({
 
 const LoginForm = () => {
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get('redirect');
-
+  const redirectAfterAuth = useAuthStore((state) => state.redirectAfterAuth);
+  const setRedirectAfterAuth = useAuthStore(
+    (state) => state.setRedirectAfterAuth,
+  );
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState('');
 
@@ -42,7 +41,8 @@ const LoginForm = () => {
       const data = await login(values);
       setUser(data);
       toast.success('Ви успішно увійшли!');
-      router.push(redirect || '/');
+      router.push(redirectAfterAuth || '/');
+      setRedirectAfterAuth(null);
       router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
@@ -88,16 +88,7 @@ const LoginForm = () => {
           </label>
           {error && <p className={css.error}>{error}</p>}
           <button className={css.button} type="submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <RotatingLines
-                width="20"
-                visible={true}
-                ariaLabel="rotating-lines-loading"
-                strokeColor="white"
-              />
-            ) : (
-              'Увійти'
-            )}
+            {isSubmitting ? <ButtonLoader /> : 'Увійти'}
           </button>
         </Form>
       )}

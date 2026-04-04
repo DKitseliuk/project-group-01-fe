@@ -1,13 +1,19 @@
-// 'use client';
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import styles from './Header.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 
 export const HeaderActions = () => {
   const router = useRouter();
+
+  const pathname = usePathname();
+  const setRedirectAfterAuth = useAuthStore(
+    (state) => state.setRedirectAfterAuth,
+  );
+
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
   const clearIsAuthenticated = useAuthStore(
@@ -26,12 +32,17 @@ export const HeaderActions = () => {
   if (!isAuthenticated) {
     return (
       <div className={styles.authButtons}>
-        <Link href="/login" className={`${styles.authBtn} ${styles.loginBtn}`}>
+        <Link
+          href="/login"
+          className={`${styles.authBtn} ${styles.loginBtn}`}
+          onClick={() => setRedirectAfterAuth(pathname)}
+        >
           Вхід
         </Link>
         <Link
           href="/register"
           className={`${styles.authBtn} ${styles.registerBtn}`}
+          onClick={() => setRedirectAfterAuth(pathname)}
         >
           Реєстрація
         </Link>
