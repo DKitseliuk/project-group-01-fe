@@ -8,13 +8,6 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 
-const baseLinks = [
-  { href: '/', label: 'Головна' },
-  { href: '/locations', label: 'Місця відпочинку' },
-];
-
-const profileLink = { href: '/profile', label: 'Мій профіль' };
-
 type HeaderMobileMenuProps = {
   onClose: () => void;
 };
@@ -35,6 +28,14 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
       router.push('/');
     }
   };
+
+  const baseLinks = [
+    { href: '/', label: 'Головна' },
+    { href: '/locations', label: 'Місця відпочинку' },
+  ];
+
+  const profileLink = { href: `/profile/${user?._id}`, label: 'Мій профіль' };
+
   const links = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
 
   useEffect(() => {
@@ -134,17 +135,21 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
             Опублікувати статтю
           </Link>
           <div className={styles.userRow}>
-            <Link href={`/profile/${user._id}`} className={styles.userLink} onClick={onClose}>
-            <div className={styles.avatar}>
-              <Image
-                src={user.avatarUrl}
-                alt={user.name}
-                width={36}
-                height={36}
-              />
-            </div>
+            <Link
+              href={`/profile/${user._id}`}
+              className={styles.userLink}
+              onClick={onClose}
+            >
+              <div className={styles.avatar}>
+                <Image
+                  src={user.avatarUrl}
+                  alt={user.name}
+                  width={36}
+                  height={36}
+                />
+              </div>
               <span className={styles.userName}>{user.name}</span>
-              </Link>
+            </Link>
             <div className={styles.userDivider} />
             <button
               className={styles.logoutBtn}
