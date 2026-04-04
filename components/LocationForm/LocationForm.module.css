@@ -341,13 +341,15 @@
 }
 
 .selectOptionFocused {
-  background-color: #fdf1eb;
+  background-color: var(--coral-light);
+  border: 1px solid var(--coral-light);
+  border-radius: 4px;
+  padding: 4px 8px;
 }
 
 .selectOptionSelected {
-  background-color: var(--coral-light);
-  color: var(--white);
-}
+  /* background-color: var(--coral-light); */
+  color:var(--text-secondary);}
 
 .errorMessage{
   color:var(--red);

@@ -4,7 +4,11 @@ import type { Metadata } from 'next';
 import { fetchLocationById } from '@/lib/api/serverApi';
 import {notFound } from 'next/navigation';
 
-
+type EditLocationPageProps = {
+  params: Promise<{
+    locationId: string;
+  }>;
+};
 
 export async function generateMetadata(
   { params }: EditLocationPageProps
@@ -37,11 +41,7 @@ export async function generateMetadata(
 }
 
 
-type EditLocationPageProps = {
-  params: Promise<{
-    locationId: string;
-  }>;
-};
+
 
 const EditLocationsPage = async ({ params }: EditLocationPageProps) => {
   const { locationId } = await params;
