@@ -24,14 +24,15 @@ export default function LocationCard({
 
   return (
    <div className={css.card}>
+  <div className={css.imageWrapper}>
   <Image
     src={location.image || '/placeholder.jpg'}
     alt={location.name}
-    width={335}
-    height={335}
+    fill
     sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
     className={css.image}
   />
+</div>
       <div className={css.info}>
         {location.locationTypeLabel && (
           <p className={css.tag}>{location.locationTypeLabel}</p>
