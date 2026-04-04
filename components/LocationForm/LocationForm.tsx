@@ -7,12 +7,12 @@ import { useQuery } from '@tanstack/react-query';
 import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 import { locationValidationSchema, editLocationValidationSchema} from '@/validation/locationValidationSchema';
 import type { LocationFormValues } from '@/types/location';
-import { createLocation, getLocationById, updateLocation } from '@/lib/api/clientApi';
+import { createLocation, updateLocation } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
-import type { GetLocationByIdResponse } from '@/types/location';
 
+import type { Location } from '@/types/location';
 
 
 const Select = dynamic(() => import('react-select'), {
@@ -20,12 +20,9 @@ const Select = dynamic(() => import('react-select'), {
 });
 
 
-
-
-
 type LocationFormProps = {
   mode?: 'create' | 'edit';
-  locationId?: string;
+  location?: Location;
 };
 
 type SelectOption = {
@@ -43,7 +40,7 @@ const emptyInitialValues: LocationFormValues = {
 
 const LocationForm = ({
   mode = 'create',
-  locationId,
+  location,
 }: LocationFormProps) => {
   const [preview, setPreview] = useState<string>('');
   const router = useRouter();
@@ -60,36 +57,23 @@ const validationSchema = isEditMode
 
   const { data: regions = [] } = useQuery(categoriesOptionsClient.regions);
 
-  const {
-    data: locationData,
-    isLoading: isLocationLoading,
-    isError: isLocationError,
-  } = useQuery<GetLocationByIdResponse>({
-    queryKey: ['location', locationId],
-    queryFn: () => getLocationById(locationId as string),
-    enabled: isEditMode && !!locationId,
-  });
-
-console.log('locationId:', locationId);
-console.log('locationData:', locationData);
-
 
   const initialValues: LocationFormValues =
-    isEditMode && locationData
+    isEditMode && location
       ? {
-          name: locationData.location.name ?? '',
-          locationType: locationData.location.locationType ?? '',
-          region: locationData.location.region ?? '',
-          description: locationData.location.description ?? '',
+          name: location.name ?? '',
+          locationType: location.locationType ?? '',
+          region: location.region ?? '',
+          description: location.description ?? '',
           image: null,
         }
       : emptyInitialValues;
 
   useEffect(() => {
-    if (isEditMode && locationData?.location?.image) {
-      setPreview(locationData.location.image);
+    if (isEditMode && location?.image) {
+      setPreview(location.image);
     }
-  }, [isEditMode, locationData]);
+  }, [isEditMode, location]);
 
   useEffect(() => {
     return () => {
@@ -115,8 +99,8 @@ console.log('locationData:', locationData);
         formData.append('image', values.image);
       }
 
-      if (isEditMode && locationId) {
-        const updatedLocation = await updateLocation(locationId, formData);
+      if (isEditMode && location?._id) {
+        const updatedLocation = await updateLocation(location._id, formData);
 
 console.log('updatedLocation:', updatedLocation);
 console.log('updatedLocation._id:', updatedLocation?._id);
@@ -161,13 +145,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
     }),
   );
 
-  if (isEditMode && isLocationLoading) {
-    return <p>Завантаження даних локації...</p>;
-  }
 
-  if (isEditMode && isLocationError) {
-    return <p>Не вдалося завантажити дані локації.</p>;
-  }
 
   return (
     <Formik
@@ -205,7 +183,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
             setPreview(imageUrl);
           } else {
             setPreview(
-              isEditMode && locationData?.location?.image ? locationData.location.image : '',
+              isEditMode && location?.image ? location.image : '',
             );
           }
         };
@@ -417,7 +395,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                 onClick={() => {
                   resetForm();
                   setPreview(
-                    isEditMode && locationData?.location?.image ? locationData.location.image : '',
+                    isEditMode && location?.image ? location.image : '',
                   );
                 }}
               >

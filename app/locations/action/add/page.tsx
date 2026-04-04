@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 
 
 export const metadata: Metadata = {
-  title: 'Create Location',
-  description: 'Create a new location',
+  title: 'Створення локації',
+  description: 'Сторінка для створення нової локації',
 };
 
 
