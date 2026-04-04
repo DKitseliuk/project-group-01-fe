@@ -93,6 +93,6 @@ export {
   getLocationTypes,
   getRegions,
   getUser,
-  getUserLocations
+  getUserLocations,
   createLocation,
 };

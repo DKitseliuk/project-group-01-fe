@@ -187,7 +187,7 @@ export {
   getLocationTypes,
   getRegions,
   getUserById,
-  getUserLocationsById
+  getUserLocationsById,
   getReviews,
 };
 
