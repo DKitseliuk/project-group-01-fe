@@ -2,20 +2,18 @@
 
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
+import type { Review } from '@/types/review';
+import ReviewsSlider from '@/components/ReviewsSection/ReviewsSlider';
 import css from './LeaveReviewSection.module.css';
-
-export type LocationFeedback = {
-  id: string;
-};
 
 interface LeaveReviewSectionProps {
   id: string;
-  feedbacks?: readonly LocationFeedback[];
+  reviews?: readonly Review[];
 }
 
 export default function LeaveReviewSection({
   id,
-  feedbacks = [],
+  reviews = [],
 }: LeaveReviewSectionProps) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
@@ -23,7 +21,7 @@ export default function LeaveReviewSection({
     ? `/locations/${id}/review`
     : `/locations/${id}/review/auth`;
 
-  const hasFeedbacks = feedbacks.length > 0;
+  const hasReviews = reviews.length > 0;
 
   return (
     <section className={css.section} aria-labelledby="reviews-heading">
@@ -39,15 +37,8 @@ export default function LeaveReviewSection({
         </Link>
       </div>
 
-      {/* TODO: Add feedbacks list */}
-      {hasFeedbacks ? (
-        <ul className={css.list} aria-label="Список відгуків">
-          {feedbacks.map((item, index) => (
-            <li key={item.id}>
-              <p>Відгук {index + 1}</p>
-            </li>
-          ))}
-        </ul>
+      {hasReviews ? (
+        <ReviewsSlider key={id} reviews={[...reviews]} />
       ) : (
         <p className={css.emptyState} role="status">
           Відгуків поки немає…
