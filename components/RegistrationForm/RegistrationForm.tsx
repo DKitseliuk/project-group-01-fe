@@ -9,8 +9,10 @@ import { RegisterValues } from '@/types/auth';
 import { useAuthStore } from '@/lib/store/authStore';
 import axios from 'axios';
 import { register } from '@/lib/api/clientApi';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { RotatingLines } from 'react-loader-spinner';
+
+import { useSearchParams } from 'next/navigation';
 
 const initialValues: RegisterValues = {
   name: '',
@@ -35,6 +37,10 @@ const validationSchema = Yup.object({
 
 const RegistrationForm = () => {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
+
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState('');
 
@@ -43,7 +49,7 @@ const RegistrationForm = () => {
       const data = await register(values);
       setUser(data);
       toast.success('Реєстрація успішна!');
-      router.push('/profile');
+      router.push(redirect || '/');
       router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
@@ -57,78 +63,63 @@ const RegistrationForm = () => {
   };
 
   return (
-    <>
-      <Toaster position="top-right" />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form className={css.form}>
-            <label className={css.label}>
-              Імʼя*
-              <Field
-                className={css.input}
-                type="text"
-                name="name"
-                placeholder="Ваше імʼя"
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form className={css.form}>
+          <label className={css.label}>
+            Імʼя*
+            <Field
+              className={css.input}
+              type="text"
+              name="name"
+              placeholder="Ваше імʼя"
+            />
+            <ErrorMessage name="name" component="span" className={css.error} />
+          </label>
+          <label className={css.label}>
+            Пошта*
+            <Field
+              className={css.input}
+              type="email"
+              name="email"
+              placeholder="hello@relaxmap.ua"
+            />
+            <ErrorMessage name="email" component="span" className={css.error} />
+          </label>
+          <label className={css.label}>
+            Пароль*
+            <Field
+              className={css.input}
+              type="password"
+              name="password"
+              placeholder="********"
+            />
+            <ErrorMessage
+              name="password"
+              component="span"
+              className={css.error}
+            />
+          </label>
+          {error && <p className={css.error}>{error}</p>}
+          <button className={css.button} type="submit" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <RotatingLines
+                width="20"
+                visible={true}
+                ariaLabel="rotating-lines-loading"
+                strokeColor="white"
               />
-              <ErrorMessage
-                name="name"
-                component="span"
-                className={css.error}
-              />
-            </label>
-            <label className={css.label}>
-              Пошта*
-              <Field
-                className={css.input}
-                type="email"
-                name="email"
-                placeholder="hello@relaxmap.ua"
-              />
-              <ErrorMessage
-                name="email"
-                component="span"
-                className={css.error}
-              />
-            </label>
-            <label className={css.label}>
-              Пароль*
-              <Field
-                className={css.input}
-                type="password"
-                name="password"
-                placeholder="********"
-              />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className={css.error}
-              />
-            </label>
-            {error && <p className={css.error}>{error}</p>}
-            <button
-              className={css.button}
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <RotatingLines
-                  width="20"
-                  visible={true}
-                  ariaLabel="rotating-lines-loading"
-                  strokeColor="white"
-                />
-              ) : (
-                'Зареєструватись'
-              )}
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </>
+            ) : (
+              'Зареєструватись'
+            )}
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
