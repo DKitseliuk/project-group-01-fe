@@ -15,9 +15,4 @@ const nextServer = axios.create({
   withCredentials: true,
 });
 
-const publicServer = axios.create({
-  baseURL: `${NEXT_PUBLIC_API_URL}/api`,
-  withCredentials: false,
-});
-
-export { backendServer, nextServer, publicServer };
+export { backendServer, nextServer };

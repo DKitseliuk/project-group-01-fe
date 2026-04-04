@@ -1,4 +1,4 @@
-import { nextServer, publicServer } from '@/lib/api/api';
+import { nextServer } from '@/lib/api/api';
 import type {
   Location,
   FetchLocationsParams,
@@ -11,7 +11,7 @@ import { Region, LocationType } from '@/types/categories';
 export const fetchLocations = async (
   params: FetchLocationsParams = {},
 ): Promise<FetchLocationsResponse> => {
-  const { data } = await publicServer.get<FetchLocationsResponse>('/locations', {
+  const { data } = await nextServer.get<FetchLocationsResponse>('/locations', {
     params,
   });
 
@@ -51,6 +51,18 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
+const getUser = async (userId: string): Promise<User> => {
+  const { data } = await nextServer.get<User>(`/users/${userId}`);
+  return data;
+};
+
+const getUserLocations = async (userId: string, page = 1, perPage = 6) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params: { page, perPage },
+  });
+  return data;
+};
+
 const updateMe = async (payload: { username?: string }): Promise<User> => {
   const { data } = await nextServer.patch<User>('/users/me', {
     username: payload.username,
@@ -60,14 +72,24 @@ const updateMe = async (payload: { username?: string }): Promise<User> => {
 };
 
 const getLocationTypes = async (): Promise<LocationType[]> => {
-  const { data } = await publicServer.get<LocationType[]>(
+  const { data } = await nextServer.get<LocationType[]>(
     '/categories/location-types',
   );
   return data;
 };
 
 const getRegions = async (): Promise<Region[]> => {
-  const { data } = await publicServer.get<Region[]>('/categories/regions');
+  const { data } = await nextServer.get<Region[]>('/categories/regions');
+  return data;
+};
+
+const getUserLocationsClient = async (
+  userId: string,
+  params: FetchLocationsParams = {},
+) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params,
+  });
   return data;
 };
 
@@ -80,5 +102,8 @@ export {
   logout,
   getLocationTypes,
   getRegions,
+  getUser,
+  getUserLocations,
   createLocation,
+  getUserLocationsClient,
 };

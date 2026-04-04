@@ -1,31 +1,22 @@
 .panel {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  display: flex;
+  gap: 16px;
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
-/* порядок:
-1 - search
-2 - type
-3 - region
-4 - sort
-*/
 .panel > :nth-child(1) {
-  grid-column: 1 / -1;
+  width: 100%;
 }
 
-.panel > :nth-child(2) {
-  grid-column: 1;
-}
-
+.panel > :nth-child(2),
 .panel > :nth-child(3) {
-  grid-column: 2;
+  width: calc((100% - 16px) / 2);
 }
 
 .panel > :nth-child(4) {
-  grid-column: 1 / -1;
+  width: 100%;
 }
 
 .input {
@@ -39,7 +30,9 @@
   line-height: 1.5;
   color: var(--text-secondary);
   outline: none;
-  transition: border-color 200ms ease, box-shadow 200ms ease,
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
     background-color 200ms ease;
 }
 
@@ -70,7 +63,9 @@
   background-color: var(--foreground-secondary);
   box-shadow: none;
   cursor: pointer;
-  transition: border-color 200ms ease, box-shadow 200ms ease,
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
     background-color 200ms ease;
 }
 
@@ -86,7 +81,7 @@
 .select :global(.react-select__value-container) {
   min-height: 43px;
   height: 43px;
-  padding: 0 16px;
+  padding: 8px;
   display: flex;
   align-items: center;
 }
@@ -168,7 +163,9 @@
   color: var(--text-secondary);
   background-color: transparent;
   cursor: pointer;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -188,48 +185,57 @@
   cursor: not-allowed;
 }
 
+.select :global(.react-select__input-container) {
+  margin: 0;
+  padding: 0;
+  width: 0;
+  min-width: 0;
+  color: var(--text-secondary);
+}
+
+.select :global(.react-select__single-value) {
+  min-width: auto;
+}
+
+.select :global(.react-select__value-container) {
+  align-items: center;
+  height: 43px;
+  min-height: 43px;
+  display: flex;
+  padding: 8px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
 /* tablet */
 @media screen and (min-width: 768px) {
-  .panel {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-
-  .panel > :nth-child(1) {
-    grid-column: 1 / -1;
-  }
-
-  .panel > :nth-child(2) {
-    grid-column: 1;
-  }
-
+  .panel > :nth-child(2),
   .panel > :nth-child(3) {
-    grid-column: 2;
+    width: 208px;
   }
 
   .panel > :nth-child(4) {
-    grid-column: 3;
+    width: 158px;
+    margin-left: auto;
   }
 }
 
 /* desktop */
 @media screen and (min-width: 1440px) {
   .panel {
-    grid-template-columns: 1fr 190px 190px 190px;
-    gap: 12px;
-    align-items: center;
+    gap: 24px;
+  }
+  .panel > :nth-child(1) {
+    width: 312px;
   }
 
-  .panel > :nth-child(1),
   .panel > :nth-child(2),
-  .panel > :nth-child(3),
-  .panel > :nth-child(4) {
-    grid-column: auto;
+  .panel > :nth-child(3) {
+    width: 200px;
   }
 
   .panel > :nth-child(4) {
-    justify-self: end;
-    width: 190px;
+    width: 160px;
+    margin-left: auto;
   }
 }

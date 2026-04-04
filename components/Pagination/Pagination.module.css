@@ -21,26 +21,29 @@
   height: 44px;
   border: 1px solid var(--neutral-darkest-15);
   border-radius: 12px;
-  background-color: var(--foreground-primary);
+  background-color: var(--coral-lighter);
   cursor: pointer;
   color: var(--text-secondary);
   font-size: 16px;
   font-weight: 500;
   line-height: 1;
-  transition: background-color 200ms ease, border-color 200ms ease,
-    color 200ms ease, opacity 200ms ease;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    opacity 200ms ease;
 }
 
 .pageLink:hover,
 .pageLink:focus {
-  background-color: var(--foreground-secondary);
+  background-color: var(--neutral-lightest);
   border-color: var(--coral-light);
   outline: none;
 }
 
 .active .pageLink {
-  background-color: var(--foreground-secondary);
-  border-color: var(--neutral-darkest-15);
+  background-color: var(--coral-light);
+  border-color: var(--coral-light);
   color: var(--text-secondary);
 }
 

@@ -11,28 +11,23 @@ export type LocationWithTypeLabel = Location & { locationTypeLabel?: string };
 
 interface Props {
   location: LocationWithTypeLabel;
-  isOwner?: string;
   canEdit?: boolean;
 }
 
-export default function LocationCard({
-  location,
-  isOwner,
-  canEdit = false,
-}: Props) {
+export default function LocationCard({ location, canEdit = false }: Props) {
   const user = useAuthStore((state) => state.user);
 
   return (
     <div className={css.card}>
-      <Image
-        src={location.image || '/placeholder.jpg'}
-        alt={location.name}
-        width={335}
-        height={335}
-        sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
-        className={css.image}
-      />
-
+      <div className={css.imageWrapper}>
+        <Image
+          src={location.image || '/placeholder.jpg'}
+          alt={location.name}
+          fill
+          sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
+          className={css.image}
+        />
+      </div>
       <div className={css.info}>
         {location.locationTypeLabel && (
           <p className={css.tag}>{location.locationTypeLabel}</p>
@@ -45,7 +40,7 @@ export default function LocationCard({
             Переглянути локацію
           </Link>
 
-          {isOwner === user?._id && canEdit && (
+          {location.ownerId === user?._id && canEdit && (
             <Link
               href={`/locations/${location._id}/edit`}
               className={css.editBtn}
