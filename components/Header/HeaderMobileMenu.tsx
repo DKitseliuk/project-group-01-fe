@@ -5,6 +5,8 @@ import { Logo } from '@/components/Logo/Logo';
 import { Nav } from '@/components/Nav/Nav';
 import styles from './Header.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
+import { logout } from '@/lib/api/clientApi';
+import { useRouter } from 'next/navigation';
 
 const baseLinks = [
   { href: '/', label: 'Головна' },
@@ -18,10 +20,21 @@ type HeaderMobileMenuProps = {
 };
 
 export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
+  const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
-  const onLogout = useAuthStore((state) => state.clearIsAuthenticated);
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated,
+  );
 
+  const onLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      clearIsAuthenticated();
+      router.push('/');
+    }
+  };
   const links = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
 
   useEffect(() => {
@@ -121,6 +134,7 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
             Опублікувати статтю
           </Link>
           <div className={styles.userRow}>
+            <Link href={`/profile/${user._id}`} className={styles.userLink} onClick={onClose}>
             <div className={styles.avatar}>
               <Image
                 src={user.avatarUrl}
@@ -129,7 +143,8 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
                 height={36}
               />
             </div>
-            <span className={styles.userName}>{user.name}</span>
+              <span className={styles.userName}>{user.name}</span>
+              </Link>
             <div className={styles.userDivider} />
             <button
               className={styles.logoutBtn}

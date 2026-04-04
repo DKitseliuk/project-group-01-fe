@@ -1,46 +1,51 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import StarRating from "@/components/StarRating/StarRating";
-import css from "./LocationCard.module.css";
-import type { Location } from "@/types/location";
+import Image from 'next/image';
+import Link from 'next/link';
+import StarRating from '@/components/StarRating/StarRating';
+import css from './LocationCard.module.css';
+import type { Location } from '@/types/location';
+import { useAuthStore } from '@/lib/store/authStore';
+
+export type LocationWithTypeLabel = Location & { locationTypeLabel?: string };
 
 interface Props {
-  location: Location;
-  isOwner?: boolean;
+  location: LocationWithTypeLabel;
+  isOwner?: string;
+  canEdit?: boolean;
 }
 
-export default function LocationCard({ location, isOwner }: Props) {
+export default function LocationCard({
+  location,
+  isOwner,
+  canEdit = false,
+}: Props) {
+  const user = useAuthStore((state) => state.user);
+
   return (
-    <div className={css.card}>
-      <div className={css.imageWrapper}>
-        <Image
-          src={location.image || "/placeholder.jpg"}
-          alt={location.name}
-          fill
-          className={css.image}
-        />
-      </div>
-
+   <div className={css.card}>
+  <div className={css.imageWrapper}>
+  <Image
+    src={location.image || '/placeholder.jpg'}
+    alt={location.name}
+    fill
+    sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
+    className={css.image}
+  />
+</div>
       <div className={css.info}>
-        <span className={css.tag}>
-          {location.locationType}
-        </span>
-
-        <StarRating value={location.rate} />
-
+        {location.locationTypeLabel && (
+          <p className={css.tag}>{location.locationTypeLabel}</p>
+        )}
+        {location.rate ? <StarRating value={location.rate} /> : '—'}
         <h3 className={css.title}>{location.name}</h3>
 
         <div className={css.actions}>
-          <Link
-            href={`/locations/${location._id}`}
-            className={css.viewBtn}
-          >
+          <Link href={`/locations/${location._id}`} className={css.viewBtn}>
             Переглянути локацію
           </Link>
 
-          {isOwner && (
+          {isOwner === user?._id && canEdit && (
             <Link
               href={`/locations/${location._id}/edit`}
               className={css.editBtn}

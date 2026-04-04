@@ -13,7 +13,7 @@ export async function GET(_request: NextRequest, { params }: Props) {
     const cookieHeader = await getCookieHeader();
     const { locationId } = await params;
 
-    const res = await api.get(`locations/${locationId}`, {
+    const res = await api.get(`/locations/${locationId}`, {
       headers: {
         Cookie: cookieHeader,
       },
@@ -42,7 +42,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     const { locationId } = await params;
     const formData = await request.formData();
 
-    const res = await api.patch(`locations/${locationId}`, formData, {
+    const res = await api.patch(`/locations/${locationId}`, formData, {
       headers: {
         Cookie: cookieHeader,
       },

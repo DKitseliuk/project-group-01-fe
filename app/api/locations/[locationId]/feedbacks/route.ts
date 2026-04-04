@@ -17,7 +17,7 @@ export async function GET(request: NextRequest, { params }: Props) {
     const page = Number(request.nextUrl.searchParams.get('page')) || 1;
     const perPage = Number(request.nextUrl.searchParams.get('perPage')) || 6;
 
-    const res = await api.get(`locations/${locationId}/feedbacks`, {
+    const res = await api.get(`/locations/${locationId}/feedbacks`, {
       params: {
         page,
         perPage,
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest, { params }: Props) {
     const { locationId } = await params;
     const body = await request.json();
 
-    const res = await api.post(`locations/${locationId}/feedbacks`, body, {
+    const res = await api.post(`/locations/${locationId}/feedbacks`, body, {
       headers: {
         Cookie: cookieHeader,
       },

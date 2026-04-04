@@ -167,6 +167,12 @@
     gap: 8px;
 }
 
+.userLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .avatar {
     width: 36px;
     height: 36px;

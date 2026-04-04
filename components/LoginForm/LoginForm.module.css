@@ -23,7 +23,6 @@
 }
 
 .button {
-  width: 100%;
   padding: 14px;
   background-color: var(--coral);
   color: var(--white);
@@ -32,6 +31,11 @@
   font-weight: 500;
   line-height: 1.5;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 51px;
+  width: 100%;
 }
 
 .button:hover {
@@ -47,4 +51,10 @@ input:focus::placeholder {
 }
 .input:invalid {
   border-color: var(--red);
+}
+@media screen and (min-width: 1440px) {
+  .error {
+    font-size: 14px;
+    color: var(--red);
+  }
 }
