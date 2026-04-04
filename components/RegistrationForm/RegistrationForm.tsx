@@ -10,9 +10,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 import axios from 'axios';
 import { register } from '@/lib/api/clientApi';
 import toast from 'react-hot-toast';
-import { RotatingLines } from 'react-loader-spinner';
-
-import { useSearchParams } from 'next/navigation';
+import ButtonLoader from '../ButtonLoader/ButtonLoader';
 
 const initialValues: RegisterValues = {
   name: '',
@@ -37,11 +35,11 @@ const validationSchema = Yup.object({
 
 const RegistrationForm = () => {
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get('redirect');
-
   const setUser = useAuthStore((state) => state.setUser);
+  const redirectAfterAuth = useAuthStore((state) => state.redirectAfterAuth);
+  const setRedirectAfterAuth = useAuthStore(
+    (state) => state.setRedirectAfterAuth,
+  );
   const [error, setError] = useState('');
 
   const handleSubmit = async (values: RegisterValues) => {
@@ -49,7 +47,8 @@ const RegistrationForm = () => {
       const data = await register(values);
       setUser(data);
       toast.success('Реєстрація успішна!');
-      router.push(redirect || '/');
+      router.push(redirectAfterAuth || '/');
+      setRedirectAfterAuth(null);
       router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
@@ -106,16 +105,7 @@ const RegistrationForm = () => {
           </label>
           {error && <p className={css.error}>{error}</p>}
           <button className={css.button} type="submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <RotatingLines
-                width="20"
-                visible={true}
-                ariaLabel="rotating-lines-loading"
-                strokeColor="white"
-              />
-            ) : (
-              'Зареєструватись'
-            )}
+            {isSubmitting ? <ButtonLoader /> : 'Зареєструватись'}
           </button>
         </Form>
       )}
