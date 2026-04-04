@@ -27,8 +27,8 @@ export default async function Home() {
       <AdvantagesBlock />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <PopularLocationsBlock />
+        <ReviewsSection />
       </HydrationBoundary>
-      <ReviewsSection />
     </main>
   );
 }

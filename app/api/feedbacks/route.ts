@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const page = Number(request.nextUrl.searchParams.get('page')) || 1;
     const perPage = Number(request.nextUrl.searchParams.get('perPage')) || 9;
 
-    const res = await api('feedbacks', {
+    const res = await api('/feedbacks', {
       params: {
         page,
         perPage,

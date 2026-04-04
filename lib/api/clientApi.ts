@@ -43,4 +43,19 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
-export { register, login, refreshSession, getMe, logout };
+interface ReviewParams {
+  page?: number;
+  perPage?: number;
+}
+
+const getReviews = async ({ page = 1, perPage = 9 }: ReviewParams) => {
+  const params: ReviewParams = { page, perPage };
+
+  const { data } = await nextServer.get('/feedbacks', {
+    params,
+  });
+
+  return data;
+};
+
+export { register, login, refreshSession, getMe, logout, getReviews };

@@ -40,9 +40,9 @@ function ReviewCard({ review }: { review: Review }) {
         itemStyles={starStyles}
         className={styles.stars}
       />
-      <p className={styles.reviewText}>{review.text}</p>
+      <p className={styles.reviewText}>{review.description}</p>
       <div className={styles.authorBlock}>
-        <span className={styles.authorName}>{review.authorName}</span>
+        <span className={styles.authorName}>{review.userName}</span>
         <p className={styles.locationName}>{review.locationName}</p>
       </div>
     </article>
