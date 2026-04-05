@@ -1,14 +1,14 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import styles from './Header.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import { useState } from 'react';
 
 export const HeaderActions = () => {
-  const router = useRouter();
-
   const pathname = usePathname();
   const setRedirectAfterAuth = useAuthStore(
     (state) => state.setRedirectAfterAuth,
@@ -19,15 +19,9 @@ export const HeaderActions = () => {
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated,
   );
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
-  const onLogout = async () => {
-    try {
-      await logout();
-    } finally {
-      clearIsAuthenticated();
-      router.push('/');
-    }
-  };
+  const onLogout = () => setIsConfirmationOpen(true);
 
   if (!isAuthenticated) {
     return (
@@ -95,6 +89,19 @@ export const HeaderActions = () => {
           </svg>
         </button>
       </div>
+      {isConfirmationOpen && (
+        <ConfirmationModal
+          onClose={() => setIsConfirmationOpen(false)}
+          onConfirm={async () => {
+            try {
+              await logout();
+            } finally {
+              clearIsAuthenticated();
+              setIsConfirmationOpen(false);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };

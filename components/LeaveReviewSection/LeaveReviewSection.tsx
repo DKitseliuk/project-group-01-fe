@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
 import type { FeedbackItem, Review } from '@/types/review';
 import Slider from '@/components/Swiper/Swiper';
 import ReviewCards from '@/components/ReviewCards/ReviewCards';
 import css from './LeaveReviewSection.module.css';
+import { useRouter } from 'next/navigation';
 
 function toReview(f: FeedbackItem, locationName: string): Review | null {
   const text = f.description?.trim() ?? '';
@@ -32,10 +32,17 @@ export default function LeaveReviewSection({
   feedbacks = [],
 }: LeaveReviewSectionProps) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const router = useRouter();
 
-  const href = isAuthenticated
-    ? `/locations/${id}/add-review`
-    : `/locations/${id}/auth-prompt`;
+  const handleClick = () => {
+    if (isAuthenticated) {
+      console.log('pushing to:', `/locations/${id}/add-review`);
+      router.push(`/locations/${id}/add-review`);
+    } else {
+      console.log('pushing to:', `/locations/${id}/auth-prompt`);
+      router.push(`/locations/${id}/auth-prompt`);
+    }
+  };
 
   const reviews: Review[] = feedbacks
     .map((f) => toReview(f, locationName))
@@ -49,19 +56,15 @@ export default function LeaveReviewSection({
         <h2 className={css.title} id="reviews-heading">
           Відгуки
         </h2>
-        <Link href={href} className={css.ctaLink}>
+        <button onClick={handleClick} className={css.ctaLink}>
           Залишити відгук
-        </Link>
+        </button>
       </div>
 
       {hasReviews ? (
         <Slider key={id}>
           {reviews.map((review) => (
-            <ReviewCards
-              key={review.id}
-              review={review}
-              showLocation={false}
-            />
+            <ReviewCards key={review.id} review={review} showLocation={false} />
           ))}
         </Slider>
       ) : (

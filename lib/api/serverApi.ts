@@ -16,8 +16,15 @@ const getCookieHeader = async () => {
   const accessToken = cookieStore.get('accessToken')?.value;
   const refreshToken = cookieStore.get('refreshToken')?.value;
   const sessionId = cookieStore.get('sessionId')?.value;
-  return `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`;
+
+  const parts = [];
+  if (accessToken) parts.push(`accessToken=${accessToken}`);
+  if (refreshToken) parts.push(`refreshToken=${refreshToken}`);
+  if (sessionId) parts.push(`sessionId=${sessionId}`);
+
+  return parts.join('; ');
 };
+
 export const getMe = async (): Promise<User> => {
   const cookieHeader = await getCookieHeader();
 
@@ -106,11 +113,7 @@ const getUserById = async (userId: string): Promise<User> => {
   return data;
 };
 
-const getUserLocationsById = async (
-  userId: string,
-  page = 1,
-  perPage = 6
-) => {
+const getUserLocationsById = async (userId: string, page = 1, perPage = 6) => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get(`/users/${userId}/locations`, {
     headers: { Cookie: cookieHeader },
@@ -121,7 +124,7 @@ const getUserLocationsById = async (
 
 const getUserLocations = async (
   userId: string,
-  params: FetchLocationsParams = {}
+  params: FetchLocationsParams = {},
 ) => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get(`/users/${userId}/locations`, {
