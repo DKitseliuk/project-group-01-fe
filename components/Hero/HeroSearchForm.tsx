@@ -29,7 +29,9 @@ const HeroSearchForm = () => {
   const router = useRouter();
   const fieldId = useId();
 
-  const { data: locationTypes = [] } = useQuery(categoriesOptionsClient.locationTypes);
+  const { data: locationTypes = [] } = useQuery(
+    categoriesOptionsClient.locationTypes,
+  );
   const { data: regions = [] } = useQuery(categoriesOptionsClient.regions);
 
   const handleSubmit = (

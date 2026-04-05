@@ -10,9 +10,14 @@
     box-shadow 0.3s ease;
 }
 
-.card:hover {
+.card:hover,
+.card:focus-within {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 16px 32px rgba(0, 0, 0, 0.06);
   cursor: pointer;
 }
 .card:hover .image {
@@ -43,7 +48,7 @@
   font-weight: 600;
   font-size: 12px;
   line-height: 150%;
-  color: var(--color-scheme-2-text);
+  color: var(--coral-darkest);
 }
 
 .title {

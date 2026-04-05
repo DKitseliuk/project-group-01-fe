@@ -1,8 +1,8 @@
 import styles from './EditLocationPage.module.css';
-import  LocationForm  from '../../../../components/LocationForm/LocationForm';
+import LocationForm from '../../../../../components/LocationForm/LocationForm';
 import type { Metadata } from 'next';
 import { fetchLocationById } from '@/lib/api/serverApi';
-import {notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 type EditLocationPageProps = {
   params: Promise<{
@@ -12,9 +12,9 @@ type EditLocationPageProps = {
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
-export async function generateMetadata(
-  { params }: EditLocationPageProps
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: EditLocationPageProps): Promise<Metadata> {
   const { locationId } = await params;
 
   const location = await fetchLocationById(locationId);
@@ -38,27 +38,20 @@ export async function generateMetadata(
   };
 }
 
-
-
-
 const EditLocationsPage = async ({ params }: EditLocationPageProps) => {
   const { locationId } = await params;
-const location = await fetchLocationById(locationId).catch(() => notFound());
-
-  
+  const location = await fetchLocationById(locationId).catch(() => notFound());
 
   return (
     <main>
-    <section className={styles.section} aria-labelledby="location-form-title">
-      <div className="container">
-        <h1 className={styles.title}>Редагування місця</h1>
-        <LocationForm mode="edit" location={location} />
-      </div>
-    </section>
+      <section className={styles.section} aria-labelledby="location-form-title">
+        <div className="container">
+          <h1 className={styles.title}>Редагування місця</h1>
+          <LocationForm mode="edit" location={location} />
+        </div>
+      </section>
     </main>
   );
 };
 
 export default EditLocationsPage;
-
-

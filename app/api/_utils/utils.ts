@@ -14,5 +14,11 @@ export async function getCookieHeader() {
   const accessToken = cookieStore.get('accessToken')?.value;
   const refreshToken = cookieStore.get('refreshToken')?.value;
   const sessionId = cookieStore.get('sessionId')?.value;
-  return `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`;
+
+  const parts = [];
+  if (accessToken) parts.push(`accessToken=${accessToken}`);
+  if (refreshToken) parts.push(`refreshToken=${refreshToken}`);
+  if (sessionId) parts.push(`sessionId=${sessionId}`);
+
+  return parts.join('; ');
 }
