@@ -10,7 +10,7 @@ type Props = {
 export default function ReviewCards({ review, showLocation = true }: Props) {
   return (
     <article className={styles.card}>
-      <StarRating value={review.rating}/>
+      <StarRating value={review.rating} />
       <p className={styles.reviewText}>{review.text}</p>
       <div className={styles.authorBlock}>
         <span className={styles.authorName}>{review.authorName}</span>

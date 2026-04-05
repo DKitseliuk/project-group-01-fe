@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
 import type { FeedbackItem, Review } from '@/types/review';
-import ReviewsSlider from '@/components/ReviewsSection/ReviewsSlider';
+import Slider from '@/components/Swiper/Swiper';
+import ReviewCards from '@/components/ReviewCards/ReviewCards';
 import css from './LeaveReviewSection.module.css';
 
 function toReview(f: FeedbackItem, locationName: string): Review | null {
@@ -54,7 +55,15 @@ export default function LeaveReviewSection({
       </div>
 
       {hasReviews ? (
-        <ReviewsSlider key={id} reviews={reviews} />
+        <Slider key={id}>
+          {reviews.map((review) => (
+            <ReviewCards
+              key={review.id}
+              review={review}
+              showLocation={false}
+            />
+          ))}
+        </Slider>
       ) : (
         <p className={css.emptyState} role="status">
           Відгуків поки немає…

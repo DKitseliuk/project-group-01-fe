@@ -1,7 +1,4 @@
 .section {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
   padding-block: 64px;
 }
 
@@ -11,6 +8,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  margin-bottom: 40px;
 }
 
 .title {
