@@ -24,7 +24,9 @@
   line-height: 1.5;
   color: var(--text-secondary);
   outline: none;
-  transition: border-color 200ms ease, box-shadow 200ms ease,
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
     background-color 200ms ease;
 }
 
@@ -65,7 +67,9 @@
   background-color: var(--foreground-secondary);
   box-shadow: none;
   cursor: pointer;
-  transition: border-color 200ms ease, box-shadow 200ms ease,
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
     background-color 200ms ease;
 }
 
@@ -113,6 +117,8 @@
 .select :global(.react-select__input-container) {
   margin: 0;
   padding: 0;
+  width: 0;
+  min-width: 0;
   color: var(--text-secondary);
 }
 
@@ -170,7 +176,9 @@
   color: var(--text-secondary);
   background-color: transparent;
   cursor: pointer;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -98,7 +98,7 @@ const refreshSession = async (): Promise<
   return res;
 };
 
- const getUserById = async (userId: string): Promise<User> => {
+const getUserById = async (userId: string): Promise<User> => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get<User>(`/users/${userId}`, {
     headers: { Cookie: cookieHeader },
@@ -106,12 +106,43 @@ const refreshSession = async (): Promise<
   return data;
 };
 
- const getUserLocationsById = async (userId: string, page = 1, perPage = 6) => {
+const getUserLocationsById = async (
+  userId: string,
+  page = 1,
+  perPage = 6
+) => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get(`/users/${userId}/locations`, {
     headers: { Cookie: cookieHeader },
     params: { page, perPage },
   });
+  return data;
+};
+
+const getUserLocations = async (
+  userId: string,
+  params: FetchLocationsParams = {}
+) => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get(`/users/${userId}/locations`, {
+    headers: { Cookie: cookieHeader },
+    params,
+  });
+  return data;
+};
+
+const getReviewsForLocation = async (locationId: string) => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<{ feedbacks: FeedbackItem[] }>(
+    `/locations/${locationId}/feedbacks`,
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
   return data;
 };
 
@@ -188,6 +219,7 @@ export {
   getRegions,
   getUserById,
   getUserLocationsById,
+  getUserLocations,
   getReviews,
+  getReviewsForLocation,
 };
-

@@ -112,6 +112,7 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
           }
           placeholder="Тип локації"
           isClearable
+          isSearchable={false}
         />
 
         <Select
@@ -126,6 +127,7 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
           }
           placeholder="Регіон"
           isClearable
+          isSearchable={false}
         />
 
         <div className={styles.sortWrap}>

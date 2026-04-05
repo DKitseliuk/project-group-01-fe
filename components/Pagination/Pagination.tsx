@@ -21,7 +21,7 @@ export default function Pagination({
   useEffect(() => {
     const updatePagination = () => {
       if (window.innerWidth >= 1440) {
-        setPageRangeDisplayed(2);
+        setPageRangeDisplayed(1);
         setMarginPagesDisplayed(1);
         return;
       }

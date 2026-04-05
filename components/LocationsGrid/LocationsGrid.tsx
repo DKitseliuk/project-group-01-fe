@@ -7,16 +7,21 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import LocationCard from '../LocationCard/LocationCard';
 import Pagination from '../Pagination/Pagination';
 
-import { fetchLocations } from '@/lib/api/clientApi';
 import type { Location, LocationsSearchParams } from '@/types/location';
 import { parseLocationParams } from '@/helpers/parseLocationsParams';
 import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
+import { fetchLocations, getUserLocationsClient } from '@/lib/api/clientApi';
+import Loader from '../Loader/Loader';
 
 type LocationsGridProps = {
   initialParams: LocationsSearchParams;
+  userId?: string;
 };
 
-export default function LocationsGrid({ initialParams }: LocationsGridProps) {
+export default function LocationsGrid({
+  initialParams,
+  userId,
+}: LocationsGridProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -45,9 +50,17 @@ export default function LocationsGrid({ initialParams }: LocationsGridProps) {
     locationTypes.map((type) => [type.slug, type.type]),
   );
 
+  const queryKey = userId
+    ? ['userLocations', userId, { ...currentParams }]
+    : ['locations', { ...currentParams }];
+
+  const queryFn = userId
+    ? () => getUserLocationsClient(userId, currentParams)
+    : () => fetchLocations(currentParams);
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['locations', { ...currentParams }],
-    queryFn: () => fetchLocations(currentParams),
+    queryKey,
+    queryFn,
     refetchOnMount: false,
   });
 
@@ -62,7 +75,7 @@ export default function LocationsGrid({ initialParams }: LocationsGridProps) {
   const totalPages = data?.totalPages ?? 0;
 
   if (isLoading) {
-    return <p className={styles.empty}>Завантаження...</p>;
+    return <Loader />;
   }
 
   if (isError) {
@@ -76,7 +89,11 @@ export default function LocationsGrid({ initialParams }: LocationsGridProps) {
       ) : (
         <ul className={styles.grid}>
           {updatedLocations.map((location) => (
-            <LocationCard key={location._id} location={location} />
+            <LocationCard
+              key={location._id}
+              location={location}
+              canEdit={Boolean(userId)}
+            />
           ))}
         </ul>
       )}

@@ -5,21 +5,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  background: var(--neutral-darkest-40);
-
+  --modal-viewport-pad: 20px;
+  padding: var(--modal-viewport-pad);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .modal {
   position: relative;
-  max-width: 90dvw;
-  max-height: 90dvh;
-  overflow-y: auto;
-  padding: 64px 20px;
-  border-radius: 24px;
-  background-color: var(--background-primary);
-  box-shadow: 0 10px 30px var(--neutral-darkest-20);
   box-sizing: border-box;
+  width: 100%;
+  max-width: min(768px, calc(100dvw - 2 * var(--modal-viewport-pad)));
+  max-height: calc(100dvh - 2 * var(--modal-viewport-pad));
+  overflow-y: auto;
+  border-radius: 24px;
+  background-color: rgb(255 242 236);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modalBody {
+  box-sizing: border-box;
+  width: 100%;
+  padding-block: 64px;
+  padding-inline: 20px;
 }
 
 .closeButton {
@@ -37,11 +44,27 @@
 
 .closeIcon {
   display: block;
-  fill: var(--text-primary);
+  fill: var(--neutral-darkest);
   transition: fill 0.2s ease;
 }
 
 .closeButton:hover .closeIcon,
 .closeButton:focus .closeIcon {
-  fill: var(--coral);
+  fill: rgb(204 101 52);
+}
+
+@media screen and (min-width: 768px) {
+  .overlay {
+    --modal-viewport-pad: 32px;
+  }
+
+  .modalBody {
+    padding: 64px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .overlay {
+    --modal-viewport-pad: 64px;
+  }
 }
