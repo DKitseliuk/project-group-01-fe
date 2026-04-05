@@ -21,13 +21,10 @@ const AuthPromptModal = ({ onClose }: AuthPromptModalProps) => {
 
         <div className={styles.actions}>
           <Link href="/login" className={styles.loginButton} onClick={onClose}>
-           Увійти
+            Увійти
           </Link>
 
-         <Link
-            href="/register"
-            className={styles.registerButton}
-            >
+          <Link href="/register" className={styles.registerButton}>
             Зареєструватись
           </Link>
         </div>
