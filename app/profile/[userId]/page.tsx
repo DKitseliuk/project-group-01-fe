@@ -36,7 +36,7 @@ const ProfileByIdPage = async ({
     const defaultQuery = new URLSearchParams(
       Object.fromEntries(
         Object.entries(PROFILE_LOCATIONS_DEFAULT_PARAMS)
-          .filter(([_, v]) => v !== undefined)
+          .filter(([, v]) => v !== undefined)
           .map(([k, v]) => [k, String(v)]),
       ),
     ).toString();
