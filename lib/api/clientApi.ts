@@ -104,6 +104,17 @@ const getUserLocationsClient = async (
   return data;
 };
 
+const createReview = async (
+  locationId: string,
+  payload: { rate: number; description: string },
+) => {
+  const { data } = await nextServer.post(
+    `/locations/${locationId}/feedbacks`,
+    payload,
+  );
+  return data;
+};
+
 export {
   register,
   login,
@@ -119,4 +130,5 @@ export {
   updateLocation,
   getLocationById,
   getUserLocationsClient,
+  createReview,
 };

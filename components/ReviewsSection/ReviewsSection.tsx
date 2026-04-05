@@ -1,4 +1,4 @@
-import { getReviews } from "@/lib/api/reviews";
+import { getReviews } from '@/lib/api/serverApi';
 
 import ReviewsSlider from "./ReviewsSlider";
 import styles from "./ReviewsSection.module.css";

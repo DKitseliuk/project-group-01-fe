@@ -131,6 +131,21 @@ const getUserLocations = async (
   return data;
 };
 
+const getReviewsForLocation = async (locationId: string) => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<{ feedbacks: FeedbackItem[] }>(
+    `/locations/${locationId}/feedbacks`,
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
+  return data;
+};
+
 function feedbackToReview(
   f: FeedbackItem,
   locationName: string,
@@ -206,4 +221,5 @@ export {
   getUserLocationsById,
   getUserLocations,
   getReviews,
+  getReviewsForLocation,
 };
