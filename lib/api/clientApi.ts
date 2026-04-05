@@ -94,6 +94,16 @@ const getRegions = async (): Promise<Region[]> => {
   return data;
 };
 
+const getUserLocationsClient = async (
+  userId: string,
+  params: FetchLocationsParams = {},
+) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params,
+  });
+  return data;
+};
+
 export {
   register,
   login,
@@ -106,6 +116,5 @@ export {
   getUser,
   getUserLocations,
   createLocation,
-  updateLocation,
-  getLocationById,
+  getUserLocationsClient,
 };

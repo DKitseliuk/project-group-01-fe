@@ -125,6 +125,7 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
         }
         placeholder="Тип локації"
         isClearable
+        isSearchable={false} // ← ось це додай
       />
 
       <Select

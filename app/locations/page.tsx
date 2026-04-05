@@ -27,6 +27,7 @@ const LocationsPage = async ({ searchParams }: LocationsPageProps) => {
           .map(([k, v]) => [k, String(v)]),
       ),
     ).toString();
+
     redirect(`/locations?${defaultQuery}`);
   }
 
@@ -44,11 +45,14 @@ const LocationsPage = async ({ searchParams }: LocationsPageProps) => {
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>Усі місця відпочинку</h1>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <FilterPanel initialParams={params} />
-        <LocationsGrid initialParams={params} />
-      </HydrationBoundary>
+      <div className="container">
+        <h1 className={styles.title}>Усі місця відпочинку</h1>
+
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <FilterPanel initialParams={params} />
+          <LocationsGrid initialParams={params} />
+        </HydrationBoundary>
+      </div>
     </main>
   );
 };

@@ -106,11 +106,14 @@ const getUserById = async (userId: string): Promise<User> => {
   return data;
 };
 
-const getUserLocationsById = async (userId: string, page = 1, perPage = 6) => {
+const getUserLocations = async (
+  userId: string,
+  params: FetchLocationsParams = {},
+) => {
   const cookieHeader = await getCookieHeader();
   const { data } = await backendServer.get(`/users/${userId}/locations`, {
     headers: { Cookie: cookieHeader },
-    params: { page, perPage },
+    params,
   });
   return data;
 };
@@ -187,7 +190,6 @@ export {
   getLocationTypes,
   getRegions,
   getUserById,
-  getUserLocationsById,
+  getUserLocations,
   getReviews,
 };
-
