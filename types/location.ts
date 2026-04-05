@@ -60,6 +60,9 @@ export type PopulatedLocation = {
   name?: string;
 };
 
+export interface GetLocationByIdResponse {
+  location: Location;
+}
 export type LocationsSearchParams = {
   page?: number;
   perPage?: number;
