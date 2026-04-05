@@ -1,7 +1,6 @@
 import { nextServer } from '@/lib/api/api';
+import type { Location, FetchLocationsParams, GetLocationByIdResponse } from '@/types/location';
 import type {
-  Location,
-  FetchLocationsParams,
   FetchLocationsResponse,
 } from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
@@ -20,6 +19,18 @@ export const fetchLocations = async (
 
 const createLocation = async (payload: FormData): Promise<Location> => {
   const res = await nextServer.post<Location>('/locations', payload);
+  return res.data;
+};
+
+
+
+const getLocationById = async (locationId: string): Promise<GetLocationByIdResponse> => {
+  const res = await nextServer.get<GetLocationByIdResponse>(`/locations/${locationId}`);
+  return res.data;
+};
+
+const updateLocation = async (locationId: string, payload: FormData,): Promise<Location> => {
+  const res = await nextServer.patch<Location>(`/locations/${locationId}`, payload);
   return res.data;
 };
 
@@ -93,6 +104,17 @@ const getUserLocationsClient = async (
   return data;
 };
 
+const createReview = async (
+  locationId: string,
+  payload: { rate: number; description: string },
+) => {
+  const { data } = await nextServer.post(
+    `/locations/${locationId}/feedbacks`,
+    payload,
+  );
+  return data;
+};
+
 export {
   register,
   login,
@@ -105,5 +127,8 @@ export {
   getUser,
   getUserLocations,
   createLocation,
+  updateLocation,
+  getLocationById,
   getUserLocationsClient,
+  createReview,
 };

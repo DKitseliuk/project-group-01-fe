@@ -14,9 +14,12 @@ const Modal = ({ onClose, children }: ModalProps) => {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    const frame = requestAnimationFrame(() => {
+      setMounted(true);
+    });
 
     return () => {
-      setMounted(true);
+      cancelAnimationFrame(frame);
       document.body.style.overflow = '';
     };
   }, []);
@@ -50,7 +53,7 @@ const Modal = ({ onClose, children }: ModalProps) => {
           </svg>
         </button>
 
-        {children}
+        <div className={styles.modalBody}>{children}</div>
       </div>
     </div>,
     document.body

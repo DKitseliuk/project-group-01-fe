@@ -3,14 +3,22 @@
 import Link from 'next/link';
 import Modal from '@/components/Modal/Modal';
 import styles from './AuthPromptModal.module.css';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
 
-interface AuthPromptModalProps {
-  onClose: () => void;
-}
+const AuthPromptModal = () => {
+  const pathname = usePathname();
+  const setRedirectAfterAuth = useAuthStore(
+    (state) => state.setRedirectAfterAuth,
+  );
+  const router = useRouter();
 
-const AuthPromptModal = ({ onClose }: AuthPromptModalProps) => {
   return (
-    <Modal onClose={onClose}>
+    <Modal
+      onClose={() => {
+        router.back();
+      }}
+    >
       <div className={styles.content}>
         <h2 className={styles.title}>Помилка під час додавання відгуку</h2>
 
@@ -20,14 +28,19 @@ const AuthPromptModal = ({ onClose }: AuthPromptModalProps) => {
         </p>
 
         <div className={styles.actions}>
-          <Link href="/login" className={styles.loginButton} onClick={onClose}>
-           Увійти
+          <Link
+            href="/login"
+            className={styles.loginButton}
+            onClick={() => setRedirectAfterAuth(pathname.slice(0, -12))}
+          >
+            Увійти
           </Link>
 
-         <Link
+          <Link
             href="/register"
             className={styles.registerButton}
-            >
+            onClick={() => setRedirectAfterAuth(pathname.slice(0, -12))}
+          >
             Зареєструватись
           </Link>
         </div>
