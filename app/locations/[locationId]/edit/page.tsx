@@ -10,19 +10,14 @@ type EditLocationPageProps = {
   }>;
 };
 
+const BASE_URL = 'https://project-group-01-fe.vercel.app';
+
 export async function generateMetadata(
   { params }: EditLocationPageProps
 ): Promise<Metadata> {
   const { locationId } = await params;
 
-  const location = await fetchLocationById(locationId).catch(() => null);
-
-  if (!location) {
-    return {
-      title: 'Локацію не знайдено',
-      description: 'Запитувана локація не існує або була видалена',
-    };
-  }
+  const location = await fetchLocationById(locationId);
 
   return {
     title: `Редагування: ${location.name}`,
@@ -30,10 +25,13 @@ export async function generateMetadata(
     openGraph: {
       title: `Редагування: ${location.name}`,
       description: `Редагування інформації про локацію "${location.name}"`,
-      url: `https://project-group-01-fe.vercel.app/locations/${locationId}/edit`,
+      url: `${BASE_URL}/locations/action/edit/${locationId}`,
       images: [
         {
-          url: location.image || 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+          url: location.image || `${BASE_URL}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: location.name,
         },
       ],
     },
