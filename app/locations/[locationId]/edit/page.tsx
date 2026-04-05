@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { fetchLocationById } from '@/lib/api/serverApi';
 import {notFound } from 'next/navigation';
 
-type EditLocationPageProps = {пше
+type EditLocationPageProps = {
   params: Promise<{
     locationId: string;
   }>;
