@@ -1,2 +1,26 @@
-.main {}
+.main {
+    padding-top: 32px;
+    padding-bottom: 64px;
+    background-color: var(--coral-lightest);
+}
 
+.placeholderWrapper {
+    padding: 32px 32px 64px;
+}
+
+@media screen and (min-width: 768px) {
+    .main {
+        padding-top: 32px;
+        padding-bottom: 64px;
+    }
+
+   
+}
+
+@media screen and (min-width: 1440px) {
+    .main {
+        padding-top: 40px;
+        padding-bottom: 80px;
+    }
+
+}

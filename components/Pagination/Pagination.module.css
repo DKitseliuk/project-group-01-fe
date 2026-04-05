@@ -1,74 +1,94 @@
-.pagination {
+.paginationWrap {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 8px;
   margin-top: 32px;
   margin-bottom: 40px;
+}
+
+.pagination {
+  width: 354px;
+  max-width: 354px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
   padding: 0;
+  margin: 0;
+  flex-wrap: nowrap;
 }
 
 .pageItem {
-  display: flex;
+  list-style: none;
+  flex: 0 0 auto;
 }
 
 .pageLink {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border: 1px solid var(--neutral-darkest-15);
-  border-radius: 12px;
-  background-color: var(--foreground-primary);
+  border-radius: 8px;
+  background: var(--neutral-darkest-5);
+  color: var(--text-primary);
   cursor: pointer;
-  color: var(--text-secondary);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1;
-  transition: background-color 200ms ease, border-color 200ms ease,
-    color 200ms ease, opacity 200ms ease;
+  transition: all 200ms ease;
+  font: inherit;
+  padding: 0;
 }
 
 .pageLink:hover,
 .pageLink:focus {
-  background-color: var(--foreground-secondary);
+  background: var(--coral-lighter);
   border-color: var(--coral-light);
   outline: none;
 }
 
 .active .pageLink {
-  background-color: var(--foreground-secondary);
-  border-color: var(--neutral-darkest-15);
+  background: var(--coral);
+  color: var(--white);
+  border-color: var(--coral);
+}
+
+.previous .pageLink,
+.next .pageLink {
+  background: var(--coral-lighter);
   color: var(--text-secondary);
+  border-color: var(--neutral-darkest-15);
+}
+
+.previous .pageLink:hover,
+.next .pageLink:hover,
+.previous .pageLink:focus,
+.next .pageLink:focus {
+  background: var(--coral-light);
+  border-color: var(--coral);
 }
 
 .disabled .pageLink {
-  background-color: var(--foreground-primary);
-  color: var(--neutral-light);
-  border-color: var(--neutral-darkest-10);
-  cursor: not-allowed;
+  opacity: 0.4;
   pointer-events: none;
 }
 
-@media screen and (min-width: 768px) {
-  .pagination {
-    gap: 12px;
-    margin-top: 40px;
-    margin-bottom: 48px;
-  }
-
-  .pageLink {
-    min-width: 56px;
-    width: 56px;
-    height: 56px;
-    font-size: 18px;
-  }
+/* break (...) */
+.break .pageLink {
+  width: auto;
+  min-width: auto;
+  height: auto;
+  padding: 0 ;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  color: var(--text-primary);
+  cursor: default;
 }
 
-@media screen and (min-width: 1440px) {
-  .pagination {
-    gap: 12px;
-  }
+.break .pageLink:hover,
+.break .pageLink:focus {
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  outline: none;
 }

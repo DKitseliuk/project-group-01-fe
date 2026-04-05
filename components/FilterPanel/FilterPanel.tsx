@@ -99,52 +99,58 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
         className={styles.input}
       />
 
-      <Select
-        className={styles.select}
-        classNamePrefix="react-select"
-        options={regionOptions}
-        value={selectedRegion}
-        onChange={(option) =>
-          updateQueryParams({
-            region: (option as SelectOption | null)?.value || '',
-          })
-        }
-        placeholder="Регіон"
-        isClearable
-      />
+      <div className={styles.filtersGroupBottom}>
+        <Select
+          className={styles.select}
+          classNamePrefix="react-select"
+          options={locationTypeOptions}
+          value={selectedType}
+          onChange={(option) =>
+            updateQueryParams({
+              type: (option as SelectOption | null)?.value || '',
+            })
+          }
+          placeholder="Тип локації"
+          isClearable
+        />
 
-      <Select
-        className={styles.select}
-        classNamePrefix="react-select"
-        options={locationTypeOptions}
-        value={selectedType}
-        onChange={(option) =>
-          updateQueryParams({
-            type: (option as SelectOption | null)?.value || '',
-          })
-        }
-        placeholder="Тип локації"
-        isClearable
-      />
+        <Select
+          className={styles.select}
+          classNamePrefix="react-select"
+          options={regionOptions}
+          value={selectedRegion}
+          onChange={(option) =>
+            updateQueryParams({
+              region: (option as SelectOption | null)?.value || '',
+            })
+          }
+          placeholder="Регіон"
+          isClearable
+        />
 
-      <Select
-        className={styles.select}
-        classNamePrefix="react-select"
-        options={LOCATIONS_SORTING_OPTIONS}
-        value={selectedSort}
-        onChange={(option) => {
-          const selectedOption = option as SelectOption | null;
-          if (!selectedOption) return;
+        <div className={styles.sortWrap}>
+          <Select
+            className={styles.select}
+            classNamePrefix="react-select"
+            options={LOCATIONS_SORTING_OPTIONS}
+            value={selectedSort}
+            onChange={(option) => {
+              const selectedOption = option as SelectOption | null;
+              if (!selectedOption) return;
 
-          const [sortBy, sortOrder] = selectedOption.value.split('-');
+              const [sortBy, sortOrder] = selectedOption.value.split('-');
 
-          updateQueryParams({
-            sortBy,
-            sortOrder,
-          });
-        }}
-        placeholder="Сортування"
-      />
+              updateQueryParams({
+                sortBy,
+                sortOrder,
+              });
+            }}
+            placeholder="Сортування"
+            controlShouldRenderValue={false}
+            isSearchable={false}
+          />
+        </div>
+      </div>
     </div>
   );
 }

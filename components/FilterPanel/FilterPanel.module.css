@@ -1,31 +1,16 @@
 .panel {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   width: 100%;
   margin-bottom: 24px;
 }
 
-/* порядок:
-1 - search
-2 - type
-3 - region
-4 - sort
-*/
-.panel > :nth-child(1) {
-  grid-column: 1 / -1;
-}
-
-.panel > :nth-child(2) {
-  grid-column: 1;
-}
-
-.panel > :nth-child(3) {
-  grid-column: 2;
-}
-
-.panel > :nth-child(4) {
-  grid-column: 1 / -1;
+.filtersGroupBottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
 }
 
 .input {
@@ -61,6 +46,16 @@
   min-width: 0;
 }
 
+.filtersGroupBottom > :nth-child(1),
+.filtersGroupBottom > :nth-child(2) {
+  flex: 0 0 calc((100% - 12px) / 2);
+  width: calc((100% - 12px) / 2);
+}
+
+.sortWrap {
+  width: 100%;
+}
+
 /* react-select */
 .select :global(.react-select__control) {
   min-height: 43px;
@@ -86,9 +81,11 @@
 .select :global(.react-select__value-container) {
   min-height: 43px;
   height: 43px;
-  padding: 0 16px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .select :global(.react-select__single-value) {
@@ -96,7 +93,7 @@
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
-  max-width: calc(100% - 28px);
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -107,6 +104,10 @@
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .select :global(.react-select__input-container) {
@@ -121,11 +122,12 @@
 
 .select :global(.react-select__indicators) {
   height: 43px;
+  flex-shrink: 0;
 }
 
 .select :global(.react-select__indicator) {
   color: var(--text-secondary);
-  padding: 8px 12px 8px 8px;
+  padding: 8px;
   transition: color 200ms ease;
 }
 
@@ -174,13 +176,21 @@
   text-overflow: ellipsis;
 }
 
+.select :global(.react-select__option:hover),
 .select :global(.react-select__option--is-focused) {
-  background-color: var(--coral-lightest);
+  background-color: var(--coral-lighter);
+  color: var(--text-primary);
 }
 
 .select :global(.react-select__option--is-selected) {
-  background-color: var(--coral-light);
-  color: var(--text-primary);
+  background-color: var(--coral);
+  color: var(--white);
+}
+
+.select
+  :global(.react-select__option--is-selected.react-select__option--is-focused) {
+  background-color: var(--coral);
+  color: var(--white);
 }
 
 .select :global(.react-select__option--is-disabled) {
@@ -190,46 +200,49 @@
 
 /* tablet */
 @media screen and (min-width: 768px) {
-  .panel {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 24px;
+  .filtersGroupBottom {
+    flex-wrap: nowrap;
   }
 
-  .panel > :nth-child(1) {
-    grid-column: 1 / -1;
-  }
-
-  .panel > :nth-child(2) {
-    grid-column: 1;
-  }
-
-  .panel > :nth-child(3) {
-    grid-column: 2;
-  }
-
-  .panel > :nth-child(4) {
-    grid-column: 3;
+  .filtersGroupBottom > :nth-child(1),
+  .filtersGroupBottom > :nth-child(2),
+  .sortWrap {
+    flex: 0 0 calc((100% - 24px) / 3);
+    width: calc((100% - 24px) / 3);
   }
 }
 
 /* desktop */
 @media screen and (min-width: 1440px) {
   .panel {
-    grid-template-columns: 1fr 190px 190px 190px;
-    gap: 12px;
+    flex-direction: row;
     align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
   }
 
-  .panel > :nth-child(1),
-  .panel > :nth-child(2),
-  .panel > :nth-child(3),
-  .panel > :nth-child(4) {
-    grid-column: auto;
+  .input {
+    flex: 0 0 310px;
+    width: 310px;
   }
 
-  .panel > :nth-child(4) {
-    justify-self: end;
-    width: 190px;
+  .filtersGroupBottom {
+    flex: 1 1 auto;
+    width: auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .filtersGroupBottom > :nth-child(1),
+  .filtersGroupBottom > :nth-child(2) {
+    flex: 0 0 180px;
+    width: 180px;
+  }
+
+  .sortWrap {
+    flex: 0 0 180px;
+    width: 180px;
+    margin-left: auto;
   }
 }

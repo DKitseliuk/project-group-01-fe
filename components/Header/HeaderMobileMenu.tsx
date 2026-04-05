@@ -134,6 +134,7 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
             Опублікувати статтю
           </Link>
           <div className={styles.userRow}>
+            <Link href={`/profile/${user._id}`} className={styles.userLink} onClick={onClose}>
             <div className={styles.avatar}>
               <Image
                 src={user.avatarUrl}
@@ -142,7 +143,8 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
                 height={36}
               />
             </div>
-            <span className={styles.userName}>{user.name}</span>
+              <span className={styles.userName}>{user.name}</span>
+              </Link>
             <div className={styles.userDivider} />
             <button
               className={styles.logoutBtn}

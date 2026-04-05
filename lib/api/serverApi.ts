@@ -98,6 +98,23 @@ const refreshSession = async (): Promise<
   return res;
 };
 
+ const getUserById = async (userId: string): Promise<User> => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get<User>(`/users/${userId}`, {
+    headers: { Cookie: cookieHeader },
+  });
+  return data;
+};
+
+ const getUserLocationsById = async (userId: string, page = 1, perPage = 6) => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get(`/users/${userId}/locations`, {
+    headers: { Cookie: cookieHeader },
+    params: { page, perPage },
+  });
+  return data;
+};
+
 function feedbackToReview(
   f: FeedbackItem,
   locationName: string,
@@ -169,5 +186,8 @@ export {
   refreshSession,
   getLocationTypes,
   getRegions,
+  getUserById,
+  getUserLocationsById,
   getReviews,
 };
+
