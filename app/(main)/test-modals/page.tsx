@@ -29,35 +29,36 @@ const TestModalsPage = () => {
       </button>
 
       <button
-          type="button"
-          onClick={() => setIsEditProfileOpen(true)}
-          style={{ padding: '12px 16px' }}
-        >
-          Open Edit Profile Modal
+        type="button"
+        onClick={() => setIsEditProfileOpen(true)}
+        style={{ padding: '12px 16px' }}
+      >
+        Open Edit Profile Modal
       </button>
 
       {isConfirmationOpen && (
         <ConfirmationModal
           onClose={() => setIsConfirmationOpen(false)}
           onConfirm={() => {
-          console.log('Confirmed');
-          setIsConfirmationOpen(false);
+            console.log('Confirmed');
+            setIsConfirmationOpen(false);
           }}
         />
       )}
 
-        {isAuthPromptOpen && (
-          <AuthPromptModal
-            onClose={() => setIsAuthPromptOpen(false)}
-          />
-        )}
+      {isAuthPromptOpen && (
+        <AuthPromptModal onClose={() => setIsAuthPromptOpen(false)} />
+      )}
 
-        {isEditProfileOpen && (
-          <EditProfileModal onClose={() => setIsEditProfileOpen(false)} userName={''} onSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        } } />
-        )}
-
+      {isEditProfileOpen && (
+        <EditProfileModal
+          onClose={() => setIsEditProfileOpen(false)}
+          userName={''}
+          onSubmit={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
+      )}
     </main>
   );
 };
