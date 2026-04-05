@@ -11,6 +11,7 @@ import type { Location, LocationsSearchParams } from '@/types/location';
 import { parseLocationParams } from '@/helpers/parseLocationsParams';
 import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 import { fetchLocations, getUserLocationsClient } from '@/lib/api/clientApi';
+import Loader from '../Loader/Loader';
 
 type LocationsGridProps = {
   initialParams: LocationsSearchParams;
@@ -74,7 +75,7 @@ export default function LocationsGrid({
   const totalPages = data?.totalPages ?? 0;
 
   if (isLoading) {
-    return <p className={styles.empty}>Завантаження...</p>;
+    return <Loader />;
   }
 
   if (isError) {
