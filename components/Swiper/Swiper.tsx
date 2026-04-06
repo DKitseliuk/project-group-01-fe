@@ -46,7 +46,7 @@ export default function Slider({
       <div className={css.navBtns}>
         <button
           className={css.navBtn}
-          aria-label="Попереднє фото"
+          aria-label="Попередня картка"
           onClick={() => swiperRef.current?.slidePrev()}
         >
           <svg width="24" height="24" aria-hidden="true">
@@ -55,7 +55,7 @@ export default function Slider({
         </button>
         <button
           className={css.navBtn}
-          aria-label="Наступне фото"
+          aria-label="Наступна картка"
           onClick={() => swiperRef.current?.slideNext()}
         >
           <svg width="24" height="24" aria-hidden="true">
