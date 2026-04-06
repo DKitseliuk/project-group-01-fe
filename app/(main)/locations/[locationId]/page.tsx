@@ -7,10 +7,38 @@ import { fetchLocationById, getReviewsForLocation } from '@/lib/api/serverApi';
 import { notFound } from 'next/navigation';
 import type { FeedbackItem } from '@/types/review';
 import MapBox from '@/components/MapBox/MapBox';
+import { Metadata } from 'next';
+import { Location } from '@/types/location';
 
 type Props = {
   params: Promise<{ locationId: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locationId } = await params;
+  const location: Location | null = await fetchLocationById(locationId).catch(
+    () => null,
+  );
+
+  if (!location) {
+    return {
+      title: 'Локацію не знайдено',
+    };
+  }
+
+  return {
+    title: `${location.name}`,
+    description:
+      location.description?.slice(0, 155) ??
+      `Дізнайся більше про ${location.name} на Relax Map.`,
+    openGraph: {
+      title: `${location.name} | Relax Map`,
+      description: location.description?.slice(0, 155),
+      type: 'article',
+      images: [{ url: location.image, width: 1200, height: 630 }],
+    },
+  };
+}
 
 const LocationDetailsPage = async ({ params }: Props) => {
   const { locationId } = await params;

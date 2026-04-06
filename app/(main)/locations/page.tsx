@@ -11,9 +11,22 @@ import { fetchLocations } from '@/lib/api/serverApi';
 import { LocationsSearchParams } from '@/types/location';
 import { LOCATIONS_DEFAULT_PARAMS } from '@/constants/locations';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
 
 type LocationsPageProps = {
   searchParams?: Promise<LocationsSearchParams>;
+};
+
+export const metadata: Metadata = {
+  title: 'Місця відпочинку в Україні',
+  description:
+    'Переглядай усі локації для відпочинку в Україні — фільтруй за типом, регіоном та зручностями.',
+  openGraph: {
+    title: 'Місця відпочинку в Україні | Relax Map',
+    description:
+      'Знайди свою ідеальну локацію серед озер, гір, замків і морського узбережжя.',
+    type: 'website',
+  },
 };
 
 const LocationsPage = async ({ searchParams }: LocationsPageProps) => {
