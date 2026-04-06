@@ -47,25 +47,31 @@
 
 .cancelButton {
   border: 1px solid var(--neutral-lighter);
-  background-color: var(--foreground-primary);
-  color: var(--text-primary);
+  background-color: var(--neutral-darkest-5);
+  color: var(--coral-darkest);
 }
 
-.cancelButton:hover,
-.cancelButton:focus {
-  border-color: var(--coral-light);
-  background-color: var(--coral-lightest);
+.cancelButton:hover {
+  color: var(--white);
+  background-color: var(--coral-dark);
 }
 
-.confirmButton {
-  border: none;
-  background-color: var(--coral);
+.cancelButton:active {
+  background-color: var(--coral-darker);
   color: var(--white);
 }
 
-.confirmButton:hover,
-.confirmButton:focus {
-  background-color: var(--coral-darker);
+.confirmButton,
+.confirmButton:active {
+  border: 1px solid var(--coral-dark);
+  background-color: var(--coral-dark);
+  color: var(--white);
+}
+
+.confirmButton:hover {
+  background-color: var(--coral-lighter);
+  border: 1px solid var(--coral-dark);
+  color: var(--coral-darkest);
 }
 
 @media screen and (min-width: 768px) {

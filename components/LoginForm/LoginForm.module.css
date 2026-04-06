@@ -24,9 +24,9 @@
 
 .button {
   padding: 14px;
-  background-color: var(--coral);
   color: var(--white);
-  border: none;
+  background-color: var(--coral-dark);
+  border: 1px solid var(--coral-dark);
   border-radius: 8px;
   font-weight: 500;
   line-height: 1.5;
@@ -36,10 +36,16 @@
   justify-content: center;
   height: 51px;
   width: 100%;
+  transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
 }
 
 .button:hover {
-  background-color: var(--coral-dark);
+    background-color: var(--coral-lighter);
+    color: var(--coral-darkest);
+    border-color: var(--coral-dark);
 }
 input:focus::placeholder {
   color: transparent;

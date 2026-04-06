@@ -51,26 +51,32 @@
 }
 
 .loginButton {
-  border: 1px solid var(--neutral-lighter);
-  background-color: var(--foreground-primary);
-  color: var(--text-primary);
+    border: 1px solid var(--neutral-lighter);
+    background-color: var(--neutral-darkest-5);
+    color: var(--coral-darkest);
 }
 
-.loginButton:hover,
-.loginButton:focus {
-  border-color: var(--coral-light);
-  background-color: var(--coral-lightest);
+.loginButton:hover {
+    color: var(--white);
+    background-color: var(--coral-dark);
 }
 
-.registerButton {
-  border: none;
-  background-color: var(--coral);
-  color: var(--white);
+.loginButton:active {
+    background-color: var(--coral-darker);
+    color: var(--white);
 }
 
-.registerButton:hover,
-.registerButton:focus {
-  background-color: var(--coral-darker);
+.registerButton,
+.registerButton:active {
+    border: 1px solid var(--coral-dark);
+    background-color: var(--coral-dark);
+    color: var(--white);
+}
+
+.registerButton:hover {
+    background-color: var(--coral-lighter);
+    border: 1px solid var(--coral-dark);
+    color: var(--coral-darkest);
 }
 
 @media screen and (min-width: 768px) {
