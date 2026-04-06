@@ -5,20 +5,12 @@ import { LocationDescription } from '@/components/LocationDescription/LocationDe
 import LeaveReviewSection from '@/components/LeaveReviewSection/LeaveReviewSection';
 import { fetchLocationById, getReviewsForLocation } from '@/lib/api/serverApi';
 import { notFound } from 'next/navigation';
-import type { LocationOwner } from '@/types/location';
 import type { FeedbackItem } from '@/types/review';
 import MapBox from '@/components/MapBox/MapBox';
 
 type Props = {
   params: Promise<{ locationId: string }>;
 };
-
-const humanize = (value: string) =>
-  value
-    .split('-')
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
 
 const LocationDetailsPage = async ({ params }: Props) => {
   const { locationId } = await params;
@@ -32,14 +24,6 @@ const LocationDetailsPage = async ({ params }: Props) => {
     feedbacks = [];
   }
 
-  const owner =
-    typeof location.ownerId === 'string'
-      ? null
-      : (location.ownerId as LocationOwner);
-
-  const authorId = owner?._id ?? '';
-  const authorName = owner?.name ?? '—';
-
   return (
     <main className={styles.main}>
       <section className={styles.section}>
@@ -51,22 +35,15 @@ const LocationDetailsPage = async ({ params }: Props) => {
                 imageAlt={location.name}
               />
 
-              <LocationInfoBlock
-                className={styles.info}
-                title={location.name}
-                rating={location.rate}
-                region={humanize(location.region)}
-                type={humanize(location.locationType)}
-                authorId={authorId}
-                authorName={authorName}
-              />
+              <LocationInfoBlock location={location} />
             </div>
-
-            <LocationDescription text={location.description} />
+            <div className={styles.bottom}>
+              <LocationDescription text={location.description} />
+              {location?.coordinates && (
+                <MapBox coordinates={location?.coordinates} />
+              )}
+            </div>
           </div>
-          {location?.coordinates && (
-            <MapBox coordinates={location?.coordinates} />
-          )}
           <LeaveReviewSection
             id={locationId}
             locationName={location.name}

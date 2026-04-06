@@ -66,6 +66,9 @@
 }
 
 @media screen and (min-width: 1440px) {
+  .wrapper {
+    width: 864px;
+  }
   .mapWrapper {
     width: 864px;
     height: 484px;

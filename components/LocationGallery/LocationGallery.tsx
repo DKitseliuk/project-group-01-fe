@@ -6,7 +6,10 @@ type LocationGalleryProps = {
   imageAlt: string;
 };
 
-export const LocationGallery = ({ imageSrc, imageAlt }: LocationGalleryProps) => {
+export const LocationGallery = ({
+  imageSrc,
+  imageAlt,
+}: LocationGalleryProps) => {
   return (
     <div className={styles.locationGallery}>
       <Image
@@ -15,8 +18,8 @@ export const LocationGallery = ({ imageSrc, imageAlt }: LocationGalleryProps) =>
         fill
         sizes="(min-width: 1440px) 705px, 100vw"
         className={styles.image}
+        loading="eager"
       />
     </div>
   );
 };
-
