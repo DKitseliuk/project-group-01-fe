@@ -18,22 +18,22 @@ export default function LocationCard({ location, canEdit = false }: Props) {
   const user = useAuthStore((state) => state.user);
 
   return (
-   <div className={css.card}>
-  <div className={css.imageWrapper}>
-  <Image
-    src={location.image || '/placeholder.jpg'}
-    alt={location.name}
-    fill
-    sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
-    className={css.image}
-  />
-</div>
+    <li className={css.card}>
+      <div className={css.imageWrapper}>
+        <Image
+          src={location.image || '/placeholder.jpg'}
+          alt={location.name}
+          fill
+          sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
+          className={css.image}
+        />
+      </div>
       <div className={css.info}>
         {location.locationTypeLabel && (
           <p className={css.tag}>{location.locationTypeLabel}</p>
         )}
         {location.rate ? <StarRating value={location.rate} /> : '—'}
-        <h3 className={css.title}>{location.name}</h3>
+        <h2 className={css.title}>{location.name}</h2>
 
         <div className={css.actions}>
           <Link href={`/locations/${location._id}`} className={css.viewBtn}>
@@ -53,6 +53,6 @@ export default function LocationCard({ location, canEdit = false }: Props) {
           )}
         </div>
       </div>
-    </div>
+    </li>
   );
 }

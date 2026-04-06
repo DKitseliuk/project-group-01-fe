@@ -18,7 +18,7 @@ export const LocationGallery = ({
         fill
         sizes="(min-width: 1440px) 705px, 100vw"
         className={styles.image}
-        loading="eager"
+        priority
       />
     </div>
   );

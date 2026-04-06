@@ -29,19 +29,21 @@ export const ProfileInfo = ({ user }: ProfileInfoProps) => {
           <div className={styles.avatar}>
             <Image
               src={
-                displayedUser.avatarUrl  ||
+                displayedUser.avatarUrl ||
                 'https://ac.goit.global/fullstack/react/default-avatar.jpg'
               }
               alt={displayedUser.name || 'Аватар користувача'}
               fill
               sizes="144px"
-              loading="eager"
+              priority
             />
           </div>
           <div className={styles.infoRow}>
             <div className={styles.info}>
-              <p className={styles.name}>{displayedUser.name}</p>
-              <p className={styles.articles}>Статей: {displayedUser.articlesAmount}</p>
+              <h1 className={styles.name}>{displayedUser.name}</h1>
+              <p className={styles.articles}>
+                Статей: {displayedUser.articlesAmount}
+              </p>
             </div>
             {isOwnProfile && (
               <button
@@ -56,7 +58,7 @@ export const ProfileInfo = ({ user }: ProfileInfoProps) => {
         </div>
       </div>
 
-    {isEditProfileOpen && (
+      {isEditProfileOpen && (
         <EditProfileModal
           key={`${displayedUser.name}-${displayedUser.avatarUrl || 'no-avatar'}`}
           onClose={() => setIsEditProfileOpen(false)}
@@ -78,7 +80,6 @@ export const ProfileInfo = ({ user }: ProfileInfoProps) => {
           }}
         />
       )}
-  
     </section>
   );
 };
