@@ -152,6 +152,7 @@ const getReviewsForLocation = async (locationId: string) => {
 function feedbackToReview(
   f: FeedbackItem,
   locationName: string,
+  locationId?: string,
 ): Review | null {
   const text = f.description?.trim() ?? '';
   if (!text) return null;
@@ -162,6 +163,7 @@ function feedbackToReview(
     text,
     authorName: (f.userName?.trim() || 'Користувач').slice(0, 120),
     locationName: locationName.trim() || 'Локація',
+    locationId,
   };
 }
 
@@ -192,7 +194,7 @@ async function getReviews(): Promise<Review[]> {
             },
           },
         )
-        .then((r) => ({ feedbacks: r.data.feedbacks, locationName: loc.name }))
+        .then((r) => ({ feedbacks: r.data.feedbacks, locationName: loc.name, locationId: loc._id }))
         .catch(() => null),
     ),
   );
@@ -205,7 +207,7 @@ async function getReviews(): Promise<Review[]> {
     for (const f of batch.feedbacks ?? []) {
       if (!f?._id || seen.has(f._id)) continue;
       seen.add(f._id);
-      const rev = feedbackToReview(f, batch.locationName);
+      const rev = feedbackToReview(f, batch.locationName, batch.locationId);
       if (rev) out.push(rev);
       if (out.length >= POPULAR_FEEDBACKS.MAX_HOME_REVIEWS) return out;
     }
