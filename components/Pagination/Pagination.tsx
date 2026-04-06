@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
-import styles from "./Pagination.module.css";
+import { useEffect, useState } from 'react';
+import ReactPaginate from 'react-paginate';
+import styles from './Pagination.module.css';
 
 type PaginationProps = {
   page: number;
@@ -37,9 +37,9 @@ export default function Pagination({
     };
 
     updatePagination();
-    window.addEventListener("resize", updatePagination);
+    window.addEventListener('resize', updatePagination);
 
-    return () => window.removeEventListener("resize", updatePagination);
+    return () => window.removeEventListener('resize', updatePagination);
   }, []);
 
   if (totalPages <= 1) return null;
@@ -51,7 +51,7 @@ export default function Pagination({
       marginPagesDisplayed={marginPagesDisplayed}
       onPageChange={({ selected }) => onPageChange(selected + 1)}
       forcePage={page - 1}
-      containerClassName={styles.pagination}
+      className={styles.pagination}
       pageClassName={styles.pageItem}
       pageLinkClassName={styles.pageLink}
       activeClassName={styles.active}
@@ -68,6 +68,7 @@ export default function Pagination({
       previousAriaLabel="Попередня сторінка"
       nextAriaLabel="Наступна сторінка"
       pageLabelBuilder={(page) => String(page)}
+      renderOnZeroPageCount={null}
     />
   );
 }

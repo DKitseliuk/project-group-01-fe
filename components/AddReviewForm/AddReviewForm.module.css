@@ -132,6 +132,7 @@
   line-height: 1.5;
   width: 294px;
   max-width: 100%;
+  height: 48px;
   flex: none;
   transition:
     background-color 0.2s ease,

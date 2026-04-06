@@ -89,7 +89,11 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
 
   return (
     <div className={styles.panel}>
+      <label htmlFor="search" className="visually-hidden">
+        Пошук
+      </label>
       <input
+        id="search"
         key={currentParams.search}
         type="text"
         name="search"
@@ -99,7 +103,11 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
         className={styles.input}
       />
 
+      <label htmlFor="filter-region" className="visually-hidden">
+        Регіон
+      </label>
       <Select
+        inputId="filter-region"
         className={styles.select}
         classNamePrefix="react-select"
         options={regionOptions}
@@ -113,7 +121,11 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
         isClearable
       />
 
+      <label htmlFor="filter-type" className="visually-hidden">
+        Тип локації
+      </label>
       <Select
+        inputId="filter-type"
         className={styles.select}
         classNamePrefix="react-select"
         options={locationTypeOptions}
@@ -128,7 +140,11 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
         isSearchable={false} // ← ось це додай
       />
 
+      <label htmlFor="filter-sort" className="visually-hidden">
+        Сортування
+      </label>
       <Select
+        inputId="filter-sort"
         className={styles.select}
         classNamePrefix="react-select"
         options={LOCATIONS_SORTING_OPTIONS}

@@ -46,16 +46,18 @@ export async function POST() {
     return NextResponse.json(apiRes.data, { status: apiRes.status });
   } catch (error) {
     if (isAxiosError(error)) {
-      logErrorResponse(error.response?.data);
+      if (error.response?.status !== 401) {
+        logErrorResponse(error.response?.data);
+      }
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.response?.status ?? 500 }
+        { status: error.response?.status ?? 500 },
       );
     }
     logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
       { error: 'Internal Server Error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

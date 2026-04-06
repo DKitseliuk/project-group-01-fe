@@ -106,7 +106,7 @@
 .cancelButton:hover,
 .cancelButton:focus {
   border-color: rgb(255 165 122);
-  background-color:  rgb(255 242 236);
+  background-color: rgb(255 242 236);
 }
 
 .saveButton {
@@ -121,13 +121,16 @@
 }
 
 @media screen and (min-width: 768px) {
+  .content {
+    width: 640px;
+  }
   .title {
     font-size: 32px;
   }
 
   .avatarBlock {
-  flex-direction: row;
-}
+    flex-direction: row;
+  }
 
   .actions {
     flex-direction: row;

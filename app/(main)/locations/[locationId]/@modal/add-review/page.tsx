@@ -10,13 +10,17 @@ export default function AddReviewModal() {
   const params = useParams<{ locationId: string }>();
   const locationId = params.locationId;
 
-  const handleClose = () => {
-    router.back();
-  };
-
   if (!locationId) {
     notFound();
   }
+
+  const handleClose = () => {
+    router.back();
+  };
+  const handleSubmit = () => {
+    router.back();
+    router.refresh();
+  };
 
   return (
     <Modal onClose={handleClose}>
@@ -26,7 +30,7 @@ export default function AddReviewModal() {
         </h2>
         <AddReviewForm
           id={locationId}
-          handleSubmit={handleClose}
+          handleSubmit={handleSubmit}
           handleCancel={handleClose}
         />
       </div>

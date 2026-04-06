@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { isAxiosError } from 'axios';
 import { createReview } from '@/lib/api/clientApi';
 import css from './AddReviewForm.module.css';
+import ButtonLoader from '../ButtonLoader/ButtonLoader';
 
 export type AddReviewFormValues = {
   rating: number;
@@ -139,12 +140,6 @@ export default function AddReviewForm({
             />
           </div>
 
-          {(isSubmitting || mutation.isPending) && (
-            <p className={css.loadingNote} aria-live="polite">
-              Завантаження...
-            </p>
-          )}
-
           <div className={css.actions}>
             <button
               type="button"
@@ -158,7 +153,11 @@ export default function AddReviewForm({
               className={css.submitButton}
               disabled={isSubmitting || mutation.isPending}
             >
-              Надіслати
+              {isSubmitting || mutation.isPending ? (
+                <ButtonLoader />
+              ) : (
+                'Надіслати'
+              )}
             </button>
           </div>
         </Form>

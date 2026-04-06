@@ -16,12 +16,18 @@
 }
 
 @media screen and (min-width: 768px) {
+  .inner {
+    width: 640px;
+  }
   .title {
     font-size: 32px;
   }
 }
 
 @media screen and (min-width: 1440px) {
+  .inner {
+    width: 640px;
+  }
   .title {
     font-size: 48px;
   }
