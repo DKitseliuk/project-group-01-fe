@@ -40,28 +40,37 @@
   display: inline-block;
   padding: 12px;
   border-radius: 12px;
-  background-color: var(--coral);
   color: var(--white);
+  background-color: var(--coral-dark);
+  border: 1px solid var(--coral-dark);
   font-weight: 600;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
 }
 
 .primaryBtn:hover {
-  background-color: var(--coral-dark);
+  background-color: var(--coral-lighter);
+  color: var(--coral-darkest);
+  border-color: var(--coral-dark);
 }
 
 .secondaryBtn {
   display: inline-block;
   padding: 12px;
   border-radius: 12px;
-  background-color: var(--neutral-lightest);
-  color: var(--text-primary);
+  color: var(--coral-darkest);
+  background-color: var(--neutral-darkest-5);
+  border: 1px solid var(--neutral-lighter);
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
 
 .secondaryBtn:hover {
-  background-color: var(--neutral-lighter);
+  background-color: var(--coral-dark);
+  color: var(--white);
+  border-color: var(--coral-dark);
 }
