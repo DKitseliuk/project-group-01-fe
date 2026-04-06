@@ -44,20 +44,23 @@ const HeroSearchForm = () => {
       return normalize(t.type) === input;
     });
 
-    const matchedRegion = !matchedType
-      ? regions.find((r) => {
-          return (
-            normalize(r.region).includes(input) ||
-            input.includes(normalize(r.region))
-          );
-        })
-      : undefined;
+    const matchedRegion =
+      !matchedType && input
+        ? regions.find((r) => {
+            return (
+              normalize(r.region).includes(input) ||
+              input.includes(normalize(r.region))
+            );
+          })
+        : undefined;
 
     const filterParam: Record<string, string> = matchedType
       ? { type: matchedType.slug }
       : matchedRegion
         ? { region: matchedRegion.slug }
-        : { search: values.search.trim() };
+        : input
+          ? { search: values.search.trim() }
+          : {};
 
     const params = new URLSearchParams(
       Object.fromEntries(
