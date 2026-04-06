@@ -1,7 +1,6 @@
 'use client';
 
 import css from './RegistrationForm.module.css';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -40,7 +39,6 @@ const RegistrationForm = () => {
   const setRedirectAfterAuth = useAuthStore(
     (state) => state.setRedirectAfterAuth,
   );
-  const [error, setError] = useState('');
 
   const handleSubmit = async (values: RegisterValues) => {
     try {
@@ -52,10 +50,8 @@ const RegistrationForm = () => {
       router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
-        setError('Ця пошта вже використовується');
         toast.error('Ця пошта вже використовується');
       } else {
-        setError('Щось пішло не так');
         toast.error('Щось пішло не так');
       }
     }
@@ -103,7 +99,7 @@ const RegistrationForm = () => {
               className={css.error}
             />
           </label>
-          {error && <p className={css.error}>{error}</p>}
+
           <button className={css.button} type="submit" disabled={isSubmitting}>
             {isSubmitting ? <ButtonLoader /> : 'Зареєструватись'}
           </button>

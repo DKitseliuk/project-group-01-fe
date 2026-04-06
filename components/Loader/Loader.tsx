@@ -12,6 +12,13 @@ const Loader = ({ isLoading = true }: LoaderProps) => {
 
   return (
     <div className={css.backdrop}>
+      <div className={css.logoLoader}>
+        <div className="container">
+          <svg width="129" height="40" aria-hidden="true">
+            <use href="/img/icons.svg#icon-logo" />
+          </svg>
+        </div>
+      </div>
       <RotatingLines
         width="50"
         visible={true}
