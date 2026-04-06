@@ -1,3 +1,5 @@
+import { Coordinates } from './map';
+
 export interface LocationOwner {
   _id: string;
   name: string;
@@ -18,11 +20,7 @@ export interface Location {
   region: string;
   rate: number;
   description: string;
-  coordinates?: {
-    lat: number;
-    lng?: number;
-    lon?: number;
-  };
+  coordinates?: Coordinates;
   ownerId: string | LocationOwner;
   feedbacksId: string[] | LocationFeedback[];
 }
@@ -53,6 +51,7 @@ export type LocationFormValues = {
   type?: string;
   sortBy?: string;
   sortOrder?: string;
+  coordinates: Coordinates | null;
 };
 
 export type PopulatedLocation = {

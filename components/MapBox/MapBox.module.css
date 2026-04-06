@@ -1,0 +1,76 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mapWrapper {
+  width: 100%;
+  height: 188px;
+}
+
+.inputWrapper :global([class*='--SearchBox']) {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.inputWrapper :global([class*='--SearchIcon']) {
+  width: 24px;
+  height: 24px;
+  color: var(--neutral-darkest) !important;
+}
+
+.inputWrapper {
+  background-color: var(--coral-lighter);
+}
+
+.inputWrapper :global([class*='--Input']) {
+  width: 100% !important;
+  height: 48px !important;
+  padding: 12px 8px 12px 36px !important;
+  background-color: var(--coral-lighter) !important;
+  color: var(--coral-darkest) !important;
+  font-family: inherit !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--neutral-darkest-15);
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.inputWrapper :global([class*='--Input']):hover {
+  border-color: var(--coral-light) !important;
+}
+.inputWrapper :global([class*='--Input']):focus {
+  border-color: var(--coral) !important;
+}
+
+.inputWrapper :global([class*='--ActionIcon']) {
+  color: var(--neutral-darkest-60) !important;
+}
+
+.inputWrapper :global([class*='--Suggestion']) {
+  background-color: var(--coral-lighter) !important;
+  color: var(--neutral-darkest-60) !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+@media screen and (min-width: 768px) {
+  .mapWrapper {
+    width: 100%;
+    height: 396px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .mapWrapper {
+    width: 864px;
+    height: 484px;
+  }
+  .inputWrapper {
+    width: 424px;
+  }
+}

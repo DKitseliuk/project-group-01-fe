@@ -3,13 +3,11 @@ import { LocationGallery } from '@/components/LocationGallery/LocationGallery';
 import { LocationInfoBlock } from '@/components/LocationInfoBlock/LocationInfoBlock';
 import { LocationDescription } from '@/components/LocationDescription/LocationDescription';
 import LeaveReviewSection from '@/components/LeaveReviewSection/LeaveReviewSection';
-import {
-  fetchLocationById,
-  getReviewsForLocation,
-} from '@/lib/api/serverApi';
+import { fetchLocationById, getReviewsForLocation } from '@/lib/api/serverApi';
 import { notFound } from 'next/navigation';
 import type { LocationOwner } from '@/types/location';
 import type { FeedbackItem } from '@/types/review';
+import MapBox from '@/components/MapBox/MapBox';
 
 type Props = {
   params: Promise<{ locationId: string }>;
@@ -66,7 +64,9 @@ const LocationDetailsPage = async ({ params }: Props) => {
 
             <LocationDescription text={location.description} />
           </div>
-
+          {location?.coordinates && (
+            <MapBox coordinates={location?.coordinates} />
+          )}
           <LeaveReviewSection
             id={locationId}
             locationName={location.name}
