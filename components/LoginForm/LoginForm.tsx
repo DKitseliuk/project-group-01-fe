@@ -1,7 +1,6 @@
 'use client';
 
 import css from './LoginForm.module.css';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -34,7 +33,6 @@ const LoginForm = () => {
     (state) => state.setRedirectAfterAuth,
   );
   const setUser = useAuthStore((state) => state.setUser);
-  const [error, setError] = useState('');
 
   const handleSubmit = async (values: LoginValues) => {
     try {
@@ -46,10 +44,8 @@ const LoginForm = () => {
       router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
-        setError('Невірна пошта або пароль');
         toast.error('Невірна пошта або пароль');
       } else {
-        setError('Щось пішло не так');
         toast.error('Щось пішло не так');
       }
     }
@@ -86,7 +82,6 @@ const LoginForm = () => {
               className={css.error}
             />
           </label>
-          {error && <p className={css.error}>{error}</p>}
           <button className={css.button} type="submit" disabled={isSubmitting}>
             {isSubmitting ? <ButtonLoader /> : 'Увійти'}
           </button>
