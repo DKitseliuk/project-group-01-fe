@@ -21,7 +21,8 @@ const EditProfileModal = ({ onClose, userName, userAvatar, onSubmit }: EditProfi
     useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setName(userName || '');
-    setAvatarPreview(userAvatar || '/default-avatar.png'); // замінити потім !!!
+    setAvatarPreview(userAvatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg');
+    setAvatarFile(null);
   }, [userName, userAvatar]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

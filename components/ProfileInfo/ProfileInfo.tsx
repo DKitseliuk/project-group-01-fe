@@ -2,9 +2,13 @@
 
 import Image from 'next/image';
 import styles from './ProfileInfo.module.css';
-import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
 import { User } from '@/types/user';
+
+import { useState } from 'react';
+import EditProfileModal from '@/components/EditProfileModal/EditProfileModal';
+import { updateMe } from '@/lib/api/clientApi';
+import toast from 'react-hot-toast';
 
 type ProfileInfoProps = {
   user: User;
@@ -12,8 +16,11 @@ type ProfileInfoProps = {
 
 export const ProfileInfo = ({ user }: ProfileInfoProps) => {
   const currentUser = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const isOwnProfile = currentUser?._id === user?._id;
+  const displayedUser = isOwnProfile && currentUser ? currentUser : user;
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   return (
     <section>
@@ -22,10 +29,10 @@ export const ProfileInfo = ({ user }: ProfileInfoProps) => {
           <div className={styles.avatar}>
             <Image
               src={
-                user.avatarUrl ||
+                displayedUser.avatarUrl  ||
                 'https://ac.goit.global/fullstack/react/default-avatar.jpg'
               }
-              alt={user.name || 'Аватар користувача'}
+              alt={displayedUser.name || 'Аватар користувача'}
               fill
               sizes="144px"
               loading="eager"
@@ -33,20 +40,45 @@ export const ProfileInfo = ({ user }: ProfileInfoProps) => {
           </div>
           <div className={styles.infoRow}>
             <div className={styles.info}>
-              <p className={styles.name}>{user.name}</p>
-              <p className={styles.articles}>Статей: {user.articlesAmount}</p>
+              <p className={styles.name}>{displayedUser.name}</p>
+              <p className={styles.articles}>Статей: {displayedUser.articlesAmount}</p>
             </div>
             {isOwnProfile && (
-              <Link
-                href={`/profile/${user._id}/edit`}
+              <button
+                type="button"
                 className={styles.editBtn}
+                onClick={() => setIsEditProfileOpen(true)}
               >
                 Редагувати профіль
-              </Link>
+              </button>
             )}
           </div>
         </div>
       </div>
+
+    {isEditProfileOpen && (
+        <EditProfileModal
+          key={`${displayedUser.name}-${displayedUser.avatarUrl || 'no-avatar'}`}
+          onClose={() => setIsEditProfileOpen(false)}
+          userName={displayedUser.name}
+          userAvatar={displayedUser.avatarUrl}
+          onSubmit={async ({ name, avatarFile }) => {
+            try {
+              const updatedUser = await updateMe({
+                name,
+                avatarFile,
+              });
+
+              setUser(updatedUser);
+              setIsEditProfileOpen(false);
+              toast.success('Профіль оновлено');
+            } catch {
+              toast.error('Не вдалося оновити профіль');
+            }
+          }}
+        />
+      )}
+  
     </section>
   );
 };
