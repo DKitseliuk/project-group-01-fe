@@ -74,3 +74,9 @@
   color: var(--white);
   border-color: var(--coral-dark);
 }
+
+.secondaryBtn:active {
+  background-color: var(--coral-darker);
+    color: var(--white);
+    border-color: var(--coral-darker)
+}
