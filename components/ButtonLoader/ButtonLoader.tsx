@@ -6,7 +6,7 @@ const ButtonLoader = () => {
       width="20"
       visible={true}
       ariaLabel="rotating-lines-loading"
-      strokeColor="white"
+      strokeColor="#00000099"
     />
   );
 };
