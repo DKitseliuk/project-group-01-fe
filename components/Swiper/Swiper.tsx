@@ -32,6 +32,9 @@ export default function Slider({
         slidesPerView={1}
         loop={true}
         breakpoints={breakpoints}
+        preventClicks={false}
+        preventClicksPropagation={false}
+        noSwipingSelector="a"
       >
         {children.map((child, index) => (
           <SwiperSlide key={index} style={{ height: 'auto' }}>

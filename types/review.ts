@@ -6,6 +6,7 @@ export type Review = {
   text: string;
   authorName: string;
   locationName: string;
+  locationId?: string;
 };
 
 export type FeedbackItem = {
