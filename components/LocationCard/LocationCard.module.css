@@ -87,7 +87,9 @@
 }
 
 .editBtn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -95,8 +97,6 @@
   border: 1px solid var(--neutral-darkest-15);
   background: var(--neutral-darkest-5);
   transition: background-color 0.2s ease;
-  text-align: center;
-  line-height: 48px;
 }
 
 .editBtn:hover {
