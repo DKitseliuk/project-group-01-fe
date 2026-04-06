@@ -74,10 +74,27 @@ const getUserLocations = async (userId: string, page = 1, perPage = 6) => {
   return data;
 };
 
-const updateMe = async (payload: { username?: string }): Promise<User> => {
-  const { data } = await nextServer.patch<User>('/users/me', {
-    username: payload.username,
-  });
+const updateMe = async ({
+  name,
+  avatarFile,
+}: {
+  name?: string;
+  avatarFile?: File | null;
+}): Promise<User> => {
+  const formData = new FormData();
+
+  if (name) {
+    formData.append('name', name);
+  }
+
+  if (avatarFile) {
+    formData.append('avatarUrl', avatarFile); 
+  }
+
+  const { data } = await nextServer.patch<User>(
+    '/users/me/edit', 
+    formData
+  );
 
   return data;
 };

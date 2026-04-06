@@ -72,6 +72,19 @@
   border-color: var(--coral-dark);
 }
 
+.avatarButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.avatarButton:focus {
+  outline: none;
+}
+
 /* Shared base for burger and closeBtn */
 .iconBtn {
   display: flex;

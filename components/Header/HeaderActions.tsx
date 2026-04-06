@@ -2,11 +2,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+
 import styles from './Header.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
-import { logout } from '@/lib/api/clientApi';
+import { logout, updateMe } from '@/lib/api/clientApi';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
-import { useState } from 'react';
+import EditProfileModal from '../EditProfileModal/EditProfileModal';
+
 
 export const HeaderActions = () => {
   const pathname = usePathname();
@@ -19,7 +23,11 @@ export const HeaderActions = () => {
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated,
   );
+
+  const setUser = useAuthStore((state) => state.setUser);
+
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   const onLogout = () => setIsConfirmationOpen(true);
 
@@ -63,17 +71,25 @@ export const HeaderActions = () => {
         Поділитись локацією
       </Link>
       <div className={styles.userRowDesktop}>
-        <Link href={`/profile/${user._id}/edit`} className={styles.userLink}>
+
+        <button
+          type="button"
+          className={styles.avatarButton}
+          onClick={() => setIsEditProfileOpen(true)}
+          aria-label="Редагувати профіль"
+        >
+
           <div className={styles.avatar}>
             <Image
-              src={user.avatarUrl}
-              alt={user.name}
+              src={user.avatarUrl || '/default-avatar.png'}
+              alt={user.name || 'Аватар користувача'}
               fill
               sizes="32px"
               loading="eager"
             />
           </div>
-        </Link>
+        </button>
+
         <Link href={`/profile/${user._id}`} className={styles.userLink}>
           <span className={styles.userName}>{user.name}</span>
         </Link>
@@ -102,6 +118,29 @@ export const HeaderActions = () => {
           }}
         />
       )}
+
+      {isEditProfileOpen && (
+        <EditProfileModal
+          onClose={() => setIsEditProfileOpen(false)}
+          userName={user.name}
+          userAvatar={user.avatarUrl || ''}
+          onSubmit={async ({ name, avatarFile }) => {
+            try {
+              const updatedUser = await updateMe({
+                name,
+                avatarFile,
+              });
+
+              setUser(updatedUser);
+              setIsEditProfileOpen(false);
+              toast.success('Профіль оновлено');
+            } catch {
+              toast.error('Не вдалося оновити профіль');
+            }
+          }}
+        />
+      )}
+
     </div>
   );
 };
