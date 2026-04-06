@@ -53,13 +53,20 @@
   border-color: var(--coral-dark);
 }
 
+.loginBtn:active {
+    background-color: var(--coral-darker);
+    color: var(--white);
+    border-color: var(--coral-darker)
+}
+
 .registerBtn {
   color: var(--white);
   background-color: var(--coral-dark);
   border: 1px solid var(--coral-dark);
 }
 
-.registerBtn:hover {
+.registerBtn:hover,
+.registerBtn:active {
   background-color: var(--coral-lighter);
   color: var(--coral-darkest);
   border-color: var(--coral-dark);
@@ -173,21 +180,36 @@
   font-size: 16px;
   text-align: center;
   color: var(--white);
-  background-color: var(--coral);
-  border: 1px solid transparent;
+  background-color: var(--coral-dark);
+  border: 1px solid var(--coral-dark);
   border-radius: 6px;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .publishBtn:hover,
 .publishBtnBottom:hover,
-.publishBtnTop:hover {
-  background-color: var(--coral-lighter);
-  color: var(--coral-darkest);
+.publishBtnTop:hover,
+.publishBtn:active,
+.publishBtnBottom:active,
+.publishBtnTop:active {
+    background-color: var(--coral-lighter);
+    color: var(--coral-darkest);
+    border-color: var(--coral-dark);
 }
 
 .publishBtnTop {
   display: none;
+}
+
+.publishBtn:disabled,
+.publishBtnBottom:disabled,
+.publishBtnTop:disabled,
+.loginBtn:disabled,
+.registerBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 
 /* Auth bottom */
@@ -400,6 +422,7 @@
   .publishBtnDesktop {
     display: block;
     font-size: 20px;
+
   }
 
   .userRowDesktop {
