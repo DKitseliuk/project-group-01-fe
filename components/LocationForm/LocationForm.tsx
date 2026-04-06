@@ -1,24 +1,30 @@
 'use client';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import css from './LocationForm.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
-import { locationValidationSchema, editLocationValidationSchema} from '@/validation/locationValidationSchema';
+import {
+  locationValidationSchema,
+  editLocationValidationSchema,
+} from '@/validation/locationValidationSchema';
 import type { LocationFormValues } from '@/types/location';
 import { createLocation, updateLocation } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
-
 import type { Location } from '@/types/location';
-
+import { DEFAULT_COORDINATES } from '@/constants/map';
+import ButtonLoader from '../ButtonLoader/ButtonLoader';
 
 const Select = dynamic(() => import('react-select'), {
   ssr: false,
 });
 
+const MapBox = dynamic(() => import('@/components/MapBox/MapBox'), {
+  ssr: false,
+});
 
 type LocationFormProps = {
   mode?: 'create' | 'edit';
@@ -36,27 +42,24 @@ const emptyInitialValues: LocationFormValues = {
   region: '',
   description: '',
   image: null,
+  coordinates: null,
 };
 
-const LocationForm = ({
-  mode = 'create',
-  location,
-}: LocationFormProps) => {
+const LocationForm = ({ mode = 'create', location }: LocationFormProps) => {
   const [preview, setPreview] = useState<string>('');
   const router = useRouter();
 
   const isEditMode = mode === 'edit';
 
-const validationSchema = isEditMode
-  ? editLocationValidationSchema
-  : locationValidationSchema;
+  const validationSchema = isEditMode
+    ? editLocationValidationSchema
+    : locationValidationSchema;
 
   const { data: locationTypes = [] } = useQuery(
     categoriesOptionsClient.locationTypes,
   );
 
   const { data: regions = [] } = useQuery(categoriesOptionsClient.regions);
-
 
   const initialValues: LocationFormValues =
     isEditMode && location
@@ -66,6 +69,7 @@ const validationSchema = isEditMode
           region: location.region ?? '',
           description: location.description ?? '',
           image: null,
+          coordinates: location.coordinates ?? null,
         }
       : emptyInitialValues;
 
@@ -94,6 +98,10 @@ const validationSchema = isEditMode
       formData.append('locationType', values.locationType);
       formData.append('region', values.region);
       formData.append('description', values.description.trim());
+      if (values.coordinates) {
+        formData.append('coordinates[lat]', String(values.coordinates.lat));
+        formData.append('coordinates[lon]', String(values.coordinates.lon));
+      }
 
       if (values.image instanceof File) {
         formData.append('image', values.image);
@@ -101,11 +109,6 @@ const validationSchema = isEditMode
 
       if (isEditMode && location?._id) {
         const updatedLocation = await updateLocation(location._id, formData);
-
-console.log('updatedLocation:', updatedLocation);
-console.log('updatedLocation._id:', updatedLocation?._id);
-
-
         toast.success('Локацію успішно оновлено');
         router.push(`/locations/${updatedLocation._id}`);
       } else {
@@ -145,8 +148,6 @@ console.log('updatedLocation._id:', updatedLocation?._id);
     }),
   );
 
-
-
   return (
     <Formik
       initialValues={initialValues}
@@ -182,9 +183,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
             const imageUrl = URL.createObjectURL(file);
             setPreview(imageUrl);
           } else {
-            setPreview(
-              isEditMode && location?.image ? location.image : '',
-            );
+            setPreview(isEditMode && location?.image ? location.image : '');
           }
         };
 
@@ -258,10 +257,10 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                 placeholder="Оберіть тип місця"
                 value={
                   locationTypeOptions.find(
-                    option => option.value === values.locationType,
+                    (option) => option.value === values.locationType,
                   ) || null
                 }
-                onChange={option => {
+                onChange={(option) => {
                   const selected = option as SelectOption | null;
                   setFieldValue('locationType', selected?.value || '');
                 }}
@@ -269,7 +268,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                 unstyled
                 className={css.reactSelect}
                 classNames={{
-                  control: state =>
+                  control: (state) =>
                     `${css.selectControl} ${
                       state.isFocused ? css.selectControlFocused : ''
                     } ${
@@ -285,7 +284,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                   indicatorSeparator: () => css.selectIndicatorSeparator,
                   menu: () => css.selectMenu,
                   menuList: () => css.selectMenuList,
-                  option: state =>
+                  option: (state) =>
                     `${css.selectOption} ${
                       state.isFocused ? css.selectOptionFocused : ''
                     } ${state.isSelected ? css.selectOptionSelected : ''}`,
@@ -309,10 +308,11 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                 options={regionOptions}
                 placeholder="Оберіть регіон"
                 value={
-                  regionOptions.find(option => option.value === values.region) ||
-                  null
+                  regionOptions.find(
+                    (option) => option.value === values.region,
+                  ) || null
                 }
-                onChange={option => {
+                onChange={(option) => {
                   const selected = option as SelectOption | null;
                   setFieldValue('region', selected?.value || '');
                 }}
@@ -320,7 +320,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                 unstyled
                 className={css.reactSelect}
                 classNames={{
-                  control: state =>
+                  control: (state) =>
                     `${css.selectControl} ${
                       state.isFocused ? css.selectControlFocused : ''
                     } ${
@@ -336,7 +336,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                   indicatorSeparator: () => css.selectIndicatorSeparator,
                   menu: () => css.selectMenu,
                   menuList: () => css.selectMenuList,
-                  option: state =>
+                  option: (state) =>
                     `${css.selectOption} ${
                       state.isFocused ? css.selectOptionFocused : ''
                     } ${state.isSelected ? css.selectOptionSelected : ''}`,
@@ -373,22 +373,43 @@ console.log('updatedLocation._id:', updatedLocation?._id);
               />
             </div>
 
+            <div className={css.fieldGroup}>
+              <label className={css.label} htmlFor="coordinates">
+                Оберіть розташування
+              </label>
+              <MapBox
+                coordinates={values.coordinates ?? DEFAULT_COORDINATES}
+                setCoordinates={(coords) =>
+                  setFieldValue('coordinates', coords)
+                }
+              />
+              <ErrorMessage
+                name="coordinates"
+                component="p"
+                className={css.errorMessage}
+              />
+            </div>
+
             <div className={css.actions}>
-        <button
-  type="submit"
-  className={css.submitButton}
-  disabled={!isValid || isSubmitting || !isFormFilled}
->
-  {isSubmitting
-    ? isEditMode
-      ? 'Збереження...'
-      : 'Публікація...'
-    : isEditMode
-      ? 'Зберегти зміни'
-      : isFormFilled
-        ? 'Зберегти'
-        : 'Опублікувати'}
-</button>
+              <button
+                type="submit"
+                className={css.submitButton}
+                disabled={!isValid || isSubmitting || !isFormFilled}
+              >
+                {isSubmitting ? (
+                  isEditMode ? (
+                    <ButtonLoader />
+                  ) : (
+                    <ButtonLoader />
+                  )
+                ) : isEditMode ? (
+                  'Зберегти зміни'
+                ) : isFormFilled ? (
+                  'Зберегти'
+                ) : (
+                  'Опублікувати'
+                )}
+              </button>
               <button
                 type="button"
                 className={css.cancelButton}
@@ -399,7 +420,7 @@ console.log('updatedLocation._id:', updatedLocation?._id);
                   );
                 }}
               >
-              {isEditMode ? 'Відмінити зміни' : 'Відмінити'}
+                {isEditMode ? 'Відмінити зміни' : 'Відмінити'}
               </button>
             </div>
           </Form>
@@ -410,11 +431,3 @@ console.log('updatedLocation._id:', updatedLocation?._id);
 };
 
 export default LocationForm;
-
-
-
-
-
-
-
-

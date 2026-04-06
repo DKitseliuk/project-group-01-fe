@@ -1,161 +1,154 @@
-
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    background-color: var(--background-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  background-color: var(--background-secondary);
 }
 
 .fieldGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
 .hiddenInput {
-    display: none;
+  display: none;
 }
 
-
 .label {
-    color: var(--text-secondary);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.5;
-
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .upload {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 24px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
 }
 
 .imageUploadBox {
-    position: relative;
-    width: 100%;
-    height: 223px;
-    overflow: hidden;
-    border-radius: 12px;
-    background-color: var(--foreground-primary);
+  position: relative;
+  width: 100%;
+  height: 223px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: var(--foreground-primary);
 }
 
 .uploadedImage {
-    object-fit: cover;
+  object-fit: cover;
 }
 
 .uploadButton {
-    width: fit-content;
-    align-content: center;
-    height: 40px;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.5;
-    cursor: pointer;
-    transition: border-color 0.2s ease;
-     border: 1px solid var(--neutral-darkest-15);
-    background-color: var(--foreground-primary);
-    color: var(--neutral-dark);
+  width: fit-content;
+  align-content: center;
+  height: 40px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  border: 1px solid var(--neutral-darkest-15);
+  background-color: var(--foreground-primary);
+  color: var(--neutral-dark);
 }
 
-
-
-.input{
-    width: 100%;
-    height: 40px;
-    padding: 0 12px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    outline: none;
-    background-color: var(--foreground-secondary);
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease;
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: var(--foreground-secondary);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 8px 12px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    outline: none;
-    resize: none;
-    background-color: var(--foreground-secondary);
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease;
+  width: 100%;
+  min-height: 120px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  resize: none;
+  background-color: var(--foreground-secondary);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .input::placeholder,
 .textarea::placeholder {
-    color: var(--neutral);
+  color: var(--neutral);
 }
-
 
 .input:hover,
 .select:hover,
 .textarea:hover {
-    border-color: var(--coral-light);
+  border-color: var(--coral-light);
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus {
-    border-color: var(--coral);
+  border-color: var(--coral);
 }
 
 .actions {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 16px;
-    margin-bottom: 64px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 16px;
+  margin-bottom: 64px;
 }
 
 .cancelButton,
 .submitButton {
-    width: 100%;
-    height: 40px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.4;
-    cursor: pointer;
-    transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .cancelButton {
-    border: 1px solid var(--neutral-darkest-15);
-    background-color: var(--foreground-primary);
-    color: var(--neutral-dark);
+  border: 1px solid var(--neutral-darkest-15);
+  background-color: var(--foreground-primary);
+  color: var(--neutral-dark);
 }
 
-
 .submitButton {
-    border: none;
-    background-color: var(--coral-light);
-    color: var(--white);
+  border: none;
+  background-color: var(--coral-dark);
+  color: var(--white);
 }
 
 .submitButton:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .reactSelect {
@@ -173,7 +166,9 @@
   border-radius: 8px;
   background-color: var(--coral-lighter);
   cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .selectControl:hover {
@@ -265,7 +260,9 @@
   border-radius: 8px;
   background-color: var(--foreground-secondary);
   cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .selectControl:hover {
@@ -337,7 +334,9 @@
   line-height: 1.5;
   color: var(--text-secondary);
   background-color: var(--coral-lighter);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .selectOptionFocused {
@@ -349,32 +348,32 @@
 
 .selectOptionSelected {
   /* background-color: var(--coral-light); */
-  color:var(--text-secondary);}
+  color: var(--text-secondary);
+}
 
-.errorMessage{
-  color:var(--red);
-   font-size: 12px;
+.errorMessage {
+  color: var(--red);
+  font-size: 12px;
   font-weight: 400;
   line-height: 1.5;
 }
 
 @media screen and (min-width: 768px) {
-    .imageUploadBox {
-        height: 468px;
-    }
+  .imageUploadBox {
+    height: 468px;
+  }
 
-    .actions {
-        flex-direction: row;
-    }
+  .actions {
+    flex-direction: row;
+  }
 
-    .cancelButton,
-    .submitButton {
-        font-size: 20px;
-        width: 204px;
-        height: 48px;
-    }
+  .cancelButton,
+  .submitButton {
+    font-size: 20px;
+    width: 204px;
+    height: 48px;
+  }
 }
-
 
 @media screen and (min-width: 1440px) {
   .form {
@@ -403,12 +402,9 @@
     border-color: var(--coral-light);
   }
 
-
-
   .cancelButton:hover,
   .cancelButton:focus {
     border-color: var(--coral-light);
     background-color: var(--foreground-secondary);
   }
 }
-

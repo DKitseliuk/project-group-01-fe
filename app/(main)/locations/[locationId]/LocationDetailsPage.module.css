@@ -6,33 +6,33 @@
   background: var(--background-secondary);
   box-shadow: 0 0 0 100vmax var(--background-secondary);
   clip-path: inset(0 -100vmax);
-  padding: 32px 0;
-}
-
-.content {
-  display: grid;
-  gap: 32px;
 }
 
 .top {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 24px;
+  padding: 32px 0;
 }
 
-.info {
-  display: block;
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 1440px) {
-  .section {
-    padding: 48px 0 72px;
-  }
-
   .top {
-    display: flex;
+    padding: 48px 0;
     flex-direction: row-reverse;
+    justify-content: space-between;
     align-items: center;
-    gap: 24px;
+  }
+  .bottom {
+    padding-top: 48px;
+    gap: 80px;
   }
 
   .info {

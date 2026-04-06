@@ -1,65 +1,47 @@
+'use client';
 import Link from 'next/link';
 import styles from './LocationInfoBlock.module.css';
+import { Location, LocationOwner } from '@/types/location';
+import StarRating from '../StarRating/StarRating';
+import { useQuery } from '@tanstack/react-query';
+import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
 
 type LocationInfoBlockProps = {
-  title: string;
-  rating?: number;
-  region: string;
-  type: string;
-  authorId: string;
-  authorName: string;
-  className?: string;
+  location: Location;
 };
 
-export const LocationInfoBlock = ({
-  title,
-  rating,
-  region,
-  type,
-  authorId,
-  authorName,
-  className,
-}: LocationInfoBlockProps) => {
-  const hasRating = typeof rating === 'number' && !Number.isNaN(rating);
-  const ratingRounded = hasRating ? Math.round(rating * 2) / 2 : 0;
-  const ratingText = hasRating ? rating.toFixed(1) : null;
+export const LocationInfoBlock = ({ location }: LocationInfoBlockProps) => {
+  const { data: locationTypes } = useQuery(
+    categoriesOptionsClient.locationTypes,
+  );
+  const { data: regions } = useQuery(categoriesOptionsClient.regions);
+
+  const locationType = locationTypes?.find(
+    (locationType) => locationType.slug === location.locationType,
+  )?.type;
+  const region = regions?.find(
+    (region) => region.slug === location.region,
+  )?.region;
+
+  const owner =
+    typeof location.ownerId === 'string'
+      ? null
+      : (location.ownerId as LocationOwner);
+
+  const authorId = owner?._id ?? '';
+  const authorName = owner?.name ?? '—';
 
   return (
     <section
-      className={[styles.locationInfoBlock, className].filter(Boolean).join(' ')}
+      className={[styles.locationInfoBlock].filter(Boolean).join(' ')}
       aria-labelledby="location-title"
     >
       {/* Rating */}
-      <div className={styles.ratingRow}>
-        <span className={styles.stars} aria-hidden="true">
-          {Array.from({ length: 5 }, (_, index) => {
-            const starValue = ratingRounded - index;
-            const iconId =
-              starValue >= 1
-                ? 'icon-star-filled'
-                : starValue === 0.5
-                  ? 'icon-star-half'
-                  : 'icon-star-rate';
-
-            return (
-              <svg
-                key={`star-${index}`}
-                width="24"
-                height="24"
-                className={styles.starIcon}
-                aria-hidden="true"
-              >
-                <use href={`/img/icons.svg#${iconId}`} />
-              </svg>
-            );
-          })}
-        </span>
-        <span className={styles.ratingValue}>{ratingText ?? '—'}</span>
-      </div>
+      <StarRating value={location.rate} />
 
       {/* Title */}
       <h1 id="location-title" className={styles.title}>
-        {title}
+        {location.name}
       </h1>
 
       {/* Meta */}
@@ -70,11 +52,11 @@ export const LocationInfoBlock = ({
         </div>
         <div className={styles.metaItem}>
           <span className={styles.metaLabel}>Тип локації:</span>
-          <span className={styles.metaText}>{type}</span>
+          <span className={styles.metaText}>{locationType}</span>
         </div>
         <div className={styles.metaItem}>
           <span className={styles.metaLabel}>Автор статті:</span>
-          {authorId ? (
+          {location.ownerId ? (
             <Link
               href={`/profile/${authorId}`}
               className={`${styles.metaText} ${styles.metaTextLink}`}
@@ -82,7 +64,7 @@ export const LocationInfoBlock = ({
               {authorName}
             </Link>
           ) : (
-            <span className={styles.metaText}>{authorName}</span>
+            <span className={styles.metaText}>{'authorName'}</span>
           )}
         </div>
       </div>
