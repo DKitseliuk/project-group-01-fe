@@ -1,21 +1,36 @@
 import { nextServer } from '@/lib/api/api';
-import type { Location, FetchLocationsParams } from '@/types/location';
+import type { Location, FetchLocationsParams, GetLocationByIdResponse } from '@/types/location';
+import type {
+  FetchLocationsResponse,
+} from '@/types/location';
 import { LoginValues, RegisterValues } from '@/types/auth';
 import { User } from '@/types/user';
 import { Region, LocationType } from '@/types/categories';
 
 export const fetchLocations = async (
   params: FetchLocationsParams = {},
-): Promise<Location[]> => {
-  const res = await nextServer.get<{ locations: Location[] }>('/locations', {
+): Promise<FetchLocationsResponse> => {
+  const { data } = await nextServer.get<FetchLocationsResponse>('/locations', {
     params,
   });
 
-  return res.data.locations;
+  return data;
 };
 
 const createLocation = async (payload: FormData): Promise<Location> => {
   const res = await nextServer.post<Location>('/locations', payload);
+  return res.data;
+};
+
+
+
+const getLocationById = async (locationId: string): Promise<GetLocationByIdResponse> => {
+  const res = await nextServer.get<GetLocationByIdResponse>(`/locations/${locationId}`);
+  return res.data;
+};
+
+const updateLocation = async (locationId: string, payload: FormData,): Promise<Location> => {
+  const res = await nextServer.patch<Location>(`/locations/${locationId}`, payload);
   return res.data;
 };
 
@@ -47,6 +62,18 @@ const getMe = async (): Promise<User> => {
   return data;
 };
 
+const getUser = async (userId: string): Promise<User> => {
+  const { data } = await nextServer.get<User>(`/users/${userId}`);
+  return data;
+};
+
+const getUserLocations = async (userId: string, page = 1, perPage = 6) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params: { page, perPage },
+  });
+  return data;
+};
+
 const updateMe = async (payload: { username?: string }): Promise<User> => {
   const { data } = await nextServer.patch<User>('/users/me', {
     username: payload.username,
@@ -67,6 +94,27 @@ const getRegions = async (): Promise<Region[]> => {
   return data;
 };
 
+const getUserLocationsClient = async (
+  userId: string,
+  params: FetchLocationsParams = {},
+) => {
+  const { data } = await nextServer.get(`/users/${userId}/locations`, {
+    params,
+  });
+  return data;
+};
+
+const createReview = async (
+  locationId: string,
+  payload: { rate: number; description: string },
+) => {
+  const { data } = await nextServer.post(
+    `/locations/${locationId}/feedbacks`,
+    payload,
+  );
+  return data;
+};
+
 export {
   register,
   login,
@@ -76,5 +124,11 @@ export {
   logout,
   getLocationTypes,
   getRegions,
+  getUser,
+  getUserLocations,
   createLocation,
+  updateLocation,
+  getLocationById,
+  getUserLocationsClient,
+  createReview,
 };

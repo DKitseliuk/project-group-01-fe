@@ -36,6 +36,14 @@ export interface FetchLocationsParams {
   sortOrder?: string;
 }
 
+export interface FetchLocationsResponse {
+  page: number;
+  perPage: number;
+  totalItems: number;
+  totalPages: number;
+  locations: Location[];
+}
+
 export type LocationFormValues = {
   name: string;
   locationType: string;
@@ -50,4 +58,44 @@ export type LocationFormValues = {
 export type PopulatedLocation = {
   _id?: string;
   name?: string;
+};
+
+export interface GetLocationByIdResponse {
+  location: Location;
+}
+export type LocationsSearchParams = {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  region?: string;
+  type?: string;
+  sortBy?: string;
+  sortOrder?: string;
+};
+
+export type LocationsSearchParamsURL = {
+  page?: string;
+  perPage?: string;
+  search?: string;
+  region?: string;
+  type?: string;
+  sortBy?: string;
+  sortOrder?: string;
+};
+
+export type CreateLocationPayload = {
+  title: string;
+  type: string;
+  region: string;
+  description: string;
+  images: File | null;
+};
+
+export type CreateLocationResponse = {
+  _id: string;
+  title: string;
+  type: string;
+  region: string;
+  description: string;
+  images?: string;
 };

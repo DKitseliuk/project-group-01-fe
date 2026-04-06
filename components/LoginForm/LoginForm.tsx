@@ -9,8 +9,8 @@ import { login } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import axios from 'axios';
 import { LoginValues } from '@/types/auth';
-import toast, { Toaster } from 'react-hot-toast';
-import { RotatingLines } from 'react-loader-spinner';
+import toast from 'react-hot-toast';
+import ButtonLoader from '../ButtonLoader/ButtonLoader';
 
 const initialValues: LoginValues = {
   email: '',
@@ -29,6 +29,10 @@ const validationSchema = Yup.object({
 
 const LoginForm = () => {
   const router = useRouter();
+  const redirectAfterAuth = useAuthStore((state) => state.redirectAfterAuth);
+  const setRedirectAfterAuth = useAuthStore(
+    (state) => state.setRedirectAfterAuth,
+  );
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState('');
 
@@ -37,7 +41,8 @@ const LoginForm = () => {
       const data = await login(values);
       setUser(data);
       toast.success('Ви успішно увійшли!');
-      router.push('/profile');
+      router.push(redirectAfterAuth || '/');
+      setRedirectAfterAuth(null);
       router.refresh();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
@@ -50,64 +55,44 @@ const LoginForm = () => {
     }
   };
   return (
-    <>
-      <Toaster position="top-right" />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form className={css.form}>
-            <label className={css.label}>
-              Пошта*
-              <Field
-                className={css.input}
-                type="email"
-                name="email"
-                placeholder="hello@relaxmap.ua"
-              />
-              <ErrorMessage
-                name="email"
-                component="span"
-                className={css.error}
-              />
-            </label>
-            <label className={css.label}>
-              Пароль*
-              <Field
-                className={css.input}
-                type="password"
-                name="password"
-                placeholder="********"
-              />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className={css.error}
-              />
-            </label>
-            {error && <p className={css.error}>{error}</p>}
-            <button
-              className={css.button}
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <RotatingLines
-                  width="20"
-                  visible={true}
-                  ariaLabel="rotating-lines-loading"
-                  strokeColor="white"
-                />
-              ) : (
-                'Увійти'
-              )}
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form className={css.form}>
+          <label className={css.label}>
+            Пошта*
+            <Field
+              className={css.input}
+              type="email"
+              name="email"
+              placeholder="hello@relaxmap.ua"
+            />
+            <ErrorMessage name="email" component="span" className={css.error} />
+          </label>
+          <label className={css.label}>
+            Пароль*
+            <Field
+              className={css.input}
+              type="password"
+              name="password"
+              placeholder="********"
+            />
+            <ErrorMessage
+              name="password"
+              component="span"
+              className={css.error}
+            />
+          </label>
+          {error && <p className={css.error}>{error}</p>}
+          <button className={css.button} type="submit" disabled={isSubmitting}>
+            {isSubmitting ? <ButtonLoader /> : 'Увійти'}
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

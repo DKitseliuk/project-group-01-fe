@@ -1,7 +1,11 @@
 import { cookies } from 'next/headers';
 import { AxiosResponse } from 'axios';
 import { backendServer } from './api';
-import type { FetchLocationsParams, Location } from '@/types/location';
+import type {
+  FetchLocationsParams,
+  FetchLocationsResponse,
+  Location,
+} from '@/types/location';
 import { LocationType, Region } from '@/types/categories';
 import { User } from '@/types/user';
 import { FeedbackItem, Review } from '@/types/review';
@@ -12,8 +16,15 @@ const getCookieHeader = async () => {
   const accessToken = cookieStore.get('accessToken')?.value;
   const refreshToken = cookieStore.get('refreshToken')?.value;
   const sessionId = cookieStore.get('sessionId')?.value;
-  return `accessToken=${accessToken}; refreshToken=${refreshToken}; sessionId=${sessionId}`;
+
+  const parts = [];
+  if (accessToken) parts.push(`accessToken=${accessToken}`);
+  if (refreshToken) parts.push(`refreshToken=${refreshToken}`);
+  if (sessionId) parts.push(`sessionId=${sessionId}`);
+
+  return parts.join('; ');
 };
+
 export const getMe = async (): Promise<User> => {
   const cookieHeader = await getCookieHeader();
 
@@ -26,9 +37,9 @@ export const getMe = async (): Promise<User> => {
 
 const fetchLocations = async (
   params: FetchLocationsParams = {},
-): Promise<Location[]> => {
+): Promise<FetchLocationsResponse> => {
   const cookieHeader = await getCookieHeader();
-  const { data } = await backendServer.get<{ locations: Location[] }>(
+  const { data } = await backendServer.get<FetchLocationsResponse>(
     'locations',
     {
       params,
@@ -38,7 +49,7 @@ const fetchLocations = async (
     },
   );
 
-  return data.locations;
+  return data;
 };
 
 const fetchLocationById = async (locationId: string): Promise<Location> => {
@@ -94,6 +105,50 @@ const refreshSession = async (): Promise<
   return res;
 };
 
+const getUserById = async (userId: string): Promise<User> => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get<User>(`/users/${userId}`, {
+    headers: { Cookie: cookieHeader },
+  });
+  return data;
+};
+
+const getUserLocationsById = async (userId: string, page = 1, perPage = 6) => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get(`/users/${userId}/locations`, {
+    headers: { Cookie: cookieHeader },
+    params: { page, perPage },
+  });
+  return data;
+};
+
+const getUserLocations = async (
+  userId: string,
+  params: FetchLocationsParams = {},
+) => {
+  const cookieHeader = await getCookieHeader();
+  const { data } = await backendServer.get(`/users/${userId}/locations`, {
+    headers: { Cookie: cookieHeader },
+    params,
+  });
+  return data;
+};
+
+const getReviewsForLocation = async (locationId: string) => {
+  const cookieHeader = await getCookieHeader();
+
+  const { data } = await backendServer.get<{ feedbacks: FeedbackItem[] }>(
+    `/locations/${locationId}/feedbacks`,
+    {
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
+  return data;
+};
+
 function feedbackToReview(
   f: FeedbackItem,
   locationName: string,
@@ -111,18 +166,18 @@ function feedbackToReview(
 }
 
 async function getReviews(): Promise<Review[]> {
-  const cookieStore = await cookies();
-  const headers = { Cookie: cookieStore.toString() };
-
+  let cookieHeader = await getCookieHeader();
   const locRes = await backendServer.get<{
     locations: Array<{ _id: string; name: string }>;
   }>('/locations', {
-    headers,
+    headers: { Cookie: cookieHeader },
     params: { page: 1, perPage: POPULAR_FEEDBACKS.LOCATIONS_PAGE_SIZE },
   });
 
   const locations = locRes.data.locations?.filter((l) => l._id) ?? [];
   if (locations.length === 0) return [];
+
+  cookieHeader = await getCookieHeader();
 
   const feedbackBatches = await Promise.all(
     locations.map((loc) =>
@@ -130,7 +185,7 @@ async function getReviews(): Promise<Review[]> {
         .get<{ feedbacks: FeedbackItem[] }>(
           `/locations/${encodeURIComponent(loc._id)}/feedbacks`,
           {
-            headers,
+            headers: { Cookie: cookieHeader },
             params: {
               page: 1,
               perPage: POPULAR_FEEDBACKS.FEEDBACKS_PER_LOCATION,
@@ -165,5 +220,9 @@ export {
   refreshSession,
   getLocationTypes,
   getRegions,
+  getUserById,
+  getUserLocationsById,
+  getUserLocations,
   getReviews,
+  getReviewsForLocation,
 };

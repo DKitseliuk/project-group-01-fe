@@ -1,5 +1,7 @@
-const Loader = () => {
-  return <p>Loading...</p>;
+import Loader from '@/components/Loader/Loader';
+
+const Loading = () => {
+  return <Loader />;
 };
 
-export default Loader;
+export default Loading;

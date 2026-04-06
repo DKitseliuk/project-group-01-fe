@@ -1,22 +1,36 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import Image from 'next/image';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import css from './LocationForm.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { categoriesOptionsClient } from '@/lib/queries/categoriesClient';
-import { locationValidationSchema } from '@/validation/locationValidationSchema';
+import { locationValidationSchema, editLocationValidationSchema} from '@/validation/locationValidationSchema';
 import type { LocationFormValues } from '@/types/location';
-import { createLocation } from '@/lib/api/clientApi';
+import { createLocation, updateLocation } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
+
+import type { Location } from '@/types/location';
+
 
 const Select = dynamic(() => import('react-select'), {
   ssr: false,
 });
 
-const initialValues: LocationFormValues = {
+
+type LocationFormProps = {
+  mode?: 'create' | 'edit';
+  location?: Location;
+};
+
+type SelectOption = {
+  label: string;
+  value: string;
+};
+
+const emptyInitialValues: LocationFormValues = {
   name: '',
   locationType: '',
   region: '',
@@ -24,14 +38,50 @@ const initialValues: LocationFormValues = {
   image: null,
 };
 
-const LocationForm = () => {
+const LocationForm = ({
+  mode = 'create',
+  location,
+}: LocationFormProps) => {
   const [preview, setPreview] = useState<string>('');
   const router = useRouter();
+
+  const isEditMode = mode === 'edit';
+
+const validationSchema = isEditMode
+  ? editLocationValidationSchema
+  : locationValidationSchema;
 
   const { data: locationTypes = [] } = useQuery(
     categoriesOptionsClient.locationTypes,
   );
+
   const { data: regions = [] } = useQuery(categoriesOptionsClient.regions);
+
+
+  const initialValues: LocationFormValues =
+    isEditMode && location
+      ? {
+          name: location.name ?? '',
+          locationType: location.locationType ?? '',
+          region: location.region ?? '',
+          description: location.description ?? '',
+          image: null,
+        }
+      : emptyInitialValues;
+
+  useEffect(() => {
+    if (isEditMode && location?.image) {
+      setPreview(location.image);
+    }
+  }, [isEditMode, location]);
+
+  useEffect(() => {
+    return () => {
+      if (preview.startsWith('blob:')) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
 
   const handleSubmit = async (
     values: LocationFormValues,
@@ -39,29 +89,70 @@ const LocationForm = () => {
   ) => {
     try {
       const formData = new FormData();
+
       formData.append('name', values.name.trim());
       formData.append('locationType', values.locationType);
       formData.append('region', values.region);
       formData.append('description', values.description.trim());
+
       if (values.image instanceof File) {
         formData.append('image', values.image);
       }
 
-      const createdLocation = await createLocation(formData);
+      if (isEditMode && location?._id) {
+        const updatedLocation = await updateLocation(location._id, formData);
 
-      router.push(`/locations/${createdLocation._id}`);
+console.log('updatedLocation:', updatedLocation);
+console.log('updatedLocation._id:', updatedLocation?._id);
+
+
+        toast.success('Локацію успішно оновлено');
+        router.push(`/locations/${updatedLocation._id}`);
+      } else {
+        const createdLocation = await createLocation(formData);
+
+        toast.success('Локацію успішно створено');
+        router.push(`/locations/${createdLocation._id}`);
+      }
     } catch (error) {
       console.error('Submit error:', error);
-      toast.error('Сталася помилка під час публікації. Спробуйте ще раз.');
+
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(
+          isEditMode
+            ? 'Сталася помилка під час оновлення. Спробуйте ще раз.'
+            : 'Сталася помилка під час публікації. Спробуйте ще раз.',
+        );
+      }
     } finally {
       actions.setSubmitting(false);
     }
   };
+
+  const locationTypeOptions: SelectOption[] = locationTypes.map(
+    ({ type, slug }: { type: string; slug: string }) => ({
+      value: slug,
+      label: type,
+    }),
+  );
+
+  const regionOptions: SelectOption[] = regions.map(
+    ({ region, slug }: { region: string; slug: string }) => ({
+      value: slug,
+      label: region,
+    }),
+  );
+
+
+
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={locationValidationSchema}
+      validationSchema={validationSchema}
       validateOnMount
+      enableReinitialize
       onSubmit={handleSubmit}
     >
       {({
@@ -79,7 +170,8 @@ const LocationForm = () => {
           values.locationType.trim() !== '' &&
           values.region.trim() !== '' &&
           values.description.trim() !== '' &&
-          values.image !== null;
+          (isEditMode ? true : values.image !== null);
+
         const handleImageChange = (
           event: React.ChangeEvent<HTMLInputElement>,
         ) => {
@@ -90,25 +182,17 @@ const LocationForm = () => {
             const imageUrl = URL.createObjectURL(file);
             setPreview(imageUrl);
           } else {
-            setPreview('');
+            setPreview(
+              isEditMode && location?.image ? location.image : '',
+            );
           }
         };
-
-        const locationTypeOptions = locationTypes.map(({ type, slug }) => ({
-          value: slug,
-          label: type,
-        }));
-
-        const regionOptions = regions.map(({ region, slug }) => ({
-          value: slug,
-          label: region,
-        }));
 
         return (
           <Form className={css.form}>
             <div className={css.fieldGroup}>
               <label className={css.label} htmlFor="image">
-                {values.image ? 'Обкладинка статті' : 'Обкладинка'}
+                {preview || values.image ? 'Обкладинка статті' : 'Обкладинка'}
               </label>
 
               <div className={css.upload}>
@@ -167,27 +251,25 @@ const LocationForm = () => {
               <label className={css.label} htmlFor="locationType">
                 Тип місця
               </label>
+
               <Select
                 inputId="locationType"
                 options={locationTypeOptions}
                 placeholder="Оберіть тип місця"
                 value={
                   locationTypeOptions.find(
-                    (option) => option.value === values.locationType,
+                    option => option.value === values.locationType,
                   ) || null
                 }
-                onChange={(option) => {
-                  const selected = option as {
-                    label: string;
-                    value: string;
-                  } | null;
+                onChange={option => {
+                  const selected = option as SelectOption | null;
                   setFieldValue('locationType', selected?.value || '');
                 }}
                 onBlur={() => setFieldTouched('locationType', true)}
                 unstyled
                 className={css.reactSelect}
                 classNames={{
-                  control: (state) =>
+                  control: state =>
                     `${css.selectControl} ${
                       state.isFocused ? css.selectControlFocused : ''
                     } ${
@@ -203,12 +285,13 @@ const LocationForm = () => {
                   indicatorSeparator: () => css.selectIndicatorSeparator,
                   menu: () => css.selectMenu,
                   menuList: () => css.selectMenuList,
-                  option: (state) =>
+                  option: state =>
                     `${css.selectOption} ${
                       state.isFocused ? css.selectOptionFocused : ''
                     } ${state.isSelected ? css.selectOptionSelected : ''}`,
                 }}
               />
+
               <ErrorMessage
                 name="locationType"
                 component="p"
@@ -220,27 +303,24 @@ const LocationForm = () => {
               <label className={css.label} htmlFor="region">
                 Регіон
               </label>
+
               <Select
                 inputId="region"
                 options={regionOptions}
                 placeholder="Оберіть регіон"
                 value={
-                  regionOptions.find(
-                    (option) => option.value === values.region,
-                  ) || null
+                  regionOptions.find(option => option.value === values.region) ||
+                  null
                 }
-                onChange={(option) => {
-                  const selected = option as {
-                    label: string;
-                    value: string;
-                  } | null;
+                onChange={option => {
+                  const selected = option as SelectOption | null;
                   setFieldValue('region', selected?.value || '');
                 }}
                 onBlur={() => setFieldTouched('region', true)}
                 unstyled
                 className={css.reactSelect}
                 classNames={{
-                  control: (state) =>
+                  control: state =>
                     `${css.selectControl} ${
                       state.isFocused ? css.selectControlFocused : ''
                     } ${
@@ -256,7 +336,7 @@ const LocationForm = () => {
                   indicatorSeparator: () => css.selectIndicatorSeparator,
                   menu: () => css.selectMenu,
                   menuList: () => css.selectMenuList,
-                  option: (state) =>
+                  option: state =>
                     `${css.selectOption} ${
                       state.isFocused ? css.selectOptionFocused : ''
                     } ${state.isSelected ? css.selectOptionSelected : ''}`,
@@ -294,27 +374,32 @@ const LocationForm = () => {
             </div>
 
             <div className={css.actions}>
-              <button
-                type="submit"
-                className={css.submitButton}
-                disabled={!isValid || isSubmitting}
-              >
-                {isSubmitting
-                  ? 'Публікація...'
-                  : isFormFilled
-                    ? 'Зберегти'
-                    : 'Опублікувати'}
-              </button>
-
+        <button
+  type="submit"
+  className={css.submitButton}
+  disabled={!isValid || isSubmitting || !isFormFilled}
+>
+  {isSubmitting
+    ? isEditMode
+      ? 'Збереження...'
+      : 'Публікація...'
+    : isEditMode
+      ? 'Зберегти зміни'
+      : isFormFilled
+        ? 'Зберегти'
+        : 'Опублікувати'}
+</button>
               <button
                 type="button"
                 className={css.cancelButton}
                 onClick={() => {
                   resetForm();
-                  setPreview('');
+                  setPreview(
+                    isEditMode && location?.image ? location.image : '',
+                  );
                 }}
               >
-                Відмінити
+              {isEditMode ? 'Відмінити зміни' : 'Відмінити'}
               </button>
             </div>
           </Form>
@@ -325,3 +410,11 @@ const LocationForm = () => {
 };
 
 export default LocationForm;
+
+
+
+
+
+
+
+

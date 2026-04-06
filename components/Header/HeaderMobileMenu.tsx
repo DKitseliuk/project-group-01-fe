@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Logo } from '@/components/Logo/Logo';
@@ -6,35 +6,30 @@ import { Nav } from '@/components/Nav/Nav';
 import styles from './Header.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
-import { useRouter } from 'next/navigation';
-
-const baseLinks = [
-  { href: '/', label: 'Головна' },
-  { href: '/locations', label: 'Місця відпочинку' },
-];
-
-const profileLink = { href: '/profile', label: 'Мій профіль' };
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 type HeaderMobileMenuProps = {
   onClose: () => void;
 };
 
 export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
-  const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated,
   );
 
-  const onLogout = async () => {
-    try {
-      await logout();
-    } finally {
-      clearIsAuthenticated();
-      router.push('/');
-    }
-  };
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+
+  const onLogout = () => setIsConfirmationOpen(true);
+
+  const baseLinks = [
+    { href: '/', label: 'Головна' },
+    { href: '/locations', label: 'Місця відпочинку' },
+  ];
+
+  const profileLink = { href: `/profile/${user?._id}`, label: 'Мій профіль' };
+
   const links = isAuthenticated ? [...baseLinks, profileLink] : baseLinks;
 
   useEffect(() => {
@@ -91,7 +86,6 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
           </svg>
         </button>
       </div>
-
       {/* Nav */}
       <div className={styles.menuNav}>
         <Nav
@@ -102,7 +96,6 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
           linkClassName={styles.menuLink}
         />
       </div>
-
       {/* Мобілка — кнопки внизу */}
       {!isAuthenticated && (
         <div className={`container ${styles.menuBottom}`}>
@@ -122,7 +115,6 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
           </Link>
         </div>
       )}
-
       {/* User row — залогінений */}
       {isAuthenticated && user && (
         <div className={`container ${styles.menuBottomAuth}`}>
@@ -134,15 +126,21 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
             Опублікувати статтю
           </Link>
           <div className={styles.userRow}>
-            <div className={styles.avatar}>
-              <Image
-                src={user.avatarUrl}
-                alt={user.name}
-                width={36}
-                height={36}
-              />
-            </div>
-            <span className={styles.userName}>{user.name}</span>
+            <Link
+              href={`/profile/${user._id}`}
+              className={styles.userLink}
+              onClick={onClose}
+            >
+              <div className={styles.avatar}>
+                <Image
+                  src={user.avatarUrl}
+                  alt={user.name}
+                  width={36}
+                  height={36}
+                />
+              </div>
+              <span className={styles.userName}>{user.name}</span>
+            </Link>
             <div className={styles.userDivider} />
             <button
               className={styles.logoutBtn}
@@ -156,6 +154,19 @@ export const HeaderMobileMenu = ({ onClose }: HeaderMobileMenuProps) => {
             </button>
           </div>
         </div>
+      )}
+      {isConfirmationOpen && (
+        <ConfirmationModal
+          onClose={() => setIsConfirmationOpen(false)}
+          onConfirm={async () => {
+            try {
+              await logout();
+            } finally {
+              clearIsAuthenticated();
+              setIsConfirmationOpen(false);
+            }
+          }}
+        />
       )}
     </div>
   );
