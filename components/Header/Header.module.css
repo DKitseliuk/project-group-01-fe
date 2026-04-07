@@ -56,7 +56,7 @@
 .loginBtn:active {
     background-color: var(--coral-darker);
     color: var(--white);
-    border-color: var(--coral-darker)
+    border-color: var(--coral-darker);
 }
 
 .registerBtn {
