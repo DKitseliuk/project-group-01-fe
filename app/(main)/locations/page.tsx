@@ -26,6 +26,10 @@ export const metadata: Metadata = {
     description:
       'Знайди свою ідеальну локацію серед озер, гір, замків і морського узбережжя.',
     type: 'website',
+    url: 'https://project-group-01-fe.vercel.app/locations',
+    siteName: 'Relax Map',
+    locale: 'uk_UA',
+    images: [{ url: '/img/banner.webp', width: 1200, height: 630 }],
   },
 };
 

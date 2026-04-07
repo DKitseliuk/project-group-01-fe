@@ -23,8 +23,12 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Відкрий для себе Україну | Relax Map',
-    description: 'Тисячі перевірених місць відпочинку з фото та відгуками.',
+    description: 'Знайди ідеальне місце для відпочинку в Україні.',
     type: 'website',
+    url: 'https://project-group-01-fe.vercel.app',
+    siteName: 'Relax Map',
+    locale: 'uk_UA',
+    images: [{ url: '/img/banner.webp', width: 1200, height: 630 }],
   },
 };
 

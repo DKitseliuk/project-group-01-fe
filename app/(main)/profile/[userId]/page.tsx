@@ -39,8 +39,11 @@ export async function generateMetadata({
     description: `Профіль мандрівника ${user.name} на Relax Map — локації, відгуки та улюблені місця.`,
     openGraph: {
       title: `${user.name} | Relax Map`,
-      description: `Профіль мандрівника ${user.name} — локації, відгуки та улюблені місця.`,
+      description: `Профіль мандрівника ${user.name} на Relax Map — локації, відгуки та улюблені місця.`,
       type: 'profile',
+      url: `https://project-group-01-fe.vercel.app/profile/${user._id}`,
+      siteName: 'Relax Map',
+      locale: 'uk_UA',
       images: user.avatarUrl
         ? [{ url: user.avatarUrl, width: 400, height: 400 }]
         : undefined,
