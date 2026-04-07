@@ -1,42 +1,170 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🇺🇦 [Ukrainian version](README.uk.md)
 
-## Getting Started
 
-Create a local env file (optional):
+# 🌍 Natural Travels 
+
+A full-stack web application for discovering, sharing, and reviewing travel locations across Ukraine.
+
+The platform allows users to explore places, filter them by different criteria, read real user reviews, and contribute their own travel experiences.
+
+---
+
+## 🚀 Features
+
+### 🔍 Discovery & Search
+- Search locations by name, type, or region
+- Advanced filtering (region, category)
+- Sorting (rating, popularity, newest)
+- Dynamic URL-based query parameters
+
+### 🧭 Locations Catalog
+- Responsive grid with pagination / "Load More"
+- Real-time data updates without page reload
+- Empty state handling
+
+### 📍 Location Details
+- Full location information (name, rating, region, type)
+- Image display with optimized loading
+- Author profile navigation
+- Reviews section
+
+### ⭐ Reviews System
+- View user reviews with ratings
+- Add review (authorized users only)
+- Modal-based interaction
+- Validation and error handling
+
+### 👤 Authentication & Profile
+- User registration and login
+- Protected routes
+- Profile page with user-generated content
+- Conditional UI based on auth state
+
+### ➕ Content Creation
+- Add new locations
+- Edit existing locations
+- Image upload preview
+- Form validation (Formik + Yup)
+
+### 🧩 UI/UX
+- Fully responsive (mobile-first approach)
+- Hover and interaction states
+- Loaders for async operations
+- Toast notifications for feedback
+
+---
+
+## 🛠 Tech Stack
+
+### Core
+- **Next.js 16 (App Router)**
+- **React 19**
+- **TypeScript**
+
+### Styling
+- CSS Modules
+- modern-normalize
+
+### State & Data
+- Zustand (client state)
+- TanStack React Query (server state, caching, sync)
+
+### Forms & Validation
+- Formik
+- Yup
+
+### API & Utilities
+- Axios
+- use-debounce
+
+### UI Components & Libraries
+- Swiper (sliders)
+- React Icons
+- React Hot Toast (notifications)
+- React Loader Spinner
+- React Select
+- React Paginate
+
+### Ratings
+- @smastrom/react-rating
+- react-simple-star-rating
+
+---
+
+## 🧱 Architecture
+
+- **Server Components by default**
+- **Client Components only when needed**:
+  - forms
+  - state management
+  - interactivity
+
+- **Routing**: Next.js App Router
+- **Protected routes** handled at component level
+
+- **Data fetching**:
+  - React Query for caching and sync
+  - Dynamic updates without reload
+
+---
+
+## 📁 Project Structure (simplified)
+
+app/
+layout.tsx
+page.tsx
+locations/
+profile/
+login/
+register/
+
+components/
+UI/
+layout/
+forms/
+modals/
+
+lib/
+api/
+utils/
+
+
+---
+
+## ⚙️ Getting Started
 
 ```bash
-copy .env.template .env.local
-```
+# Install dependencies
+npm install
 
-First, run the development server:
-
-```bash
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Build project
+npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Start production
+npm start
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌐 SEO & Performance
 
-## Learn More
+- Dynamic metadata generation using `generateMetadata`
+- Open Graph tags for location pages
+- Optimized image loading with `next/image`
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Implemented Features & Highlights
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Fully responsive design (mobile-first approach)
+- Complete error handling (API + form validation)
+- Toast notifications for user feedback
+- Loading indicators for all async operations
+- Clean and reusable component architecture
 
-## Deploy on Vercel
+### Advanced Features Implemented
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Map integration for location details
+- Pagination system (including advanced navigation)
+- Profile editing via modal window
+- Dynamic filtering with URL synchronization
