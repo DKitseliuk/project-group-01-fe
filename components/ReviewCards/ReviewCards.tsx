@@ -11,7 +11,10 @@ type Props = {
 export default function ReviewCards({ review, showLocation = true }: Props) {
   const locationContent =
     showLocation && review.locationId ? (
-      <Link href={`/locations/${review.locationId}`} className={styles.locationLink}>
+      <Link
+        href={`/locations/${review.locationId}`}
+        className={styles.locationLink}
+      >
         {review.locationName}
       </Link>
     ) : showLocation ? (

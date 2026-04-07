@@ -89,79 +89,84 @@ export default function FilterPanel({ initialParams }: FilterPanelProps) {
 
   return (
     <div className={styles.panel}>
-      <label htmlFor="search" className="visually-hidden">
-        Пошук
-      </label>
-      <input
-        id="search"
-        key={currentParams.search}
-        type="text"
-        name="search"
-        placeholder="Пошук"
-        defaultValue={currentParams.search}
-        onChange={handleSearchChange}
-        className={styles.input}
-      />
+      <div>
+        <label htmlFor="search" className="visually-hidden">
+          Пошук
+        </label>
+        <input
+          id="search"
+          key={currentParams.search}
+          type="text"
+          name="search"
+          placeholder="Пошук"
+          defaultValue={currentParams.search}
+          onChange={handleSearchChange}
+          className={styles.input}
+        />
+      </div>
+      <div>
+        <label htmlFor="filter-region" className="visually-hidden">
+          Регіон
+        </label>
+        <Select
+          inputId="filter-region"
+          className={styles.select}
+          classNamePrefix="react-select"
+          options={regionOptions}
+          value={selectedRegion}
+          onChange={(option) =>
+            updateQueryParams({
+              region: (option as SelectOption | null)?.value || '',
+            })
+          }
+          placeholder="Регіон"
+          isClearable
+        />
+      </div>
+      <div>
+        <label htmlFor="filter-type" className="visually-hidden">
+          Тип локації
+        </label>
+        <Select
+          inputId="filter-type"
+          className={styles.select}
+          classNamePrefix="react-select"
+          options={locationTypeOptions}
+          value={selectedType}
+          onChange={(option) =>
+            updateQueryParams({
+              type: (option as SelectOption | null)?.value || '',
+            })
+          }
+          placeholder="Тип локації"
+          isClearable
+          isSearchable={false} // ← ось це додай
+        />
+      </div>
+      <div>
+        <label htmlFor="filter-sort" className="visually-hidden">
+          Сортування
+        </label>
+        <Select
+          inputId="filter-sort"
+          className={styles.select}
+          classNamePrefix="react-select"
+          options={LOCATIONS_SORTING_OPTIONS}
+          value={selectedSort}
+          onChange={(option) => {
+            const selectedOption = option as SelectOption | null;
+            if (!selectedOption) return;
 
-      <label htmlFor="filter-region" className="visually-hidden">
-        Регіон
-      </label>
-      <Select
-        inputId="filter-region"
-        className={styles.select}
-        classNamePrefix="react-select"
-        options={regionOptions}
-        value={selectedRegion}
-        onChange={(option) =>
-          updateQueryParams({
-            region: (option as SelectOption | null)?.value || '',
-          })
-        }
-        placeholder="Регіон"
-        isClearable
-      />
+            const [sortBy, sortOrder] = selectedOption.value.split('-');
 
-      <label htmlFor="filter-type" className="visually-hidden">
-        Тип локації
-      </label>
-      <Select
-        inputId="filter-type"
-        className={styles.select}
-        classNamePrefix="react-select"
-        options={locationTypeOptions}
-        value={selectedType}
-        onChange={(option) =>
-          updateQueryParams({
-            type: (option as SelectOption | null)?.value || '',
-          })
-        }
-        placeholder="Тип локації"
-        isClearable
-        isSearchable={false} // ← ось це додай
-      />
-
-      <label htmlFor="filter-sort" className="visually-hidden">
-        Сортування
-      </label>
-      <Select
-        inputId="filter-sort"
-        className={styles.select}
-        classNamePrefix="react-select"
-        options={LOCATIONS_SORTING_OPTIONS}
-        value={selectedSort}
-        onChange={(option) => {
-          const selectedOption = option as SelectOption | null;
-          if (!selectedOption) return;
-
-          const [sortBy, sortOrder] = selectedOption.value.split('-');
-
-          updateQueryParams({
-            sortBy,
-            sortOrder,
-          });
-        }}
-        placeholder="Сортування"
-      />
+            updateQueryParams({
+              sortBy,
+              sortOrder,
+            });
+          }}
+          placeholder="Сортування"
+        />
+      </div>
     </div>
   );
 }

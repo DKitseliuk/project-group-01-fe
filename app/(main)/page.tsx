@@ -25,7 +25,6 @@ export const metadata: Metadata = {
     title: 'Відкрий для себе Україну | Relax Map',
     description: 'Тисячі перевірених місць відпочинку з фото та відгуками.',
     type: 'website',
-    images: [{ url: '/img/Hero/hero-mob@1x.jpg', width: 1200, height: 630 }],
   },
 };
 
