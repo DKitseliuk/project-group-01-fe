@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   },
   description: 'Знайди ідеальне місце для відпочинку в Україні.',
   openGraph: {
+    title: 'Relax Map',
+    description: 'Знайди ідеальне місце для відпочинку в Україні.',
+    type: 'website',
+    url: 'https://project-group-01-fe.vercel.app',
     siteName: 'Relax Map',
     locale: 'uk_UA',
     images: [{ url: '/img/banner.webp', width: 1200, height: 630 }],
