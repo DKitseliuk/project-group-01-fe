@@ -87,7 +87,7 @@ export default function LocationsGrid({
       {!updatedLocations.length ? (
         <p className={styles.empty}>Нічого не знайдено</p>
       ) : (
-        <ul className={styles.grid}>
+        <div className={styles.grid}>
           {updatedLocations.map((location) => (
             <LocationCard
               key={location._id}
@@ -95,7 +95,7 @@ export default function LocationsGrid({
               canEdit={Boolean(userId)}
             />
           ))}
-        </ul>
+        </div>
       )}
 
       <Pagination

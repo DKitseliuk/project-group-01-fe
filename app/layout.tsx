@@ -16,8 +16,17 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: 'Relax Map',
-  description: 'Relax Map app',
+  metadataBase: new URL('https://project-group-01-fe.vercel.app'),
+  title: {
+    default: 'Relax Map',
+    template: '%s | Relax Map',
+  },
+  description: 'Знайди ідеальне місце для відпочинку в Україні.',
+  openGraph: {
+    siteName: 'Relax Map',
+    locale: 'uk_UA',
+    images: [{ url: '/img/banner.webp', width: 1200, height: 630 }],
+  },
 };
 
 export default async function RootLayout({

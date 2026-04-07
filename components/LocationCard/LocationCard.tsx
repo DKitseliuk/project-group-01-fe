@@ -18,7 +18,7 @@ export default function LocationCard({ location, canEdit = false }: Props) {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <li className={css.card}>
+    <div className={css.card}>
       <div className={css.imageWrapper}>
         <Image
           src={location.image || '/placeholder.jpg'}
@@ -26,6 +26,7 @@ export default function LocationCard({ location, canEdit = false }: Props) {
           fill
           sizes="(min-width: 1440px) 421px, (min-width: 768px) 340px, 335px"
           className={css.image}
+          priority
         />
       </div>
       <div className={css.info}>
@@ -53,6 +54,6 @@ export default function LocationCard({ location, canEdit = false }: Props) {
           )}
         </div>
       </div>
-    </li>
+    </div>
   );
 }
