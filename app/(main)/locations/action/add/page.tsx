@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: 'Додати локацію',
   description: 'Додай нове місце відпочинку в Україні на Relax Map.',
   robots: { index: false },
+  openGraph: {
+    title: 'Додати локацію | Relax Map',
+    description: 'Додай нове місце відпочинку в Україні на Relax Map.',
+    type: 'website',
+    url: 'https://project-group-01-fe.vercel.app',
+    siteName: 'Relax Map',
+    locale: 'uk_UA',
+    images: [{ url: '/img/banner.webp', width: 1200, height: 630 }],
+  },
 };
 
 const CreateLocationPage = () => {

@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   title: 'Редагувати локацію',
   description: 'Редагування локації на Relax Map.',
   robots: { index: false },
+  openGraph: {
+    title: 'Редагувати локацію | Relax Map',
+    description: 'Редагування локації на Relax Map.',
+    type: 'website',
+    url: 'https://project-group-01-fe.vercel.app',
+    siteName: 'Relax Map',
+    locale: 'uk_UA',
+    images: [{ url: '/img/banner.webp', width: 1200, height: 630 }],
+  },
 };
 
 const EditLocationsPage = async ({ params }: EditLocationPageProps) => {

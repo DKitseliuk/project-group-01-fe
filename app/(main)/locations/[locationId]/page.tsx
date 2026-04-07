@@ -35,6 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${location.name} | Relax Map`,
       description: location.description?.slice(0, 155),
       type: 'article',
+      url: `https://project-group-01-fe.vercel.app/locations/${location._id}`,
+      siteName: 'Relax Map',
+      locale: 'uk_UA',
       images: [{ url: location.image, width: 1200, height: 630 }],
     },
   };
