@@ -41,18 +41,29 @@
 .uploadButton {
   padding: 6px 12px;
   border-radius: 6px;
-  border: 1px solid rgb(216, 216, 216);
-  background-color: var(--neutral-lightest);
-  color: rgb(76 38 19);
+  color: var(--coral-darkest);
+  background-color: var(--neutral-darkest-5);
+  border: 1px solid var(--neutral-lighter);
   font-size: 16px;
   line-height: 150%;
   height: 35px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
 }
 
 .uploadButton:hover {
-  background-color: var(--neutral-lightest);
+    background-color: var(--coral-dark);
+    color: var(--white);
+    border-color: var(--coral-dark);
+}
+
+.uploadButton:active {
+    background-color: var(--coral-darker);
+    color: var(--white);
+    border-color: var(--coral-darker)
 }
 
 .input {
@@ -98,26 +109,33 @@
 }
 
 .cancelButton {
+  color: var(--coral-darkest);
+  background-color: var(--neutral-darkest-5);
   border: 1px solid var(--neutral-lighter);
-  background-color: var(--foreground-primary);
-  color: rgb(76 38 19);
 }
 
-.cancelButton:hover,
-.cancelButton:focus {
-  border-color: rgb(255 165 122);
-  background-color: rgb(255 242 236);
+.cancelButton:hover {
+    background-color: var(--coral-dark);
+    color: var(--white);
+    border-color: var(--coral-dark);
+}
+
+.cancelButton:active {
+    background-color: var(--coral-darker);
+    color: var(--white);
+    border-color: var(--coral-darker)
 }
 
 .saveButton {
-  border: none;
-  background-color: rgb(204 101 52);
   color: var(--white);
+  background-color: var(--coral-dark);
+  border: 1px solid var(--coral-dark);
 }
 
-.saveButton:hover,
-.saveButton:focus {
-  background-color: rgb(102 50 26);
+.saveButton:hover {
+  background-color: var(--coral-lighter);
+  color: var(--coral-darkest);
+  border-color: var(--coral-dark);
 }
 
 @media screen and (min-width: 768px) {

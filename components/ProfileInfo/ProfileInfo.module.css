@@ -46,13 +46,15 @@
   font-family: inherit;
   font-size: 16px;
   font-weight: 500;
-  color: var(--text-primary);
-  background: var(--neutral-darkest-5);
+  color: var(--coral-darkest);
+  background-color: var(--neutral-darkest-5);
   border: 1px solid var(--neutral-lighter);
   border-radius: 6px;
   white-space: nowrap;
-  transition: background-color 0.15s ease;
-  cursor: pointer;
+  transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
 }
 
 .infoRow {
@@ -67,6 +69,11 @@
   border-color: var(--coral-dark);
 }
 
+.editBtn:active {
+    background-color: var(--coral-darker);
+    color: var(--white);
+    border-color: var(--coral-darker)
+}
 /* Tablet (768px+) */
 @media screen and (min-width: 768px) {
   .wrapper {
